@@ -5,13 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class SplashSceneManager : MonoBehaviour {
 
-    [SerializeField] GameObject soundManager;
+    SoundManagerController soundManager;
 
 	// Use this for initialization
 	void Start () {
         //スプラッシュ用ビュー
         GameObject view = Instantiate((GameObject)Resources.Load("Prefabs/SplashView"));
         view.transform.parent = this.transform;
+
+        this.soundManager = SoundManagerController.Instance;
 	}
 	
 	// Update is called once per frame
@@ -23,6 +25,6 @@ public class SplashSceneManager : MonoBehaviour {
     }
 
     public void OnPlaySound() {
-        soundManager.GetComponent<SoundManagerController>().playSE("splash");
+        soundManager.playSE("splash");
     }
 }
