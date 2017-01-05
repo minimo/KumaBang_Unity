@@ -7,17 +7,24 @@ public class AddActorButtonController : MonoBehaviour {
 
     SelectSceneManager sceneManager = null;
 
+    Button button = null;
+
 	// Use this for initialization
 	void Start () {
         //シーンマネージャー取得
         this.sceneManager = GameObject.Find("SelectSceneManager").GetComponent<SelectSceneManager>();
+        this.button = this.GetComponent<Button>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (this.sceneManager.getNumActor() == this.sceneManager.getMaxActor()) {
-            Button btn = this.GetComponent<Button>();
-            btn.interactable = false;            
+        if (!this.sceneManager.isInteractive) {
+            this.button.interactable = false;
+        } else {
+            this.button.interactable = true;
+            if (this.sceneManager.getNumActor() == this.sceneManager.getMaxActor()) {
+                this.button.interactable = false;            
+            }
         }
 	}
 

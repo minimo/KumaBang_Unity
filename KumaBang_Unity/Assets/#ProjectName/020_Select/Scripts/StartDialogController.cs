@@ -27,7 +27,7 @@ public class StartDialogController : MonoBehaviour {
         this.isClose = true;
 
         //シーンマネージャーに選択を通知
-        this.sceneManager.gameObject.SendMessage("OnNextScene");
+        this.sceneManager.gameObject.SendMessage("OnDecisionActor");
         this.sceneManager.closeStartDialog();
     }
 

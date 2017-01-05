@@ -434,8 +434,17 @@ public class SelectSceneManager : MonoBehaviour {
     }
 
     //メッセージ処理
-    void OnNextScene() {
+    //アクター決定
+    void OnDecisionActor() {
 //        this.transform.parent.gameObject.SendMessage("OnNextScene");
+        GameObject go = Instantiate((GameObject)Resources.Load("Prefabs/MaskSprite"));
+        go.transform.parent = this.transform;
+        go.GetComponent<MaskSpriteController>().RotateIn(1.0f);
+        go.GetComponent<MaskSpriteController>().isSendMessage = true;
+    }
+
+    void OnAnimationEnd() {
+        soundManager.stopBGM(1.0f);
         SceneManager.LoadScene("GameScene");
     }
 }

@@ -1,18 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class SoundManagerController : SingletonMonoBehaviour<SoundManagerController> {
 
-    //BGM用
-    GameObject bgmPlayerObject;
-    AudioSource audioSourceBGM;
-
-    //SoundEffect用
-    GameObject soundPlayerObject;
-    AudioSource audioSource;
-
+    //AudioClip保存
     Dictionary<string, AudioClip> sounds = new Dictionary<string, AudioClip>();
+
+    //再生用GameObject & AudioSource
+    List<GameObject> playerObject = new List<GameObject>();
+    List<AudioSource> audioSource = new List<AudioSource>();
+
+    float masterVolumeBGM = 1.0f;
+    float masterVolumeSE = 1.0f;
+
+    int playingNumber = 0; //0:演奏していない 1:Primary 2:Secondary
+
+    public bool isPlayingBGM = false;
+    public bool isFadeInBGM = false;
+    public bool isFadeOutBGM = false;
 
     void Awake() {
         if(this != Instance) {
@@ -21,16 +28,22 @@ public class SoundManagerController : SingletonMonoBehaviour<SoundManagerControl
         }
         DontDestroyOnLoad(this.gameObject);
 
-        //BGM Player
-        this.bgmPlayerObject = new GameObject("BGMPlayer");
-        this.bgmPlayerObject.transform.parent = this.transform;
-        this.audioSourceBGM = this.bgmPlayerObject.AddComponent<AudioSource>();
-        this.audioSourceBGM.loop = true;
+        //Sound Effect
+        this.playerObject.Add(new GameObject("SoundPlayer"));
+        this.playerObject[0].transform.parent = this.transform;
+        this.audioSource.Add(this.playerObject[0].AddComponent<AudioSource>());
 
-        //Sound Effect Player
-        this.soundPlayerObject = new GameObject("SoundPlayer");
-        this.soundPlayerObject.transform.parent = this.transform;
-        this.audioSource = this.soundPlayerObject.AddComponent<AudioSource>();
+        //Primary BGM
+        this.playerObject.Add(new GameObject("BGMPlayer"));
+        this.playerObject[1].transform.parent = this.transform;
+        this.audioSource.Add(this.playerObject[1].AddComponent<AudioSource>());
+        this.audioSource[1].loop = true;
+
+        //Secondary BGM
+        this.playerObject.Add(new GameObject("BGMPlayer"));
+        this.playerObject[2].transform.parent = this.transform;
+        this.audioSource.Add(this.playerObject[2].AddComponent<AudioSource>());
+        this.audioSource[2].loop = true;
     }
 
     public bool playSE(string name) {
@@ -38,19 +51,78 @@ public class SoundManagerController : SingletonMonoBehaviour<SoundManagerControl
 
         //Audio clipの取得
         AudioClip clip = this.sounds[name];
-        audioSource.PlayOneShot(clip);
+        this.audioSource[0].PlayOneShot(clip);
         return true;
     }
 
-    public bool playBGM(string name) {
+    public bool playBGM(string name, float fadeTime = 0.0f) {
         if (!this.sounds.ContainsKey(name)) return false;
 
-        //Audio clipの取得
-        AudioClip clip = this.sounds[name];
-        audioSourceBGM.Stop();
-        audioSourceBGM.clip = clip;
-        audioSourceBGM.Play();
+        //演奏していないのでプライマリを使用
+        if (this.playingNumber == 0) {
+            this.audioSource[1].Stop();
+            this.audioSource[1].clip = this.sounds[name];
+            this.audioSource[1].Play();
+            this.isPlayingBGM = true;
+            this.playingNumber = 1;
+            return true;
+        }
+
+        //プライマリを演奏中なのでセカンダリへ切り替え
+        if (this.playingNumber == 1) {
+        }
         return true;
+    }
+
+    public bool stopBGM(float fadeTime = 0.0f) {
+        if (!this.isPlayingBGM) return false;
+ 
+        if (fadeTime == 0.0f) {
+            this.audioSource[this.playingNumber].Stop();
+            this.isPlayingBGM = false;
+            this.playingNumber = 0;
+        } else {
+            this.isFadeOutBGM = true;
+            DOTween.To(
+                () => this.audioSource[this.playingNumber].volume,
+                num =>  this.audioSource[this.playingNumber].volume = num,
+                0.0f,
+                fadeTime
+            ).OnComplete(() => {
+                audioSource[this.playingNumber].Stop();
+                this.isPlayingBGM = false;
+                this.isFadeOutBGM = false;
+                this.playingNumber = 0;
+            });
+        }
+        return true;
+    }
+
+    public void fadeIn(float time) {
+        if (!this.isPlayingBGM) return;
+        float endVolume = 0.0f;
+        DOTween.To(
+            () => this.audioSource[this.playingNumber].volume,          // 何を対象にするのか
+            num =>  this.audioSource[this.playingNumber].volume = num,   // 値の更新
+            endVolume,                          // 最終的な値
+            time                    // アニメーション時間
+        );
+    }
+
+    public void fadeOut(float time) {
+        if (!this.isPlayingBGM) return;
+        DOTween.To(
+            () => this.audioSource[this.playingNumber].volume,          // 何を対象にするのか
+            num =>  this.audioSource[this.playingNumber].volume = num,   // 値の更新
+            0.0f,                          // 最終的な値
+            time                    // アニメーション時間
+        );
+    }
+
+    public void setVolumeBGM(float vol) {
+        if (vol < 0.0f) vol = 0.0f;
+        if (vol > 1.0f) vol = 1.0f;
+        this.masterVolumeBGM = vol;
     }
 
     //音声追加
