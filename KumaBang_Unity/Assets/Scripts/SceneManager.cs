@@ -32,7 +32,6 @@ public class SceneManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-//        Sprite [] images = Resources.LoadAll<Sprite>("Images/Actor");
         this.actorBase = GameObject.Find("ActorBase");
         this.addActor();
         this.addActor();
@@ -69,15 +68,12 @@ public class SceneManager : MonoBehaviour {
         GameObject nowActor = this.actors[this.nowActor];
         nowActor.GetComponent<ActorController>().flick(isRight);
 
-        //UI移動処理
-        iTween.MoveBy(this.UpperUI,
-            iTween.Hash(
-                "y", 10.0f,
-                "easeType", iTween.EaseType.easeInOutSine,
-                "time", 0.5f
-            ));
-
         this.nowActor = next;
+
+        //UI移動処理
+        this.UpperUI.GetComponent<UIController>().changeStatus(this.nowActor);
+        this.Arrow_L.GetComponent<ArrowController>().change();
+        this.Arrow_R.GetComponent<ArrowController>().change();
     }
 
     //新アクター追加

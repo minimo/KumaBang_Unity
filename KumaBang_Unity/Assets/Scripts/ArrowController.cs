@@ -10,11 +10,30 @@ public class ArrowController : MonoBehaviour {
     //シーンマネージャー
     GameObject sceneManager = null;
 
+    //初期位置
+    float startX;
+
     // Use this for initialization
     void Start () {
         //シーンマネージャー取得
         this.sceneManager = GameObject.Find("SceneManager");
 
+        //初期位置記録
+        this.startX = this.transform.position.x;
+
+        this.setup();
+    }
+	
+    // Update is called once per frame
+    void Update () {
+    }
+
+    public void click () {
+        this.sceneManager.GetComponent<SceneManager>().changeActor(this.isRight);
+    }
+
+    void setup () {
+        this.transform.position = new Vector3(this.startX, 0, 0);
         //左右にフラフラ
         float move = -0.1f;
         if (this.isRight) move *= -1;
@@ -26,12 +45,33 @@ public class ArrowController : MonoBehaviour {
                 "time", 0.5f
             ));
     }
-	
-    // Update is called once per frame
-    void Update () {
+
+    public void change() {
+        float move = -3.0f;
+        if (this.isRight) move *= -1.0f;
+
+        iTween.MoveBy(this.gameObject,
+            iTween.Hash(
+                "x", move,
+                "easeType", iTween.EaseType.easeOutQuint,
+                "time", 0.5f,
+                "oncomplete", "OnCompleteCallback",
+                "oncompletetarget", this.gameObject
+            ));
     }
 
-    public void click () {
-        this.sceneManager.GetComponent<SceneManager>().changeActor(this.isRight);
+    //iTween動作終了コールバック
+    public void OnCompleteCallback() {
+        float move = 3.0f;
+        if (this.isRight) move *= -1.0f;
+
+        iTween.MoveBy(this.gameObject,
+            iTween.Hash(
+                "x", move,
+                "easeType", iTween.EaseType.easeOutQuint,
+                "time", 0.5f,
+                "oncomplete", "setup",
+                "oncompletetarget", this.gameObject
+            ));
     }
 }
