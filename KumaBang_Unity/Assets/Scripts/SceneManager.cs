@@ -10,34 +10,52 @@ public class SceneManager : MonoBehaviour {
     public GameObject Arrow_L;
 
     //アクター最大数
-    [SerializeField]
-    int maxActor = 7;
+    [SerializeField] int maxActor = 7;
 
     //選択中アクター番号
     int nowActor = 0;
 
     //アクターの土台
     GameObject actorBase;
+    //アクターアイコンの土台
+    GameObject iconBase;
 
     //アクター元プレハブ
-    [SerializeField]
-    GameObject actor;
+    [SerializeField] GameObject actor;
 
     //追加済みアクターリスト
     List<GameObject> actors = new List<GameObject>();
 
+    //アクターアイコン元プレハブ
+    [SerializeField] GameObject actorIcon;
+
+    //追加済みアクターアイコンリスト
+    List<GameObject> actorIcons = new List<GameObject>();
+
     //アクター画像
-    [SerializeField]
-    Sprite [] actorImages;
+    [SerializeField] Sprite [] actorImages;
+    //アクターアイコン
+    [SerializeField] Sprite [] actorIconImages;
 
     // Use this for initialization
     void Start () {
         this.actorBase = GameObject.Find("ActorBase");
+        this.iconBase = GameObject.Find("IconBase");
+
         this.addActor();
         this.addActor();
         this.addActor();
         this.addActor();
         this.addActor();
+
+        this.actors[0].transform.position = new Vector3(0, 0, 0);
+
+        //アイコン位置初期化
+        for (int i = 0; i < this.actorIcons.Count; i++) {
+            if (i < 5) {
+            } else {
+            }
+        }
     }
 	
     // Update is called once per frame
@@ -80,11 +98,27 @@ public class SceneManager : MonoBehaviour {
     public bool addActor() {
         if (this.actors.Count == this.maxActor) return false;
 
-		Vector3 pos = new Vector3(this.actors.Count * 10.0f, 0, 0);
-        GameObject ac = Instantiate(actor, pos, Quaternion.identity, this.actorBase.transform);
+        //立ち絵追加
+		Vector3 pos = new Vector3(10.0f, 0, 0);
+        GameObject ac = Instantiate(this.actor, pos, Quaternion.identity, this.actorBase.transform);
         if (ac == null) return false;
         ac.GetComponent<SpriteRenderer>().sprite = this.actorImages[this.actors.Count];
         this.actors.Add(ac);
+
+        //アイコン追加
+		pos = new Vector3(0, -4.3f, 0);
+        GameObject icon = Instantiate(this.actorIcon, pos, Quaternion.identity, this.iconBase.transform);
+        if (icon == null) return false;
+        icon.GetComponent<SpriteRenderer>().sprite = this.actorIconImages[this.actorIcons.Count];
+        this.actorIcons.Add(icon);
+
         return true;
+    }
+
+    public void OnSwipe (Vector2 dir) {
+        if (dir.x < 0) 
+            this.changeActor(true);
+        else if (dir.x > 0)
+            this.changeActor(false);
     }
 }

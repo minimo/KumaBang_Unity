@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour {
 
-    [SerializeField]
-    bool isUpper = false;
+    [SerializeField] bool isUpper = false;
 
     // Use this for initialization
     void Start () {
@@ -19,7 +18,7 @@ public class UIController : MonoBehaviour {
         iTween.MoveBy(this.gameObject,
             iTween.Hash(
                 "y", 3.0f,
-                "easeType", iTween.EaseType.easeOutQuint,
+                "easeType", iTween.EaseType.easeInOutSine,
                 "time", 0.5f,
                 "oncomplete", "OnCompleteCallback",
                 "oncompletetarget", this.gameObject

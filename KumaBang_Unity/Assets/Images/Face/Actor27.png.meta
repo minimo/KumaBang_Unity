@@ -1,21 +1,17 @@
 fileFormatVersion: 2
-guid: 2faf7c928ee7f47d48480de2dfe1eb2d
-timeCreated: 1507553557
+guid: 0b6a6fb620cf74050b2a272fcd31806d
+timeCreated: 1507645796
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: $Actor61_0
-    21300002: $Actor61_1
-    21300004: $Actor61_2
-    21300006: $Actor61_3
-    21300008: $Actor61_4
-    21300010: $Actor61_5
-    21300012: $Actor61_6
-    21300014: $Actor61_7
-    21300016: $Actor61_8
-    21300018: $Actor61_9
-    21300020: $Actor61_10
-    21300022: $Actor61_11
+    21300000: Actor27_0
+    21300002: Actor27_1
+    21300004: Actor27_2
+    21300006: Actor27_3
+    21300008: Actor27_4
+    21300010: Actor27_5
+    21300012: Actor27_6
+    21300014: Actor27_7
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -90,156 +86,104 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: $Actor61_0
+      name: Actor27_0
       rect:
         serializedVersion: 2
         x: 0
         y: 96
-        width: 32
-        height: 32
+        width: 96
+        height: 96
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: $Actor61_1
+      name: Actor27_1
       rect:
         serializedVersion: 2
-        x: 32
+        x: 96
         y: 96
-        width: 32
-        height: 32
+        width: 96
+        height: 96
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: $Actor61_2
+      name: Actor27_2
       rect:
         serializedVersion: 2
-        x: 64
+        x: 192
         y: 96
-        width: 32
-        height: 32
+        width: 96
+        height: 96
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: $Actor61_3
+      name: Actor27_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 64
-        width: 32
-        height: 32
+        x: 288
+        y: 96
+        width: 96
+        height: 96
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: $Actor61_4
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: $Actor61_5
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: $Actor61_6
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: $Actor61_7
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: $Actor61_8
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: $Actor61_9
+      name: Actor27_4
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 32
+        width: 96
+        height: 96
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: $Actor61_10
+      name: Actor27_5
       rect:
         serializedVersion: 2
-        x: 32
+        x: 96
         y: 0
-        width: 32
-        height: 32
+        width: 96
+        height: 96
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: $Actor61_11
+      name: Actor27_6
       rect:
         serializedVersion: 2
-        x: 64
+        x: 192
         y: 0
-        width: 32
-        height: 32
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Actor27_7
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 96
+        height: 96
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

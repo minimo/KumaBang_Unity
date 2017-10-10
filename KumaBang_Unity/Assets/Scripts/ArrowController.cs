@@ -53,7 +53,7 @@ public class ArrowController : MonoBehaviour {
         iTween.MoveBy(this.gameObject,
             iTween.Hash(
                 "x", move,
-                "easeType", iTween.EaseType.easeOutQuint,
+                "easeType", iTween.EaseType.easeInOutSine,
                 "time", 0.5f,
                 "oncomplete", "OnCompleteCallback",
                 "oncompletetarget", this.gameObject
