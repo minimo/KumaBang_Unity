@@ -46,25 +46,43 @@ public class SceneManager : MonoBehaviour {
         this.addActor();
         this.addActor();
         this.addActor();
-        this.addActor();
 
         this.actors[0].transform.position = new Vector3(0, 0, 0);
-
-        //アイコン位置初期化
-        for (int i = 0; i < this.actorIcons.Count; i++) {
-            if (i < 5) {
-            } else {
-            }
-        }
+        this.initIconPosition(0);
     }
 	
     // Update is called once per frame
     void Update () {
     }
 
+    //アイコン位置初期化
+    void initIconPosition(int center) {
+        if (center >= this.actorIcons.Count) center = 0;
+        float y = -4.35f;
+        if (this.actorIcons.Count < 4) {
+            this.actorIcons[0].transform.position = new Vector3(0, y, 0);
+            if (this.actors.Count > 1) this.actorIcons[1].transform.position = new Vector3(1.0f, y, 0);
+            if (this.actors.Count > 2) this.actorIcons[2].transform.position = new Vector3(-1.0f, y, 0);
+        } else {
+            for (int i = 0; i < this.actorIcons.Count; i++) {
+                if (i < 3) {
+                    this.actorIcons[i].transform.position = new Vector3(i * 1.0f, y, 0);
+                } else if (i < 5) {
+                    float x = -3.0f + (i-2) * 1.0f;
+                    if (this.actorIcons.Count == 4) x += 1.0f;
+                    this.actorIcons[i].transform.position = new Vector3(x, y, 0);
+                } else {
+                    this.actorIcons[i].transform.position = new Vector3(10, y, 0);
+                }
+            }
+        }
+    }
+
     //アクター切り替え
     public void changeActor(bool isRight) {
-        if (this.maxActor == 1 || this.actors[this.nowActor].GetComponent<ActorController>().isMoving) return;
+        if (this.maxActor == 1
+            || this.actors[this.nowActor].GetComponent<ActorController>().isMoving
+            || this.actors.Count == 1) return;
 
         //現在メインの左右に隣合う番号のアクターを配置
         int next = 0;
@@ -79,12 +97,15 @@ public class SceneManager : MonoBehaviour {
             if (next < 0) next = this.actors.Count - 1;
         }
 
+        //立ち絵移動処理
         GameObject nextActor = this.actors[next];
         nextActor.transform.position = new Vector3(-move, 0.0f, 0.0f);
         nextActor.GetComponent<ActorController>().flick(isRight);
 
         GameObject nowActor = this.actors[this.nowActor];
         nowActor.GetComponent<ActorController>().flick(isRight);
+
+        //アイコン移動処理
 
         this.nowActor = next;
 
