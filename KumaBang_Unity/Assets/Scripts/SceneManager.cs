@@ -46,6 +46,7 @@ public class SceneManager : MonoBehaviour {
         this.addActor();
         this.addActor();
         this.addActor();
+        this.addActor();
 
         this.actors[0].transform.position = new Vector3(0, 0, 0);
         this.initIconPosition(0);
@@ -57,25 +58,34 @@ public class SceneManager : MonoBehaviour {
 
     //アイコン位置初期化
     void initIconPosition(int center) {
-        if (center >= this.actorIcons.Count) center = 0;
+
+        if (center >= this.actorIcons.Count || center < 0) center = 0;
         float y = -4.35f;
+
         if (this.actorIcons.Count < 4) {
-            this.actorIcons[0].transform.position = new Vector3(0, y, 0);
-            if (this.actors.Count > 1) this.actorIcons[1].transform.position = new Vector3(1.0f, y, 0);
-            if (this.actors.Count > 2) this.actorIcons[2].transform.position = new Vector3(-1.0f, y, 0);
+            this.actorIcons[center].transform.position = new Vector3(0, y, 0);
+            if (this.actors.Count > 1) this.actorIcons[this.iconOrder(center, 1)].transform.position = new Vector3(1.0f, y, 0);
+            if (this.actors.Count > 2) this.actorIcons[this.iconOrder(center, 2)].transform.position = new Vector3(-1.0f, y, 0);
         } else {
             for (int i = 0; i < this.actorIcons.Count; i++) {
+                int num = this.iconOrder(center, i);
                 if (i < 3) {
-                    this.actorIcons[i].transform.position = new Vector3(i * 1.0f, y, 0);
+                    this.actorIcons[num].transform.position = new Vector3(i * 1.0f, y, 0);
                 } else if (i < 5) {
                     float x = -3.0f + (i-2) * 1.0f;
                     if (this.actorIcons.Count == 4) x += 1.0f;
-                    this.actorIcons[i].transform.position = new Vector3(x, y, 0);
+                    this.actorIcons[num].transform.position = new Vector3(x, y, 0);
                 } else {
-                    this.actorIcons[i].transform.position = new Vector3(10, y, 0);
+                    this.actorIcons[num].transform.position = new Vector3(10, y, 0);
                 }
             }
         }
+    }
+
+    int iconOrder(int center, int inc) {
+        if (inc == 0) return center;
+        int ret = (center + inc) % this.actors.Count;
+        return ret;
     }
 
     //アクター切り替え
@@ -106,7 +116,7 @@ public class SceneManager : MonoBehaviour {
         nowActor.GetComponent<ActorController>().flick(isRight);
 
         //アイコン移動処理
-
+        this.initIconPosition(next);
         this.nowActor = next;
 
         //UI移動処理
