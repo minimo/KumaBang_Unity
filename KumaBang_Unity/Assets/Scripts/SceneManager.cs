@@ -88,8 +88,25 @@ public class SceneManager : MonoBehaviour {
         return ret;
     }
 
+    //アクター切り替え（番号指定）
+    public void changeActor(int center) {
+        if (this.maxActor == 1
+            || this.actors[this.nowActor].GetComponent<ActorController>().isMoving
+            || this.actors.Count == 1
+            || center >= this.actors.Count
+            || center == this.nowActor) return;
+
+        //差分を計算
+        bool isRight = true;
+        int diff = center - this.nowActor;
+        if (diff > 3) {
+        }
+        diff = Mathf.Abs(diff);
+        this.changeActorNext(isRight, diff);
+    }
+
     //アクター切り替え
-    public void changeActor(bool isRight) {
+    public void changeActorNext(bool isRight, int incremental = 1) {
         if (this.maxActor == 1
             || this.actors[this.nowActor].GetComponent<ActorController>().isMoving
             || this.actors.Count == 1) return;
@@ -99,12 +116,12 @@ public class SceneManager : MonoBehaviour {
         float move = 10.0f;
 
         if (isRight) {
-            next = this.nowActor + 1;
-            if (next == this.actors.Count) next = 0;
+            next = this.nowActor + incremental;
+            if (next >= this.actors.Count) next -= this.actors.Count;
             move *= -1.0f;
         } else {
-            next = this.nowActor - 1;
-            if (next < 0) next = this.actors.Count - 1;
+            next = this.nowActor - incremental;
+            if (next < 0) next += this.actors.Count;
         }
 
         //立ち絵移動処理
@@ -116,7 +133,9 @@ public class SceneManager : MonoBehaviour {
         nowActor.GetComponent<ActorController>().flick(isRight);
 
         //アイコン移動処理
-        this.initIconPosition(next);
+        for (int i = 0; i < this.actorIcons.Count; i++) {
+            this.actorIcons[i].GetComponent<ActorIconController>().flick(isRight, incremental);
+        }
         this.nowActor = next;
 
         //UI移動処理
@@ -148,8 +167,8 @@ public class SceneManager : MonoBehaviour {
 
     public void OnSwipe (Vector2 dir) {
         if (dir.x < 0) 
-            this.changeActor(true);
+            this.changeActorNext(true);
         else if (dir.x > 0)
-            this.changeActor(false);
+            this.changeActorNext(false);
     }
 }

@@ -31,7 +31,8 @@ public class UIController : MonoBehaviour {
             iTween.Hash(
                 "y", -3.0f,
                 "easeType", iTween.EaseType.easeOutQuint,
-                "time", 0.5f
+                "time", 0.5f,
+                "delay", 0.1f
             ));
     }
 }

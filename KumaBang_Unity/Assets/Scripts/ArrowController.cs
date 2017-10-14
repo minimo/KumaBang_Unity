@@ -28,8 +28,8 @@ public class ArrowController : MonoBehaviour {
     void Update () {
     }
 
-    public void click () {
-        this.sceneManager.GetComponent<SceneManager>().changeActor(this.isRight);
+    public void OnMouseDown () {
+        this.sceneManager.GetComponent<SceneManager>().changeActorNext(this.isRight);
     }
 
     void setup () {
@@ -71,7 +71,8 @@ public class ArrowController : MonoBehaviour {
                 "easeType", iTween.EaseType.easeOutQuint,
                 "time", 0.5f,
                 "oncomplete", "setup",
-                "oncompletetarget", this.gameObject
+                "oncompletetarget", this.gameObject,
+                "delay", 0.1f
             ));
     }
 }
