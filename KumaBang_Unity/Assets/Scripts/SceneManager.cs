@@ -62,12 +62,16 @@ public class SceneManager : MonoBehaviour {
         if (center >= this.actorIcons.Count || center < 0) center = 0;
         float y = -4.35f;
 
+        for (int i = 0; i < this.actorIcons.Count; i++) {
+            this.actorIcons[i].transform.position = new Vector3(20, y, 0);
+        }
+
         if (this.actorIcons.Count < 4) {
             this.actorIcons[center].transform.position = new Vector3(0, y, 0);
             if (this.actors.Count > 1) this.actorIcons[this.iconOrder(center, 1)].transform.position = new Vector3(1.0f, y, 0);
             if (this.actors.Count > 2) this.actorIcons[this.iconOrder(center, 2)].transform.position = new Vector3(-1.0f, y, 0);
         } else {
-            for (int i = 0; i < this.actorIcons.Count; i++) {
+            for (int i = -2; i < 3; i++) {
                 int num = this.iconOrder(center, i);
                 if (i < 3) {
                     this.actorIcons[num].transform.position = new Vector3(i * 1.0f, y, 0);
@@ -85,6 +89,7 @@ public class SceneManager : MonoBehaviour {
     int iconOrder(int center, int inc) {
         if (inc == 0) return center;
         int ret = (center + inc) % this.actors.Count;
+        if (ret < 0) ret += this.actors.Count;
         return ret;
     }
 
@@ -133,9 +138,19 @@ public class SceneManager : MonoBehaviour {
         nowActor.GetComponent<ActorController>().flick(isRight);
 
         //アイコン移動処理
-        for (int i = 0; i < this.actorIcons.Count; i++) {
-            this.actorIcons[i].GetComponent<ActorIconController>().flick(isRight, incremental);
+        int num = 0;
+        for (int i = -2; i < 3; i++) {
+            num = this.iconOrder(this.nowActor, i);
+            this.actorIcons[num].GetComponent<ActorIconController>().flick(isRight, incremental);
         }
+        int numIn = this.iconOrder(this.nowActor, 3);
+        int numOut = this.iconOrder(this.nowActor, -2);
+        if (isRight) {
+            numIn = this.iconOrder(this.nowActor, -3);
+            numOut = this.iconOrder(this.nowActor, 2);
+        }
+
+
         this.nowActor = next;
 
         //UI移動処理
