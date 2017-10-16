@@ -149,7 +149,12 @@ public class SceneManager : MonoBehaviour {
             numIn = this.iconOrder(this.nowActor, 3);
             numOut = this.iconOrder(this.nowActor, -2);
         }
-        this.actorIcons[numOut].GetComponent<ActorIconController>().screenOut(isRight);
+        if (numIn == numOut) {
+            this.actorIcons[numIn].GetComponent<ActorIconController>().screenIn(isRight);
+        } else {
+            this.actorIcons[numOut].GetComponent<ActorIconController>().screenOut(isRight);
+            this.actorIcons[numIn].GetComponent<ActorIconController>().screenIn(isRight);
+        }
 
 
         this.nowActor = next;
