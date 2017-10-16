@@ -21,4 +21,14 @@ public class ActorIconController : MonoBehaviour {
             )
         );
     }
+
+    public void screenOut(bool isRight) {
+        iTween.MoveBy(this.gameObject,
+            iTween.Hash(
+                "x", 5 * (isRight? -1: 1),
+                "easeType", iTween.EaseType.easeOutQuint,
+                "time", 1.0f
+            )
+        );
+    }
 }

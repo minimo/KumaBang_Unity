@@ -143,12 +143,13 @@ public class SceneManager : MonoBehaviour {
             num = this.iconOrder(this.nowActor, i);
             this.actorIcons[num].GetComponent<ActorIconController>().flick(isRight, incremental);
         }
-        int numIn = this.iconOrder(this.nowActor, 3);
-        int numOut = this.iconOrder(this.nowActor, -2);
+        int numIn = this.iconOrder(this.nowActor, -3);
+        int numOut = this.iconOrder(this.nowActor, 2);
         if (isRight) {
-            numIn = this.iconOrder(this.nowActor, -3);
-            numOut = this.iconOrder(this.nowActor, 2);
+            numIn = this.iconOrder(this.nowActor, 3);
+            numOut = this.iconOrder(this.nowActor, -2);
         }
+        this.actorIcons[numOut].GetComponent<ActorIconController>().screenOut(isRight);
 
 
         this.nowActor = next;
