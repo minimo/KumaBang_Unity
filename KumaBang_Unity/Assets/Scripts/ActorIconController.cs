@@ -32,11 +32,11 @@ public class ActorIconController : MonoBehaviour {
 
     public void screenIn(bool isRight, int incremental = 1) {
         Vector3 pos = this.transform.position;
-        pos.x = isRight? 3.0f + incremental: -3.0f - incremental;
+        pos.x = isRight? 4.0f - incremental: -2.0f - incremental;
         this.transform.position = pos;
         iTween.MoveBy(this.gameObject,
             iTween.Hash(
-                "x", (1.0f + incremental) * (isRight? -1: 1),
+                "x", (isRight? -1: 1),
                 "easeType", iTween.EaseType.easeOutQuint,
                 "time", 1.0f
             )

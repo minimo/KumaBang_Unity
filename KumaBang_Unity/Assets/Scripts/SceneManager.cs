@@ -86,28 +86,33 @@ public class SceneManager : MonoBehaviour {
         }
     }
 
+    //アイコン移動（センター指定）
+    void moveIcon_old(bool isRight, int incremental) {
+        //アイコン移動処理
+        int num = 0;
+        for (int i = -2; i < 3; i++) {
+            num = this.iconOrder(this.nowActor, i);
+            this.actorIcons[num].GetComponent<ActorIconController>().flick(isRight, incremental);
+        }
+        int numIn = this.iconOrder(this.nowActor, -3);
+        int numOut = this.iconOrder(this.nowActor, 2);
+        if (isRight) {
+            numIn = this.iconOrder(this.nowActor, 3);
+            numOut = this.iconOrder(this.nowActor, -2);
+        }
+        if (numIn == numOut) {
+            this.actorIcons[numIn].GetComponent<ActorIconController>().screenIn(isRight, incremental);
+        } else {
+            this.actorIcons[numOut].GetComponent<ActorIconController>().screenOut(isRight, incremental);
+            this.actorIcons[numIn].GetComponent<ActorIconController>().screenIn(isRight, incremental);
+        }
+    }
+
     int iconOrder(int center, int inc) {
         if (inc == 0) return center;
         int ret = (center + inc) % this.actors.Count;
         if (ret < 0) ret += this.actors.Count;
         return ret;
-    }
-
-    //アクター切り替え（番号指定）
-    public void changeActor(int center) {
-        if (this.maxActor == 1
-            || this.actors[this.nowActor].GetComponent<ActorController>().isMoving
-            || this.actors.Count == 1
-            || center >= this.actors.Count
-            || center == this.nowActor) return;
-
-        //差分を計算
-        bool isRight = true;
-        int diff = center - this.nowActor;
-        if (diff > 3) {
-        }
-        diff = Mathf.Abs(diff);
-        this.changeActorNext(isRight, diff);
     }
 
     //アクター切り替え
@@ -132,30 +137,13 @@ public class SceneManager : MonoBehaviour {
         //立ち絵移動処理
         GameObject nextActor = this.actors[next];
         nextActor.transform.position = new Vector3(-move, 0.0f, 0.0f);
-        nextActor.GetComponent<ActorController>().flick(isRight);
+        nextActor.GetComponent<ActorController>().flick(isRight, 1.0f);
 
         GameObject nowActor = this.actors[this.nowActor];
         nowActor.GetComponent<ActorController>().flick(isRight);
 
-        //アイコン移動処理
-        int num = 0;
-        for (int i = -2; i < 3; i++) {
-            num = this.iconOrder(this.nowActor, i);
-            this.actorIcons[num].GetComponent<ActorIconController>().flick(isRight, incremental);
-        }
-        int numIn = this.iconOrder(this.nowActor, -3);
-        int numOut = this.iconOrder(this.nowActor, 2);
-        if (isRight) {
-            numIn = this.iconOrder(this.nowActor, 3);
-            numOut = this.iconOrder(this.nowActor, -2);
-        }
-        if (numIn == numOut) {
-            this.actorIcons[numIn].GetComponent<ActorIconController>().screenIn(isRight);
-        } else {
-            this.actorIcons[numOut].GetComponent<ActorIconController>().screenOut(isRight);
-            this.actorIcons[numIn].GetComponent<ActorIconController>().screenIn(isRight);
-        }
-
+        //アイコン切り替え
+        this.moveIcon_old(isRight, incremental);
 
         this.nowActor = next;
 

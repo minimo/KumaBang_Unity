@@ -15,21 +15,24 @@ public class UIController : MonoBehaviour {
     }
 
     public void changeStatus(int num) {
-        iTween.MoveBy(this.gameObject,
-            iTween.Hash(
-                "y", 3.0f,
-                "easeType", iTween.EaseType.easeInOutSine,
-                "time", 0.5f,
-                "oncomplete", "OnCompleteCallback",
-                "oncompletetarget", this.gameObject
-            ));
+        StartCoroutine("switchUI");
+        return;
     }
 
-    //iTween動作終了コールバック
-    public void OnCompleteCallback() {
+    private IEnumerator switchUI() {
+        float move = -3.0f;
+        if (this.isUpper) move *= -1;
         iTween.MoveBy(this.gameObject,
             iTween.Hash(
-                "y", -3.0f,
+                "y", move,
+                "easeType", iTween.EaseType.easeInOutSine,
+                "time", 0.5f
+            ));
+        yield return new WaitForSeconds(1.0f);
+
+        iTween.MoveBy(this.gameObject,
+            iTween.Hash(
+                "y", -move,
                 "easeType", iTween.EaseType.easeOutQuint,
                 "time", 0.5f,
                 "delay", 0.1f

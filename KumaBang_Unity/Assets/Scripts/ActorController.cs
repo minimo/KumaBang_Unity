@@ -27,7 +27,7 @@ public class ActorController : MonoBehaviour {
     }
 
     //アクター移動処理
-    public void flick (bool isRight) {
+    public void flick (bool isRight, float delay = 0.0f) {
         if (this.isMoving) return;
 
         float move = 10.0f;
@@ -37,6 +37,7 @@ public class ActorController : MonoBehaviour {
                 "x", move,
                 "easeType", iTween.EaseType.easeOutQuint,
                 "time", 1.0f,
+                "delay", delay,
                 "oncomplete", "OnCompleteCallback",
                 "oncompletetarget", this.gameObject
             ));

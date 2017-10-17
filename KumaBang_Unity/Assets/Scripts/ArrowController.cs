@@ -47,6 +47,10 @@ public class ArrowController : MonoBehaviour {
     }
 
     public void change() {
+        StartCoroutine("switchUI");
+        return;
+    }
+    private IEnumerator switchUI() {
         float move = -3.0f;
         if (this.isRight) move *= -1.0f;
 
@@ -58,16 +62,11 @@ public class ArrowController : MonoBehaviour {
                 "oncomplete", "OnCompleteCallback",
                 "oncompletetarget", this.gameObject
             ));
-    }
-
-    //iTween動作終了コールバック
-    public void OnCompleteCallback() {
-        float move = 3.0f;
-        if (this.isRight) move *= -1.0f;
+        yield return new WaitForSeconds(1.0f);
 
         iTween.MoveBy(this.gameObject,
             iTween.Hash(
-                "x", move,
+                "x", -move,
                 "easeType", iTween.EaseType.easeOutQuint,
                 "time", 0.5f,
                 "oncomplete", "setup",
