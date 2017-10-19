@@ -27,7 +27,7 @@ public class ActorController : MonoBehaviour {
     }
 
     //アクター移動処理
-    public void flick (bool isRight, float delay = 0.0f) {
+    public void flick(bool isRight, float delay = 0.0f) {
         if (this.isMoving) return;
 
         float move = 10.0f;
