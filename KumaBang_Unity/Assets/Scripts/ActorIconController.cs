@@ -15,7 +15,7 @@ public class ActorIconController : MonoBehaviour {
     }
 
     //一時アイコンとして設定
-    void setOneTime() {
+    public void setOneTime() {
         this.oneTime = true;
         Destroy(this.gameObject, 2.0f);
     }
@@ -45,9 +45,9 @@ public class ActorIconController : MonoBehaviour {
     public void screenOut(bool isRight, int incremental = 1) {
         iTween.MoveBy(this.gameObject,
             iTween.Hash(
-                "x", (3.0f + incremental) * (isRight? -1: 1),
+                "x", (2.0f + incremental) * (isRight? -1: 1),
                 "easeType", iTween.EaseType.easeOutQuint,
-                "time", 1.0f
+                "time", 2.0f
             )
         );
     }

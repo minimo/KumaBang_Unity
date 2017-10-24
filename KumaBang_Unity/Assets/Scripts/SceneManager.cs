@@ -101,6 +101,12 @@ public class SceneManager : MonoBehaviour {
             numOut = this.iconOrder(this.nowActor, -2);
         }
         if (numIn == numOut) {
+            Vector3 pos = this.actorIcons[numOut].transform.position;
+            GameObject outIcon = Instantiate(this.actorIcon, pos, Quaternion.identity, this.iconBase.transform);
+            outIcon.GetComponent<SpriteRenderer>().sprite = this.actorIconImages[numOut];
+            outIcon.GetComponent<ActorIconController>().setOneTime();
+            outIcon.GetComponent<ActorIconController>().screenOut(isRight, incremental);
+
             this.actorIcons[numIn].GetComponent<ActorIconController>().screenIn(isRight, incremental);
         } else {
             this.actorIcons[numOut].GetComponent<ActorIconController>().screenOut(isRight, incremental);
@@ -149,6 +155,7 @@ public class SceneManager : MonoBehaviour {
 
         //UI移動処理
         this.UpperUI.GetComponent<UIController>().changeStatus(this.nowActor);
+        this.LowerUI.GetComponent<UIController>().changeStatus(this.nowActor);
         this.Arrow_L.GetComponent<ArrowController>().change();
         this.Arrow_R.GetComponent<ArrowController>().change();
     }
@@ -165,7 +172,11 @@ public class SceneManager : MonoBehaviour {
         this.actors.Add(ac);
 
         //アイコン追加
-		pos = new Vector3(0, -4.3f, 0);
+        if (this.nowActor < 3) {
+    		pos = new Vector3(5.0f, -4.3f, 0);
+        } else {
+    		pos = new Vector3(5.0f, -4.3f, 0);
+        }
         GameObject icon = Instantiate(this.actorIcon, pos, Quaternion.identity, this.iconBase.transform);
         if (icon == null) return false;
         icon.GetComponent<SpriteRenderer>().sprite = this.actorIconImages[this.actorIcons.Count];
