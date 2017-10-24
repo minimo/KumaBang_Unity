@@ -9,6 +9,12 @@ public class SceneManager : MonoBehaviour {
     public GameObject Arrow_R;
     public GameObject Arrow_L;
 
+    //アクター画像
+    [SerializeField] Sprite [] actorImages;
+
+    //アクターアイコン
+    [SerializeField] Sprite [] actorIconImages;
+
     //アクター最大数
     [SerializeField] int maxActor = 7;
 
@@ -26,16 +32,19 @@ public class SceneManager : MonoBehaviour {
     //追加済みアクターリスト
     List<GameObject> actors = new List<GameObject>();
 
+
     //アクターアイコン元プレハブ
     [SerializeField] GameObject actorIcon;
 
     //追加済みアクターアイコンリスト
     List<GameObject> actorIcons = new List<GameObject>();
 
-    //アクター画像
-    [SerializeField] Sprite [] actorImages;
-    //アクターアイコン
-    [SerializeField] Sprite [] actorIconImages;
+
+    //アクター名元プレハブ
+    [SerializeField] GameObject actorName;
+
+    //追加済みアクター名リスト
+    List<GameObject> actorNames = new List<GameObject>();
 
     // Use this for initialization
     void Start () {
