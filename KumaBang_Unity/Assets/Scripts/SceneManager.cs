@@ -43,8 +43,15 @@ public class SceneManager : MonoBehaviour {
     //アクター名元プレハブ
     [SerializeField] GameObject actorName;
 
-    //追加済みアクター名リスト
-    List<GameObject> actorNames = new List<GameObject>();
+    string [] actorNames = {
+        "Actor 1",
+        "Actor 2",
+        "Actor 3",
+        "Actor 4",
+        "Actor 5",
+        "Actor 6",
+        "Actor 7"
+    };
 
     // Use this for initialization
     void Start () {
@@ -156,6 +163,9 @@ public class SceneManager : MonoBehaviour {
 
         GameObject nowActor = this.actors[this.nowActor];
         nowActor.GetComponent<ActorController>().flick(isRight);
+
+        //アクター名移動処理
+        this.actorName.GetComponent<ActorNameController>().flick(isRight);
 
         //アイコン切り替え
         this.moveIcon_old(isRight, incremental);
