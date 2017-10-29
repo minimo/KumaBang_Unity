@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class ActorNameController : MonoBehaviour {
 
-    [SerializeField] GameObject name;
+    [SerializeField] GameObject nowActorName;
 
     public void setName(string newName) {
-        this.name.GetComponent<Text>().text = newName;
+        this.nowActorName.GetComponent<Text>().text = newName;
     }
 
     //移動処理
