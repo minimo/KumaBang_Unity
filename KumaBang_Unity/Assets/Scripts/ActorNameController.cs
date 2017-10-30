@@ -12,12 +12,12 @@ public class ActorNameController : MonoBehaviour {
     }
 
     //移動処理
-    public void flick(bool isRight, float delay = 0.0f) {
-        StartCoroutine(flickCoroutine(isRight));
+    public void flick(bool isRight, string newName) {
+        StartCoroutine(flickCoroutine(isRight, newName));
         return;
     }
 
-    private IEnumerator flickCoroutine(bool isRight) {
+    private IEnumerator flickCoroutine(bool isRight, string newName) {
         float move = 10.0f;
         if (isRight) move *= -1.0f;
         iTween.MoveBy(this.gameObject,
@@ -29,6 +29,7 @@ public class ActorNameController : MonoBehaviour {
             ));
         yield return new WaitForSeconds(1.1f);
 
+        this.nowActorName.GetComponent<Text>().text = newName;
         Vector3 pos = this.transform.position;
         pos.x = isRight? 10.0f: -10.0f;
         this.transform.position = pos;

@@ -165,7 +165,7 @@ public class SceneManager : MonoBehaviour {
         nowActor.GetComponent<ActorController>().flick(isRight);
 
         //アクター名移動処理
-        this.actorName.GetComponent<ActorNameController>().flick(isRight);
+        this.actorName.GetComponent<ActorNameController>().flick(isRight, this.actorNames[next]);
 
         //アイコン切り替え
         this.moveIcon_old(isRight, incremental);
