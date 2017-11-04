@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ActorIconController : MonoBehaviour {
 
-    bool oneTime = false;
-
 	// Use this for initialization
     void Start () {
 	}
@@ -16,7 +14,6 @@ public class ActorIconController : MonoBehaviour {
 
     //一時アイコンとして設定
     public void setOneTime() {
-        this.oneTime = true;
         Destroy(this.gameObject, 2.0f);
     }
 
