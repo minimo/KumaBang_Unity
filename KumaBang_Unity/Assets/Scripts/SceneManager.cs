@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class SceneManager : MonoBehaviour {
 
+    //操作用GameObject
     public GameObject UpperUI;
     public GameObject LowerUI;
     public GameObject Arrow_R;
     public GameObject Arrow_L;
+    public GameObject BackGround;
 
     //アクター画像
     [SerializeField] Sprite [] actorImages;

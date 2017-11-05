@@ -8,6 +8,9 @@ public class ActorController : MonoBehaviour {
 
     public int actorID = 0;
 
+    //バックグラウンド番号
+    public int numBackground = 0;
+
     // Use this for initialization
     void Start () {
     }
