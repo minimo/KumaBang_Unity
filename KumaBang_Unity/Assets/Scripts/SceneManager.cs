@@ -10,6 +10,7 @@ public class SceneManager : MonoBehaviour {
     public GameObject Arrow_R;
     public GameObject Arrow_L;
     public GameObject BackGround;
+    public GameObject Selecter;
 
     //アクター画像
     [SerializeField] Sprite [] actorImages;
@@ -118,6 +119,8 @@ public class SceneManager : MonoBehaviour {
             numIn = this.iconOrder(this.nowActor, 3);
             numOut = this.iconOrder(this.nowActor, -2);
         }
+
+        //入るアイコンと出て行くアイコンが同じ場合ダミーを作成する
         if (numIn == numOut) {
             Vector3 pos = this.actorIcons[numOut].transform.position;
             GameObject outIcon = Instantiate(this.actorIcon, pos, Quaternion.identity, this.iconBase.transform);
@@ -211,5 +214,11 @@ public class SceneManager : MonoBehaviour {
             this.changeActorNext(true);
         else if (dir.x > 0)
             this.changeActorNext(false);
+    }
+
+    //セレクターを画面に追加
+    public void openSelecter() {
+		Vector3 pos = new Vector3(0.0f, 0, 0);
+        Instantiate(this.Selecter, pos, Quaternion.identity, this.actorBase.transform);
     }
 }
