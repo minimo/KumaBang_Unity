@@ -42,7 +42,6 @@ public class SceneManager : MonoBehaviour {
     //追加済みアクターアイコンリスト
     List<GameObject> actorIcons = new List<GameObject>();
 
-
     //アクター名元プレハブ
     [SerializeField] GameObject actorName;
 
@@ -55,6 +54,10 @@ public class SceneManager : MonoBehaviour {
         "Actor 6",
         "Actor 7"
     };
+
+    //フェード
+    [SerializeField] GameObject fadeStarCanvas;
+    Fade fadeStar = null;
 
     // Use this for initialization
     void Start () {
@@ -69,6 +72,9 @@ public class SceneManager : MonoBehaviour {
 
         this.actors[0].transform.position = new Vector3(0, 0, 0);
         this.initIconPosition(0);
+
+        //フェード初期処理
+        this.fadeStar = this.fadeStarCanvas.GetComponent<Fade>();
     }
 	
     // Update is called once per frame
@@ -205,7 +211,6 @@ public class SceneManager : MonoBehaviour {
         if (icon == null) return false;
         icon.GetComponent<SpriteRenderer>().sprite = this.actorIconImages[this.actorIcons.Count];
         this.actorIcons.Add(icon);
-
         return true;
     }
 
@@ -220,5 +225,16 @@ public class SceneManager : MonoBehaviour {
     public void openSelecter() {
 		Vector3 pos = new Vector3(0.0f, 0, 0);
         Instantiate(this.Selecter, pos, Quaternion.identity, this.actorBase.transform);
+    }
+
+    Sprite [] getActorIconImage() {
+        return this.actorIconImages;
+    }
+
+    //フェードインアウト
+    public void fadeInOut() {
+        this.fadeStar.FadeIn(1.0f, () => {
+			this.fadeStar.FadeOut(1.0f);
+		});
     }
 }
