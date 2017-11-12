@@ -26,7 +26,7 @@ public class BackGroundController : MonoBehaviour {
         if (num < 0 || this.backgrounds.Length - 1 < num) return;
         Destroy(this.nowBackGround);
         Vector3 pos = new Vector3(0, 0, 0);
-//        this.nowBackGround = Instantiate(this.backgrounds[num], pos, Quaternion.identity, this.transform);
+        this.nowBackGround = Instantiate(this.backgrounds[num], pos, Quaternion.identity, this.transform);
         this.nowBackGroundNumber = num;
     }
 
