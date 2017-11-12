@@ -82,9 +82,12 @@ public class SceneManager : MonoBehaviour {
     }
 
     //アイコン位置初期化
-    void initIconPosition(int center) {
-
-        if (center >= this.actorIcons.Count || center < 0) center = 0;
+    public void initIconPosition(int center = -99) {
+        if (center == -99) {
+            center = this.nowActor;
+        } else {
+            if (center >= this.actorIcons.Count || center < 0) center = 0;
+        }
         float y = -4.35f;
 
         for (int i = 0; i < this.actorIcons.Count; i++) {
@@ -214,6 +217,12 @@ public class SceneManager : MonoBehaviour {
         return true;
     }
 
+    //新規アイコン追加
+    void AddActorIcon() {
+        //追加アイコンが表示外
+        if (this.nowActor > 2) return;
+    }
+
     public void OnSwipe (Vector2 dir) {
         if (dir.x < 0) 
             this.changeActorNext(true);
@@ -234,7 +243,34 @@ public class SceneManager : MonoBehaviour {
     //フェードインアウト
     public void fadeInOut() {
         this.fadeStar.FadeIn(1.0f, () => {
+            this.initIconPosition();
 			this.fadeStar.FadeOut(1.0f);
 		});
     }
+
+    private IEnumerator fadeCoroutine(bool isRight, string newName) {
+        float move = 10.0f;
+        if (isRight) move *= -1.0f;
+        iTween.MoveBy(this.gameObject,
+            iTween.Hash(
+                "x", move,
+                "easeType", iTween.EaseType.easeOutQuint,
+                "time", 1.0f,
+                "delay", 0.1f
+            ));
+        yield return new WaitForSeconds(1.1f);
+
+        this.nowActorName.GetComponent<Text>().text = newName;
+        Vector3 pos = this.transform.position;
+        pos.x = isRight? 10.0f: -10.0f;
+        this.transform.position = pos;
+        iTween.MoveBy(this.gameObject,
+            iTween.Hash(
+                "x", move,
+                "easeType", iTween.EaseType.easeOutQuint,
+                "time", 1.0f
+            ));
+        
+    }
 }
+
