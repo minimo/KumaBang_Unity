@@ -58,6 +58,8 @@ public class SceneManager : MonoBehaviour {
     //フェード
     [SerializeField] GameObject fadeStarCanvas;
     Fade fadeStar = null;
+    [SerializeField] GameObject fadeBackCanvas;
+    Fade fadeBack = null;
 
     // Use this for initialization
     void Start () {
@@ -152,6 +154,24 @@ public class SceneManager : MonoBehaviour {
     }
 
     //アクター切り替え
+    public void changeActor(int num) {
+        if (num < 0 || num > this.actors.Count - 1) return;
+        if (num  == this.nowActor) return;
+
+        //立ち絵移動処理
+        GameObject nextActor = this.actors[num];
+        nextActor.transform.position = new Vector3(0, 0.0f, 0.0f);
+
+        GameObject nowActor = this.actors[this.nowActor];
+        nowActor.GetComponent<ActorController>().flick(true);
+
+        //アクター名移動処理
+        this.actorName.GetComponent<ActorNameController>().flick(true, this.actorNames[num]);
+
+        this.nowActor = num;
+    }
+
+    //アクター切り替え
     public void changeActorNext(bool isRight, int incremental = 1) {
         if (this.maxActor == 1
             || this.actors[this.nowActor].GetComponent<ActorController>().isMoving
@@ -240,16 +260,26 @@ public class SceneManager : MonoBehaviour {
         return this.actorIconImages;
     }
 
-    //フェードインアウト
-    public void fadeInOut() {
-        StartCoroutine("fadeCoroutine");
+    //新規アクター追加フェードインアウト
+    public void addActorFadeInOut() {
+        StartCoroutine("addActorFadeCoroutine");
     }
-
-    private IEnumerator fadeCoroutine() {
+    private IEnumerator addActorFadeCoroutine() {
         this.fadeStar.FadeIn(0.5f);
         yield return new WaitForSeconds(1.0f);
+        this.changeActor(this.actors.Count - 1);
         this.initIconPosition();
 		this.fadeStar.FadeOut(0.5f);
+    }
+
+    //背景切り替えフェードインアウト
+    public void backgroundFadeInOut() {
+        StartCoroutine("backgrondFadeCoroutine");
+    }
+    private IEnumerator backgrondFadeCoroutine() {
+        this.fadeBack.FadeIn(0.5f);
+        yield return new WaitForSeconds(1.0f);
+		this.fadeBack.FadeOut(0.5f);
     }
 }
 
