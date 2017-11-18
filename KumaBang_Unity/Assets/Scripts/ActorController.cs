@@ -11,8 +11,11 @@ public class ActorController : MonoBehaviour {
     //バックグラウンド番号
     public int numBackground = 0;
 
+    GameObject sceneManager;
+
     // Use this for initialization
     void Start () {
+        this.sceneManager = GameObject.Find("SceneManager");
     }
 	
     // Update is called once per frame
@@ -39,7 +42,7 @@ public class ActorController : MonoBehaviour {
             iTween.Hash(
                 "x", move,
                 "easeType", iTween.EaseType.easeOutQuint,
-                "time", 1.0f,
+                "time", 0.4f,
                 "delay", delay,
                 "oncomplete", "OnCompleteCallback",
                 "oncompletetarget", this.gameObject

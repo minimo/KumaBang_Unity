@@ -6,8 +6,11 @@ public class UIController : MonoBehaviour {
 
     [SerializeField] bool isUpper = false;
 
+    GameObject sceneManager;
+
     // Use this for initialization
     void Start () {
+        this.sceneManager = GameObject.Find("SceneManager");
     }
 	
     // Update is called once per frame
@@ -28,7 +31,7 @@ public class UIController : MonoBehaviour {
                 "easeType", iTween.EaseType.easeInOutSine,
                 "time", 0.5f
             ));
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.5f);
 
         iTween.MoveBy(this.gameObject,
             iTween.Hash(

@@ -62,7 +62,7 @@ public class ArrowController : MonoBehaviour {
                 "oncomplete", "OnCompleteCallback",
                 "oncompletetarget", this.gameObject
             ));
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.5f);
 
         iTween.MoveBy(this.gameObject,
             iTween.Hash(

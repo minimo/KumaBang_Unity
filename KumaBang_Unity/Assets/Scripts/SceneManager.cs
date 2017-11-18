@@ -35,6 +35,8 @@ public class SceneManager : MonoBehaviour {
     //追加済みアクターリスト
     List<GameObject> actors = new List<GameObject>();
 
+    //アクター切り替えインターバル
+    float actoSwitchInterval = 0.5f;
 
     //アクターアイコン元プレハブ
     [SerializeField] GameObject actorIcon;
@@ -193,7 +195,7 @@ public class SceneManager : MonoBehaviour {
         //立ち絵移動処理
         GameObject nextActor = this.actors[next];
         nextActor.transform.position = new Vector3(-move, 0.0f, 0.0f);
-        nextActor.GetComponent<ActorController>().flick(isRight, 1.0f);
+        nextActor.GetComponent<ActorController>().flick(isRight, 0.5f);
 
         GameObject nowActor = this.actors[this.nowActor];
         nowActor.GetComponent<ActorController>().flick(isRight);

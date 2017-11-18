@@ -11,7 +11,7 @@ public class TapSelecterController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        sceneManager = GameObject.Find("SceneManager");
+        this.sceneManager = GameObject.Find("SceneManager");
     }
 	
     // Update is called once per frame

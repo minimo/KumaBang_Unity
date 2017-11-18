@@ -7,6 +7,13 @@ public class ActorNameController : MonoBehaviour {
 
     [SerializeField] GameObject nowActorName;
 
+    GameObject sceneManager;
+
+    // Use this for initialization
+    void Start () {
+        this.sceneManager = GameObject.Find("SceneManager");
+    }
+
     public void setName(string newName) {
         this.nowActorName.GetComponent<Text>().text = newName;
     }
@@ -24,10 +31,10 @@ public class ActorNameController : MonoBehaviour {
             iTween.Hash(
                 "x", move,
                 "easeType", iTween.EaseType.easeOutQuint,
-                "time", 1.0f,
+                "time", 0.3f,
                 "delay", 0.1f
             ));
-        yield return new WaitForSeconds(1.1f);
+        yield return new WaitForSeconds(0.5f);
 
         this.nowActorName.GetComponent<Text>().text = newName;
         Vector3 pos = this.transform.position;
@@ -37,7 +44,8 @@ public class ActorNameController : MonoBehaviour {
             iTween.Hash(
                 "x", move,
                 "easeType", iTween.EaseType.easeOutQuint,
-                "time", 1.0f
+                "time", 0.3f,
+                "delay", 0.1f
             ));
         
     }

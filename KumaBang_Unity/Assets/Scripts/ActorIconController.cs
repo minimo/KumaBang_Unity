@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class ActorIconController : MonoBehaviour {
 
-	// Use this for initialization
+    GameObject sceneManager;
+
+    // Use this for initialization
     void Start () {
-	}
+        this.sceneManager = GameObject.Find("SceneManager");
+    }
 
 	// Update is called once per frame
     void Update () {
