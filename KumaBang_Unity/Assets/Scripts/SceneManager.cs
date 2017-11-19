@@ -47,6 +47,9 @@ public class SceneManager : MonoBehaviour {
     //アクター名元プレハブ
     [SerializeField] GameObject actorName;
 
+    //セレクター
+    GameObject selecter = null;
+
     string [] actorNames = {
         "Actor 1",
         "Actor 2",
@@ -118,7 +121,27 @@ public class SceneManager : MonoBehaviour {
         }
     }
 
-    //アイコン移動（センター指定）
+    void moveIcon(bool isRight, int incremental) {
+        int diff = isRight?incremental: -incremental;
+        //次のセンターアイコン取得
+        int center = this.iconOrder(this.nowActor, diff);
+
+        //アイコンを配置
+        int num;
+        for (int i = -2; i < 3; i++) {
+            num = this.iconOrder(center, i);
+            Vector3 pos = this.actorIcons[num].transform.position;
+            pos.x = diff + i;
+            this.actorIcons[num].transform.position = pos;
+        }
+
+        //アイコン移動処理
+        for (int i = 0; i < this.actors.Count; i++) {
+            this.actorIcons[i].GetComponent<ActorIconController>().flick(isRight, incremental);
+        }
+    }
+
+    //アイコン移動
     void moveIcon_old(bool isRight, int incremental) {
         //アイコン移動処理
         int num = 0;
@@ -133,18 +156,21 @@ public class SceneManager : MonoBehaviour {
             numOut = this.iconOrder(this.nowActor, -2);
         }
 
-        //入るアイコンと出て行くアイコンが同じ場合ダミーを作成する
-        if (numIn == numOut) {
-            Vector3 pos = this.actorIcons[numOut].transform.position;
-            GameObject outIcon = Instantiate(this.actorIcon, pos, Quaternion.identity, this.iconBase.transform);
-            outIcon.GetComponent<SpriteRenderer>().sprite = this.actorIconImages[numOut];
-            outIcon.GetComponent<ActorIconController>().setOneTime();
-            outIcon.GetComponent<ActorIconController>().screenOut(isRight, incremental);
+        if (incremental == 1) {
+            //入るアイコンと出て行くアイコンが同じ場合ダミーを作成する
+            if (numIn == numOut) {
+                Vector3 pos = this.actorIcons[numOut].transform.position;
+                GameObject outIcon = Instantiate(this.actorIcon, pos, Quaternion.identity, this.iconBase.transform);
+                outIcon.GetComponent<SpriteRenderer>().sprite = this.actorIconImages[numOut];
+                outIcon.GetComponent<ActorIconController>().setOneTime();
+                outIcon.GetComponent<ActorIconController>().screenOut(isRight, incremental);
 
-            this.actorIcons[numIn].GetComponent<ActorIconController>().screenIn(isRight, incremental);
-        } else {
-            this.actorIcons[numOut].GetComponent<ActorIconController>().screenOut(isRight, incremental);
-            this.actorIcons[numIn].GetComponent<ActorIconController>().screenIn(isRight, incremental);
+                this.actorIcons[numIn].GetComponent<ActorIconController>().screenIn(isRight, incremental);
+            } else {
+                this.actorIcons[numOut].GetComponent<ActorIconController>().screenOut(isRight, incremental);
+                this.actorIcons[numIn].GetComponent<ActorIconController>().screenIn(isRight, incremental);
+            }
+        } else {            
         }
     }
 
@@ -204,7 +230,7 @@ public class SceneManager : MonoBehaviour {
         this.actorName.GetComponent<ActorNameController>().flick(isRight, this.actorNames[next]);
 
         //アイコン切り替え
-        this.moveIcon_old(isRight, incremental);
+        this.moveIcon(isRight, incremental);
 
         this.nowActor = next;
 
@@ -254,8 +280,16 @@ public class SceneManager : MonoBehaviour {
 
     //セレクターを画面に追加
     public void openSelecter() {
+        if (this.selecter) return;
 		Vector3 pos = new Vector3(0.0f, 0, 0);
-        Instantiate(this.Selecter, pos, Quaternion.identity, this.actorBase.transform);
+        this.selecter = Instantiate(this.Selecter, pos, Quaternion.identity, this.actorBase.transform);
+    }
+
+    //セレクターを閉じる
+    public void closeSelecter() {
+        if (this.selecter == null) return;
+        Destroy(this.selecter);
+        this.selecter = null;
     }
 
     Sprite [] getActorIconImage() {
