@@ -126,6 +126,24 @@ public class SceneManager : MonoBehaviour {
         //次のセンターアイコン取得
         int center = this.iconOrder(this.nowActor, diff);
 
+        //ダミーアイコン
+        for (int i = 0; i < incremental; i++) {
+            int d = isRight? -2+i: 2-i;
+            int numOut = this.iconOrder(this.nowActor, d);
+            Vector3 pos = this.actorIcons[numOut].transform.position;
+            GameObject outIcon = Instantiate(this.actorIcon, pos, Quaternion.identity, this.iconBase.transform);
+            outIcon.GetComponent<SpriteRenderer>().sprite = this.actorIconImages[numOut];
+            outIcon.GetComponent<ActorIconController>().setOneTime();
+            outIcon.GetComponent<ActorIconController>().screenOut(isRight, incremental);
+        }
+
+        //アイコン移動処理
+        for (int i = 0; i < this.actors.Count; i++) {
+            Vector3 pos = this.actorIcons[i].transform.position;
+            pos.x = diff + i;
+            this.actorIcons[i].transform.position = pos;
+        }
+
         //アイコンを配置
         int num;
         for (int i = -2; i < 3; i++) {
