@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class SceneManager : MonoBehaviour {
 
@@ -16,7 +17,7 @@ public class SceneManager : MonoBehaviour {
     [SerializeField] Sprite [] actorImages;
 
     //アクターアイコン
-    [SerializeField] Sprite [] actorIconImages;
+    public Sprite [] actorIconImages;
 
     //アクター最大数
     [SerializeField] int maxActor = 7;
@@ -48,7 +49,7 @@ public class SceneManager : MonoBehaviour {
     [SerializeField] GameObject actorName;
 
     //セレクター
-    GameObject selecter = null;
+    public GameObject selecter = null;
 
     string [] actorNames = {
         "Actor 1",
@@ -65,6 +66,11 @@ public class SceneManager : MonoBehaviour {
     Fade fadeStar = null;
     [SerializeField] GameObject fadeBackCanvas;
     Fade fadeBack = null;
+
+    //マスク
+    [SerializeField] GameObject mask_black;
+    [SerializeField] GameObject mask_white;
+    GameObject mask = null;
 
     // Use this for initialization
     void Start () {
@@ -299,15 +305,20 @@ public class SceneManager : MonoBehaviour {
     //セレクターを画面に追加
     public void openSelecter() {
         if (this.selecter) return;
-		Vector3 pos = new Vector3(0.0f, 0, 0);
-        this.selecter = Instantiate(this.Selecter, pos, Quaternion.identity, this.actorBase.transform);
+		Vector3 pos = new Vector3(0.0f, -2.0f, 0.0f);
+        this.selecter = Instantiate(this.Selecter, pos, Quaternion.identity);
+		pos = new Vector3(0.0f, 0.0f, 0.0f);
+        this.mask = Instantiate(this.mask_black, pos, Quaternion.identity);
     }
 
     //セレクターを閉じる
     public void closeSelecter() {
         if (this.selecter == null) return;
-        Destroy(this.selecter);
+        this.selecter.GetComponent<SelecterController>().close();
         this.selecter = null;
+        this.mask.GetComponent<MaskController>().fade(0.0f, 0.2f);
+        Destroy(this.mask, 0.2f);
+        this.mask = null;
     }
 
     Sprite [] getActorIconImage() {

@@ -11,11 +11,12 @@ public class ActorController : MonoBehaviour {
     //バックグラウンド番号
     public int numBackground = 0;
 
-    GameObject sceneManager;
+    SceneManager sceneManager;
+    SceneManager sc = null;
 
     // Use this for initialization
     void Start () {
-        this.sceneManager = GameObject.Find("SceneManager");
+        this.sceneManager = GameObject.Find("SceneManager").GetComponent<SceneManager>();
     }
 	
     // Update is called once per frame
@@ -23,6 +24,7 @@ public class ActorController : MonoBehaviour {
     }
 
     public void OnMouseDown () {
+        if (this.sceneManager.selecter) return;
         if (this.isMoving) return;
         iTween.PunchScale(this.gameObject,
             iTween.Hash(

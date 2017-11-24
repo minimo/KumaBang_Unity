@@ -17,5 +17,6 @@ public class SelecterCancelButton : MonoBehaviour {
 	}
 
     public void click() {
+        this.sceneManager.GetComponent<SceneManager>().closeSelecter();
     }
 }
