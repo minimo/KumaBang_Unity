@@ -19,6 +19,7 @@ public class TapSelecterController : MonoBehaviour {
     }
 
     void OnMouseDown() {
+        if(this.sceneManager.GetComponent<SceneManager>().selecter) return;
         bool isRight = true;
         if (diff < 0) isRight = false;
         sceneManager.GetComponent<SceneManager>().changeActorNext(isRight, Mathf.Abs(this.diff));

@@ -305,6 +305,7 @@ public class SceneManager : MonoBehaviour {
     //セレクターを画面に追加
     public void openSelecter() {
         if (this.selecter) return;
+
 		Vector3 pos = new Vector3(0.0f, -2.0f, 0.0f);
         this.selecter = Instantiate(this.Selecter, pos, Quaternion.identity);
 		pos = new Vector3(0.0f, 0.0f, 0.0f);
@@ -314,8 +315,11 @@ public class SceneManager : MonoBehaviour {
     //セレクターを閉じる
     public void closeSelecter() {
         if (this.selecter == null) return;
-        this.selecter.GetComponent<SelecterController>().close();
+
+        this.selecter.transform.DOScale(Vector3.zero, 0.5f).SetEase (Ease.InBounce);
+        Destroy(this.selecter.gameObject, 0.1f);
         this.selecter = null;
+
         this.mask.GetComponent<MaskController>().fade(0.0f, 0.2f);
         Destroy(this.mask, 0.2f);
         this.mask = null;
