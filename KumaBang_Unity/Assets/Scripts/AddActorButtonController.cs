@@ -18,7 +18,8 @@ public class AddActorButtonController : MonoBehaviour {
 	}
 
     public void click () {
-        this.sceneManager.GetComponent<SceneManager>().addActor();
-        this.sceneManager.GetComponent<SceneManager>().addActorFadeInOut();
+        SceneManager sc = this.sceneManager.GetComponent<SceneManager>();
+        sc.addActor();
+        sc.addActorFadeInOut();
     }
 }
