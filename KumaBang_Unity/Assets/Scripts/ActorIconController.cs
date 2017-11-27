@@ -6,6 +6,11 @@ public class ActorIconController : MonoBehaviour {
 
     GameObject sceneManager;
 
+    //セレクターで使用しているかフラグ
+    public bool isSelecter = false;
+    public float rad = Mathf.PI;
+    public float offset = 1.2f;
+
     // Use this for initialization
     void Start () {
         this.sceneManager = GameObject.Find("SceneManager");
@@ -13,6 +18,13 @@ public class ActorIconController : MonoBehaviour {
 
 	// Update is called once per frame
     void Update () {
+        if (this.isSelecter) {
+            Vector3 pos = this.transform.position;
+            pos.x = Mathf.Cos(this.rad) * this.offset;
+            pos.y = Mathf.Sin(this.rad) * this.offset - 2.0f;
+            this.transform.position = pos;
+            this.rad -= 0.05f;
+        }
     }
 
     //一時アイコンとして設定

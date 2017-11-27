@@ -289,6 +289,16 @@ public class SceneManager : MonoBehaviour {
         return true;
     }
 
+    //現在アクター数の取得
+    public int getNumActor() {
+        return this.actors.Count;
+    }
+
+    //最大アクター数の取得
+    public int getMaxActor() {
+        return this.maxActor;
+    }
+
     //新規アイコン追加
     void AddActorIcon() {
         //追加アイコンが表示外

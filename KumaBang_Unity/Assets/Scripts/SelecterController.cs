@@ -21,10 +21,11 @@ public class SelecterController : MonoBehaviour {
         SceneManager sc = this.sceneManager.GetComponent<SceneManager>();
         Sprite [] iconImages = sc.actorIconImages;
 
-        Vector3 pos = this.transform.position;
-        GameObject icon = Instantiate(this.actorIcon, pos, Quaternion.identity, this.transform);
-        icon.GetComponent<SpriteRenderer>().sprite = iconImages[0];
-//        icon.GetComponent<SpriteRenderer>().sortingLayerName = "Selecter";
+        for (int i = 0; i < sc.getNumActor(); i++) {
+            GameObject icon = Instantiate(this.actorIcon, new Vector3(0, 0, 0), Quaternion.identity, this.transform);
+            icon.GetComponent<SpriteRenderer>().sprite = iconImages[i];
+            icon.GetComponent<ActorIconController>().rad = i * 1.0f;
+        }
 	}
 	
 	// Update is called once per frame
