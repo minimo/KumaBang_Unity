@@ -8,8 +8,11 @@ public class ActorIconController : MonoBehaviour {
 
     //セレクターで使用しているかフラグ
     public bool isSelecter = false;
+    public GameObject selecter = null;
     public float rad = Mathf.PI;
+    public float radMax = 0;
     public float offset = 1.2f;
+    public int index = 0;
 
     // Use this for initialization
     void Start () {
@@ -20,10 +23,11 @@ public class ActorIconController : MonoBehaviour {
     void Update () {
         if (this.isSelecter) {
             Vector3 pos = this.transform.position;
-            pos.x = Mathf.Cos(this.rad) * this.offset;
-            pos.y = Mathf.Sin(this.rad) * this.offset - 2.0f;
+            pos.x = Mathf.Sin(this.rad) * this.offset;
+            pos.y = Mathf.Cos(this.rad) * this.offset - 2.0f;
             this.transform.position = pos;
-            this.rad -= 0.05f;
+            this.rad += 0.2f;
+            if (this.rad > this.radMax) this.rad = this.radMax;
         }
     }
 
@@ -62,5 +66,11 @@ public class ActorIconController : MonoBehaviour {
                 "time", 2.0f
             )
         );
+    }
+
+    void OnMouseDown() {
+        if (this.isSelecter) {
+            this.sceneManager.GetComponent<SceneManager>().closeSelecter();
+        }
     }
 }

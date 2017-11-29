@@ -21,10 +21,13 @@ public class SelecterController : MonoBehaviour {
         SceneManager sc = this.sceneManager.GetComponent<SceneManager>();
         Sprite [] iconImages = sc.actorIconImages;
 
+        float radUnit = (Mathf.PI * 2) / sc.getNumActor();
         for (int i = 0; i < sc.getNumActor(); i++) {
             GameObject icon = Instantiate(this.actorIcon, new Vector3(0, 0, 0), Quaternion.identity, this.transform);
             icon.GetComponent<SpriteRenderer>().sprite = iconImages[i];
-            icon.GetComponent<ActorIconController>().rad = i * 1.0f;
+            icon.GetComponent<ActorIconController>().rad = 0;
+            icon.GetComponent<ActorIconController>().radMax = radUnit * i;
+            icon.GetComponent<ActorIconController>().selecter = this.gameObject;
         }
 	}
 	
