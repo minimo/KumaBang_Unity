@@ -165,39 +165,6 @@ public class SceneManager : MonoBehaviour {
         }
     }
 
-    //アイコン移動
-    void moveIcon_old(bool isRight, int incremental) {
-        //アイコン移動処理
-        int num = 0;
-        for (int i = -2; i < 3; i++) {
-            num = this.iconOrder(this.nowActor, i);
-            this.actorIcons[num].GetComponent<ActorIconController>().flick(isRight, incremental);
-        }
-        int numIn = this.iconOrder(this.nowActor, -3);
-        int numOut = this.iconOrder(this.nowActor, 2);
-        if (isRight) {
-            numIn = this.iconOrder(this.nowActor, 3);
-            numOut = this.iconOrder(this.nowActor, -2);
-        }
-
-        if (incremental == 1) {
-            //入るアイコンと出て行くアイコンが同じ場合ダミーを作成する
-            if (numIn == numOut) {
-                Vector3 pos = this.actorIcons[numOut].transform.position;
-                GameObject outIcon = Instantiate(this.actorIcon, pos, Quaternion.identity, this.iconBase.transform);
-                outIcon.GetComponent<SpriteRenderer>().sprite = this.actorIconImages[numOut];
-                outIcon.GetComponent<ActorIconController>().setOneTime();
-                outIcon.GetComponent<ActorIconController>().screenOut(isRight, incremental);
-
-                this.actorIcons[numIn].GetComponent<ActorIconController>().screenIn(isRight, incremental);
-            } else {
-                this.actorIcons[numOut].GetComponent<ActorIconController>().screenOut(isRight, incremental);
-                this.actorIcons[numIn].GetComponent<ActorIconController>().screenIn(isRight, incremental);
-            }
-        } else {            
-        }
-    }
-
     int iconOrder(int center, int inc) {
         if (inc == 0) return center;
         int ret = (center + inc) % this.actors.Count;
@@ -207,18 +174,22 @@ public class SceneManager : MonoBehaviour {
 
     //アクター切り替え
     public void changeActor(int num) {
-        if (num < 0 || num > this.actors.Count - 1) return;
+//        if (num < 0 || num > this.actors.Count - 1) return;
         if (num  == this.nowActor) return;
 
         //立ち絵移動処理
         GameObject nextActor = this.actors[num];
-        nextActor.transform.position = new Vector3(0, 0.0f, 0.0f);
+        nextActor.transform.position = new Vector3(10.0f, 0.0f, 0.0f);
+        nextActor.GetComponent<ActorController>().flick(true, 0.5f);
 
         GameObject nowActor = this.actors[this.nowActor];
         nowActor.GetComponent<ActorController>().flick(true);
 
         //アクター名移動処理
         this.actorName.GetComponent<ActorNameController>().flick(true, this.actorNames[num]);
+
+        //アイコン移動処理
+        this.initIconPosition(num);
 
         this.nowActor = num;
     }
@@ -318,8 +289,10 @@ public class SceneManager : MonoBehaviour {
 
 		Vector3 pos = new Vector3(0.0f, -2.0f, 0.0f);
         this.selecter = Instantiate(this.Selecter, pos, Quaternion.identity);
+
 		pos = new Vector3(0.0f, 0.0f, 0.0f);
         this.mask = Instantiate(this.mask_black, pos, Quaternion.identity);
+        this.mask.GetComponent<Transform>().SetSiblingIndex(0);
     }
 
     //セレクターを閉じる

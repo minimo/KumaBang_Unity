@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 
 public class MaskController : MonoBehaviour {
+    GameObject sceneManager;
 
     private float _alpha = 1.0f;
     public float alpha{
@@ -16,6 +17,9 @@ public class MaskController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        //シーンマネージャー取得
+        this.sceneManager = GameObject.Find("SceneManager");
+
         this.alpha = 0.0f;
         this.fade(0.6f, 0.2f);
 	}
@@ -38,5 +42,9 @@ public class MaskController : MonoBehaviour {
             a,                          // 最終的な値
             time                        // アニメーション時間
         );
+    }
+    void OnMouseDown() {
+        this.sceneManager.GetComponent<SceneManager>().closeSelecter();
+        Debug.Log("Selecter cancel");
     }
 }

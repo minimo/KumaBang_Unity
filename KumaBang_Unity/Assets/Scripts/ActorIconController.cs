@@ -70,6 +70,7 @@ public class ActorIconController : MonoBehaviour {
 
     void OnMouseDown() {
         if (this.isSelecter) {
+            this.sceneManager.GetComponent<SceneManager>().changeActor(this.index);
             this.sceneManager.GetComponent<SceneManager>().closeSelecter();
         }
     }
