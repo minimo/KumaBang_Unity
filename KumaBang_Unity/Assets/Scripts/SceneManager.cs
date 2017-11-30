@@ -287,10 +287,11 @@ public class SceneManager : MonoBehaviour {
     public void openSelecter() {
         if (this.selecter) return;
 
-		Vector3 pos = new Vector3(0.0f, -2.0f, 0.0f);
+		Vector3 pos = new Vector3(0.0f, -2.0f, -3.0f);
         this.selecter = Instantiate(this.Selecter, pos, Quaternion.identity);
+        this.selecter.GetComponent<Transform>().SetSiblingIndex(0);
 
-		pos = new Vector3(0.0f, 0.0f, 0.0f);
+		pos = new Vector3(0.0f, 0.0f, -2.0f);
         this.mask = Instantiate(this.mask_black, pos, Quaternion.identity);
         this.mask.GetComponent<Transform>().SetSiblingIndex(0);
     }

@@ -23,7 +23,7 @@ public class SelecterController : MonoBehaviour {
 
         float radUnit = (Mathf.PI * 2) / sc.getNumActor();
         for (int i = 0; i < sc.getNumActor(); i++) {
-            GameObject icon = Instantiate(this.actorIcon, new Vector3(0, 0, 0), Quaternion.identity, this.transform);
+            GameObject icon = Instantiate(this.actorIcon, new Vector3(0, 0, -10), Quaternion.identity, this.transform);
             icon.GetComponent<SpriteRenderer>().sprite = iconImages[i];
             ActorIconController asc = icon.GetComponent<ActorIconController>();
             asc.rad = 0;

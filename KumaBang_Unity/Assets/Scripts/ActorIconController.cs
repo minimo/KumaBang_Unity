@@ -26,7 +26,7 @@ public class ActorIconController : MonoBehaviour {
             pos.x = Mathf.Sin(this.rad) * this.offset;
             pos.y = Mathf.Cos(this.rad) * this.offset - 2.0f;
             this.transform.position = pos;
-            this.rad += 0.2f;
+            this.rad += 0.5f;
             if (this.rad > this.radMax) this.rad = this.radMax;
         }
     }
