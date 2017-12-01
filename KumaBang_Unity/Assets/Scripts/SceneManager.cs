@@ -165,6 +165,7 @@ public class SceneManager : MonoBehaviour {
         }
     }
 
+    //センターからの移動量で次のアクター番号を取得
     int iconOrder(int center, int inc) {
         if (inc == 0) return center;
         int ret = (center + inc) % this.actors.Count;
@@ -173,8 +174,8 @@ public class SceneManager : MonoBehaviour {
     }
 
     //アクター切り替え
-    public void changeActor(int num) {
-//        if (num < 0 || num > this.actors.Count - 1) return;
+    public void changeActor(int num, bool addActorFlag = false) {
+        if (num < 0 || num > this.actors.Count - 1) return;
         if (num  == this.nowActor) return;
 
         //立ち絵移動処理
@@ -189,7 +190,18 @@ public class SceneManager : MonoBehaviour {
         this.actorName.GetComponent<ActorNameController>().flick(true, this.actorNames[num]);
 
         //アイコン移動処理
-        this.initIconPosition(num);
+        if (addActorFlag) {
+            this.initIconPosition(num);
+        } else {
+            int n = num - this.nowActor; //移動量の計算
+            if (n != 0) {
+                if (n > 0) {
+                    this.moveIcon(true, n);
+                } else {
+                this.moveIcon(false, -n);
+                }
+            }
+        }
 
         this.nowActor = num;
     }
@@ -300,12 +312,16 @@ public class SceneManager : MonoBehaviour {
     public void closeSelecter() {
         if (this.selecter == null) return;
 
-        this.selecter.transform.DOScale(Vector3.zero, 0.5f).SetEase (Ease.InBounce);
-        Destroy(this.selecter.gameObject, 0.1f);
-        this.selecter = null;
+        this.selecter.transform.DOScale(Vector3.zero, 0.3f);//.SetEase (Ease.InBounce);
+        Destroy(this.selecter.gameObject, 1.0f);
+        StartCoroutine("closeSelecterCoroutine");
 
         this.mask.GetComponent<MaskController>().fade(0.0f, 0.2f);
-        Destroy(this.mask, 0.2f);
+        Destroy(this.mask, 0.3f);
+    }
+    private IEnumerator closeSelecterCoroutine() {
+        yield return new WaitForSeconds(0.5f);
+        this.selecter = null;
         this.mask = null;
     }
 
@@ -320,7 +336,7 @@ public class SceneManager : MonoBehaviour {
     private IEnumerator addActorFadeCoroutine() {
         this.fadeStar.FadeIn(0.5f);
         yield return new WaitForSeconds(1.0f);
-        this.changeActor(this.actors.Count - 1);
+        this.changeActor(this.actors.Count - 1, true);
         this.initIconPosition();
 		this.fadeStar.FadeOut(0.5f);
     }
