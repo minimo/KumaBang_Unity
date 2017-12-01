@@ -14,7 +14,6 @@ public class SelectButtonController : MonoBehaviour {
         //シーンマネージャー取得
         this.sceneManager = GameObject.Find("SceneManager");
         this.button = this.GetComponent<Button>();
-        this.button.interactable = false;
 	}
 	
 	// Update is called once per frame
