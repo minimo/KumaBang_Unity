@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class SceneManager : MonoBehaviour {
 
@@ -88,6 +89,8 @@ public class SceneManager : MonoBehaviour {
 
         //フェード初期処理
         this.fadeStar = this.fadeStarCanvas.GetComponent<Fade>();
+
+        //タップエフェクト
     }
 	
     // Update is called once per frame
