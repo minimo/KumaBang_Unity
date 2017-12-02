@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
 
-public class SceneManager : MonoBehaviour {
+public class SelectSceneManager : MonoBehaviour {
 
     //操作用GameObject
     public GameObject UpperUI;
@@ -78,6 +78,7 @@ public class SceneManager : MonoBehaviour {
         this.actorBase = GameObject.Find("ActorBase");
         this.iconBase = GameObject.Find("IconBase");
 
+        //アクター配置
         this.addActor();
         this.addActor();
         this.addActor();
@@ -91,6 +92,8 @@ public class SceneManager : MonoBehaviour {
         this.fadeStar = this.fadeStarCanvas.GetComponent<Fade>();
 
         //タップエフェクト
+        GameObject go = Instantiate((GameObject)Resources.Load("Prefabs/TapEffect"));
+        go.transform.parent = this.transform;
     }
 	
     // Update is called once per frame
@@ -237,6 +240,7 @@ public class SceneManager : MonoBehaviour {
         nowActor.GetComponent<ActorController>().flick(isRight);
 
         //アクター名移動処理
+        ActorNameController ac = this.actorName.GetComponent<ActorNameController>();
         this.actorName.GetComponent<ActorNameController>().flick(isRight, this.actorNames[next]);
 
         //アイコン切り替え

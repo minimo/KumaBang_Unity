@@ -6,13 +6,13 @@ using UnityEngine.UI;
 public class AddActorButtonController : MonoBehaviour {
 
     GameObject sceneManager = null;
-    SceneManager scm = null;
+    SelectSceneManager scm = null;
 
 	// Use this for initialization
 	void Start () {
         //シーンマネージャー取得
-        this.sceneManager = GameObject.Find("SceneManager");
-        this.scm = this.sceneManager.GetComponent<SceneManager>();
+        this.sceneManager = GameObject.Find("SelectSceneManager");
+        this.scm = this.sceneManager.GetComponent<SelectSceneManager>();
 	}
 	
 	// Update is called once per frame
@@ -24,7 +24,7 @@ public class AddActorButtonController : MonoBehaviour {
 	}
 
     public void click () {
-        SceneManager sc = this.sceneManager.GetComponent<SceneManager>();
+        SelectSceneManager sc = this.sceneManager.GetComponent<SelectSceneManager>();
         sc.addActor();
         sc.addActorFadeInOut();
     }

@@ -7,11 +7,8 @@ public class ActorNameController : MonoBehaviour {
 
     [SerializeField] GameObject nowActorName;
 
-    GameObject sceneManager;
-
     // Use this for initialization
     void Start () {
-        this.sceneManager = GameObject.Find("SceneManager");
     }
 
     public void setName(string newName) {

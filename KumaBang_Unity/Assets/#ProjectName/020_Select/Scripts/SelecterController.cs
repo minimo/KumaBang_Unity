@@ -12,14 +12,14 @@ public class SelecterController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         //シーンマネージャー取得
-        this.sceneManager = GameObject.Find("SceneManager");
+        this.sceneManager = GameObject.Find("SelectSceneManager");
 
         //出現アニメーション
         this.transform.localScale = new Vector3(0, 0, 0);
         this.transform.DOScale(Vector3.one, 0.1f).SetEase (Ease.OutBounce);
 
         //アクターアイコン準備
-        SceneManager sc = this.sceneManager.GetComponent<SceneManager>();
+        SelectSceneManager sc = this.sceneManager.GetComponent<SelectSceneManager>();
         Sprite [] iconImages = sc.actorIconImages;
 
         float radUnit = (Mathf.PI * 2) / sc.getNumActor();

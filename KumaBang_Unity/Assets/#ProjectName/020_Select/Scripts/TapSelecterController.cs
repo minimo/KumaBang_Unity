@@ -11,7 +11,7 @@ public class TapSelecterController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        this.sceneManager = GameObject.Find("SceneManager");
+        this.sceneManager = GameObject.Find("SelectSceneManager");
     }
 	
     // Update is called once per frame
@@ -19,9 +19,9 @@ public class TapSelecterController : MonoBehaviour {
     }
 
     void OnMouseDown() {
-        if(this.sceneManager.GetComponent<SceneManager>().selecter) return;
+        if(this.sceneManager.GetComponent<SelectSceneManager>().selecter) return;
         bool isRight = true;
         if (diff < 0) isRight = false;
-        sceneManager.GetComponent<SceneManager>().changeActorNext(isRight, Mathf.Abs(this.diff));
+        sceneManager.GetComponent<SelectSceneManager>().changeActorNext(isRight, Mathf.Abs(this.diff));
     }
 }

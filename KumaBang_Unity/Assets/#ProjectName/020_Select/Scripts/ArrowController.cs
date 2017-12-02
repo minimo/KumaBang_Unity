@@ -16,7 +16,7 @@ public class ArrowController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         //シーンマネージャー取得
-        this.sceneManager = GameObject.Find("SceneManager");
+        this.sceneManager = GameObject.Find("SelectSceneManager");
 
         //初期位置記録
         this.startX = this.transform.position.x;
@@ -29,7 +29,7 @@ public class ArrowController : MonoBehaviour {
     }
 
     public void OnMouseDown () {
-        this.sceneManager.GetComponent<SceneManager>().changeActorNext(this.isRight);
+        this.sceneManager.GetComponent<SelectSceneManager>().changeActorNext(this.isRight);
     }
 
     void setup () {

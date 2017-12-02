@@ -18,7 +18,7 @@ public class MaskController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         //シーンマネージャー取得
-        this.sceneManager = GameObject.Find("SceneManager");
+        this.sceneManager = GameObject.Find("SelectSceneManager");
 
         this.alpha = 0.0f;
         this.fade(0.6f, 0.2f);
@@ -44,7 +44,7 @@ public class MaskController : MonoBehaviour {
         );
     }
     void OnMouseDown() {
-        this.sceneManager.GetComponent<SceneManager>().closeSelecter();
+        this.sceneManager.GetComponent<SelectSceneManager>().closeSelecter();
         Debug.Log("Selecter cancel");
     }
 }

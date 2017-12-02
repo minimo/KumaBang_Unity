@@ -11,12 +11,12 @@ public class ActorController : MonoBehaviour {
     //バックグラウンド番号
     public int numBackground = 0;
 
-    SceneManager sceneManager;
-    SceneManager sc = null;
+    SelectSceneManager sceneManager;
+    SelectSceneManager sc = null;
 
     // Use this for initialization
     void Start () {
-        this.sceneManager = GameObject.Find("SceneManager").GetComponent<SceneManager>();
+        this.sceneManager = GameObject.Find("SelectSceneManager").GetComponent<SelectSceneManager>();
     }
 	
     // Update is called once per frame

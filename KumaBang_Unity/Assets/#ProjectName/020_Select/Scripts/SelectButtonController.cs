@@ -12,13 +12,13 @@ public class SelectButtonController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         //シーンマネージャー取得
-        this.sceneManager = GameObject.Find("SceneManager");
+        this.sceneManager = GameObject.Find("SelectSceneManager");
         this.button = this.GetComponent<Button>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (this.sceneManager.GetComponent<SceneManager>().selecter) {
+        if (this.sceneManager.GetComponent<SelectSceneManager>().selecter) {
             this.button.interactable = false;
         } else {
             this.button.interactable = true;
@@ -26,7 +26,7 @@ public class SelectButtonController : MonoBehaviour {
 	}
 
     public void click () {
-        if (this.sceneManager.GetComponent<SceneManager>().selecter) return;
-        this.sceneManager.GetComponent<SceneManager>().openSelecter();
+        if (this.sceneManager.GetComponent<SelectSceneManager>().selecter) return;
+        this.sceneManager.GetComponent<SelectSceneManager>().openSelecter();
     }
 }

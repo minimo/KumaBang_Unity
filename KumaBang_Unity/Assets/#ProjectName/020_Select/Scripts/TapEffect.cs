@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class TapEffect : MonoBehaviour {
 
-    [SerializeField]　ParticleSystem tapEffect;              // タップエフェクト
+    ParticleSystem tapEffect;              // タップエフェクト
     Camera _camera;                        // カメラの座標
 
 	// Use this for initialization
 	void Start () {
         this._camera = GameObject.Find("EffectCamera").GetComponent<Camera>();
+
+        //パーティクルシステム
+        GameObject go = Instantiate((GameObject)Resources.Load("Prefabs/TapParticle"));
+        go.transform.parent = this.transform;
+        tapEffect = go.GetComponent<ParticleSystem>();
 	}
 	
 	// Update is called once per frame

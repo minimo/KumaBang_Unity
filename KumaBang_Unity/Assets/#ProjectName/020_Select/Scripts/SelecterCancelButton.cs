@@ -9,7 +9,7 @@ public class SelecterCancelButton : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         //シーンマネージャー取得
-        this.sceneManager = GameObject.Find("SceneManager");
+        this.sceneManager = GameObject.Find("SelectSceneManager");
 	}
 	
 	// Update is called once per frame
@@ -17,6 +17,6 @@ public class SelecterCancelButton : MonoBehaviour {
 	}
 
     public void click() {
-        this.sceneManager.GetComponent<SceneManager>().closeSelecter();
+        this.sceneManager.GetComponent<SelectSceneManager>().closeSelecter();
     }
 }

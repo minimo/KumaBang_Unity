@@ -16,7 +16,7 @@ public class ActorIconController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        this.sceneManager = GameObject.Find("SceneManager");
+        this.sceneManager = GameObject.Find("SelectSceneManager");
     }
 
 	// Update is called once per frame
@@ -70,8 +70,8 @@ public class ActorIconController : MonoBehaviour {
 
     void OnMouseDown() {
         if (this.isSelecter) {
-            this.sceneManager.GetComponent<SceneManager>().changeActor(this.index);
-            this.sceneManager.GetComponent<SceneManager>().closeSelecter();
+            this.sceneManager.GetComponent<SelectSceneManager>().changeActor(this.index);
+            this.sceneManager.GetComponent<SelectSceneManager>().closeSelecter();
         }
     }
 }
