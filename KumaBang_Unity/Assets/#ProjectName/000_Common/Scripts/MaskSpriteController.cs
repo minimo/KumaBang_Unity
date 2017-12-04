@@ -5,20 +5,28 @@ using DG.Tweening;
 
 public class MaskSpriteController : MonoBehaviour {
 
-    [SerializeField] Vector3 size;
-
+    bool isRotate = false;
+    bool isClockWise = true;
 	// Use this for initialization
 	void Start () {
-        this.RotateIn(10.0f);
+        this.RotateIn(2.0f);
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-        this.transform.Rotate(0.0f, 0.0f, 3.0f);
 	}
 
     public void RotateIn(float time = 1.0f) {
+        this.isRotate = true;
         this.transform.localScale = Vector3.zero;
-        this.transform.DOScale(20.0f, time);
+
+        var sequence = DOTween.Sequence();
+        sequence.Append(this.transform.DORotate(new Vector3(0.0f, 0.0f, 360), time, RotateMode.FastBeyond360));
+        sequence.Join(this.transform.DOScale(new Vector3(6.0f, 6.0f), time)
+            .SetEase(Ease.InOutQuad)
+            .OnComplete(() => {
+                GameObject.Destroy(this.gameObject);
+            }));
+//        this.transform.DOScale(6.0f, time).SetEase(Ease.InOutQuad);,
     }
 }
