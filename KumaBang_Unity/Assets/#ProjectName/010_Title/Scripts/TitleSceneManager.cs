@@ -21,7 +21,11 @@ public class TitleSceneManager : MonoBehaviour {
 		
 	}
 
-    void nextScene() {
+    public void OnNextScene() {
         SceneManager.LoadScene("SelectScene");
     }
+
+	public void OnRecieve () {
+		Debug.Log("recieve");
+	}
 }

@@ -7,7 +7,8 @@ public class TitleViewController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         //バックグラウンド作成
-        GameObject go = Instantiate((GameObject)Resources.Load("Prefabs/TitleBackGround"));
+        GameObject titleView = (GameObject)Resources.Load("Prefabs/TitleBackGround");
+        GameObject go = Instantiate(titleView);
         go.transform.parent = this.transform;
 	}
 	
