@@ -12,4 +12,7 @@ public class TitleBackGroundController : MonoBehaviour {
 	void Update () {
 		
 	}
+    public void OnMouseDown () {
+        this.transform.parent.gameObject.SendMessage("OnTapScreen");
+    }
 }
