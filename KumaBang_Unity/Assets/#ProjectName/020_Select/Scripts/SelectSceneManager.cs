@@ -94,6 +94,9 @@ public class SelectSceneManager : MonoBehaviour {
         //タップエフェクト
         GameObject go = Instantiate((GameObject)Resources.Load("Prefabs/TapEffect"));
         go.transform.parent = this.transform;
+
+        //シーン開始フェード
+        GameObject fd = Instantiate((GameObject)Resources.Load("Prefabs/Mask_first"));
     }
 	
     // Update is called once per frame

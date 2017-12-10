@@ -24,7 +24,7 @@ public class MaskSpriteController : MonoBehaviour {
 
         var sequence = DOTween.Sequence();
         sequence.Append(this.transform.DORotate(new Vector3(0.0f, 0.0f, 360), time, RotateMode.FastBeyond360));
-        sequence.Join(this.transform.DOScale(new Vector3(6.0f, 6.0f), time)
+        sequence.Join(this.transform.DOScale(new Vector3(16.0f, 16.0f), time)
             .SetEase(Ease.InOutQuad)
             .OnComplete(() => {
                 GameObject.Destroy(this.gameObject, 0.5f);
@@ -34,7 +34,7 @@ public class MaskSpriteController : MonoBehaviour {
     }
     public void RotateOut(float time = 3.0f) {
         this.isRotate = true;
-        this.transform.localScale = new Vector3(6.0f, 6.0f, 1.0f);
+        this.transform.localScale = new Vector3(16.0f, 16.0f, 1.0f);
 
         var sequence = DOTween.Sequence();
         sequence.Append(this.transform.DORotate(new Vector3(0.0f, 0.0f, 360), time, RotateMode.FastBeyond360));

@@ -8,7 +8,7 @@ public class SplashLogoController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         var sequence = DOTween.Sequence();
-        sequence.Append(this.transform.DOScaleY(0.9f, 3.0f).SetEase(Ease.OutBounce).SetDelay(2.5f));
+        sequence.Append(this.transform.DOScaleY(0.9f, 2.0f).SetEase(Ease.OutBounce).SetDelay(0.5f));
         sequence.Join(this.transform.DOMoveY(-2.0f, 2.0f).SetEase(Ease.OutBounce).SetDelay(0.5f));
 
         SpriteRenderer renderer = this.gameObject.GetComponent<SpriteRenderer>();

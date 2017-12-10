@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class SplashSceneManager : MonoBehaviour {
 
+    [SerializeField] GameObject soundManager;
+
 	// Use this for initialization
 	void Start () {
         //スプラッシュ用ビュー
@@ -19,5 +21,6 @@ public class SplashSceneManager : MonoBehaviour {
 
     public void OnNextScene() {
         SceneManager.LoadScene("TitleScene");
+        soundManager.GetComponent<SoundManagerController>().playSE("splash");
     }
 }
