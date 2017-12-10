@@ -18,7 +18,7 @@ public class MaskSpriteController : MonoBehaviour {
 	void Update () {
 	}
 
-    public void RotateIn(float time = 3.0f) {
+    public void RotateIn(float time = 3.0f, float delay = 0.0f) {
         this.isRotate = true;
         this.transform.localScale = Vector3.zero;
 
@@ -32,7 +32,7 @@ public class MaskSpriteController : MonoBehaviour {
             }));
 //        this.transform.DOScale(6.0f, time).SetEase(Ease.InOutQuad);,
     }
-    public void RotateOut(float time = 3.0f) {
+    public void RotateOut(float time = 3.0f, float delay = 0.0f) {
         this.isRotate = true;
         this.transform.localScale = new Vector3(16.0f, 16.0f, 1.0f);
 

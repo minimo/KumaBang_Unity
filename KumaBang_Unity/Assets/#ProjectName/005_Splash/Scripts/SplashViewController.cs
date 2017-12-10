@@ -19,6 +19,10 @@ public class SplashViewController : MonoBehaviour {
 	void Update () {
 		
 	}
+    void OnPlaySound() {
+        this.transform.parent.gameObject.SendMessage("OnPlaySound");
+    }
+
     void OnSplashComplete() {
         this.transform.parent.gameObject.SendMessage("OnNextScene");
     }

@@ -16,11 +16,13 @@ public class SplashSceneManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
 	}
 
     public void OnNextScene() {
         SceneManager.LoadScene("TitleScene");
+    }
+
+    public void OnPlaySound() {
         soundManager.GetComponent<SoundManagerController>().playSE("splash");
     }
 }

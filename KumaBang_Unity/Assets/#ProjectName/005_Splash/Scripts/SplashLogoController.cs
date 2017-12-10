@@ -9,7 +9,10 @@ public class SplashLogoController : MonoBehaviour {
 	void Start () {
         var sequence = DOTween.Sequence();
         sequence.Append(this.transform.DOScaleY(0.9f, 2.0f).SetEase(Ease.OutBounce).SetDelay(0.5f));
-        sequence.Join(this.transform.DOMoveY(-2.0f, 2.0f).SetEase(Ease.OutBounce).SetDelay(0.5f));
+        sequence.Join(this.transform.DOMoveY(-2.0f, 2.0f).SetEase(Ease.OutBounce).SetDelay(0.5f)
+            .OnComplete(() => {
+                this.transform.parent.gameObject.SendMessage("OnPlaySound");
+            }));
 
         SpriteRenderer renderer = this.gameObject.GetComponent<SpriteRenderer>();
         sequence.Append(DOTween.ToAlpha(
@@ -24,6 +27,6 @@ public class SplashLogoController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 }

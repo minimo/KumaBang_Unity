@@ -9,7 +9,7 @@ public class SoundManagerController : MonoBehaviour {
     [SerializeField]GameObject soundArray;
     SoundArrayController soundArrayController;
 
-    void init() {
+    void Start() {
         this.soundArrayController = this.soundArray.GetComponent<SoundArrayController>();
 
         //AudioSource格納用
