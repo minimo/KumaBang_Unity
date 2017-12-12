@@ -6,6 +6,8 @@ public class TitleViewController : MonoBehaviour {
 
     public GameObject soundManager;
 
+    public bool isTapped = false;
+
 	// Use this for initialization
 	void Start () {
         //バックグラウンド作成
@@ -23,9 +25,12 @@ public class TitleViewController : MonoBehaviour {
 	}
 
     void OnTapScreen() {
+        if (isTapped) return;
+        this.isTapped = true;
+
         GameObject go = Instantiate((GameObject)Resources.Load("Prefabs/MaskSprite"));
         go.transform.parent = this.transform;
-        go.GetComponent<MaskSpriteController>().RotateIn(3.0f);
+        go.GetComponent<MaskSpriteController>().RotateIn(1.0f);
         go.GetComponent<MaskSpriteController>().isSendMessage = true;
 
         this.soundManager.GetComponent<SoundManagerController>().playSE("TapScreen");
