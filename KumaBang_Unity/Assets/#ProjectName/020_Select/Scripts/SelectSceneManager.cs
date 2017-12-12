@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class SelectSceneManager : MonoBehaviour {
 
+    //サウンドマネージャー
+    SoundManagerController soundManager;
+
     //操作用GameObject
     public GameObject UpperUI;
     public GameObject LowerUI;
@@ -97,6 +100,10 @@ public class SelectSceneManager : MonoBehaviour {
 
         //シーン開始フェード
         GameObject fd = Instantiate((GameObject)Resources.Load("Prefabs/Mask_first"));
+
+        //サウンドマネージャー取得
+        go = GameObject.Find("SoundManager");
+        soundManager = go.GetComponent<SoundManagerController>();
     }
 	
     // Update is called once per frame
@@ -256,6 +263,8 @@ public class SelectSceneManager : MonoBehaviour {
         this.LowerUI.GetComponent<UIController>().changeStatus(this.nowActor);
         this.Arrow_L.GetComponent<ArrowController>().change();
         this.Arrow_R.GetComponent<ArrowController>().change();
+
+        soundManager.playSE("change");
     }
 
     //新アクター追加
