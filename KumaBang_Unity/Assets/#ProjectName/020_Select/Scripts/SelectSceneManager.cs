@@ -104,6 +104,8 @@ public class SelectSceneManager : MonoBehaviour {
         //サウンドマネージャー取得
         go = GameObject.Find("SoundManager");
         soundManager = go.GetComponent<SoundManagerController>();
+
+        soundManager.playBGM("bgm");
     }
 	
     // Update is called once per frame
@@ -325,6 +327,8 @@ public class SelectSceneManager : MonoBehaviour {
 		pos = new Vector3(0.0f, 0.0f, -2.0f);
         this.mask = Instantiate(this.mask_black, pos, Quaternion.identity);
         this.mask.GetComponent<Transform>().SetSiblingIndex(0);
+
+        soundManager.playSE("select");
     }
 
     //セレクターを閉じる
