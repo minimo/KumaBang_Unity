@@ -3,21 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundArrayController : MonoBehaviour {
-    public string [] names;
-    public AudioClip [] sounds;
+    string [] names;
+    AudioClip [] sounds;
 
     Dictionary<string, AudioClip> array = new Dictionary<string, AudioClip>();
 
     void Start() {
-        //保存配列紐つけ処理
-        for (int i = 0; i < this.sounds.Length; i++) {
-            string name = null;
-            if (i < this.names.Length) 
-                name = this.names[i];
-            else
-                name = "sound_"+i.ToString();
-            this.addSound(name, this.sounds[i]);
+    }
+
+    void loadSceneSound(string sceneName) {
+        switch (sceneName) {
+            case "splash":
+                this.loadSceneSound_splash();
+                break;
+            case "title":
+                break;
+            case "select":
+                break;
         }
+    }
+
+    void loadSceneSound_splash() {
     }
 
     public void addSound(string name, AudioClip source) {
