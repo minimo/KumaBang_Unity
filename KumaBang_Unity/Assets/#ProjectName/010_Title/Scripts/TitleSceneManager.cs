@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class TitleSceneManager : MonoBehaviour {
 
-    [SerializeField] GameObject soundManager;
+    SoundManagerController soundManager;
 
 	// Use this for initialization
 	void Start () {
@@ -16,7 +16,8 @@ public class TitleSceneManager : MonoBehaviour {
         //タイトル用ビュー
         GameObject view = Instantiate((GameObject)Resources.Load("Prefabs/TitleView"));
         view.transform.parent = this.transform;
-        view.GetComponent<TitleViewController>().soundManager = this.soundManager;
+
+        this.soundManager = SoundManagerController.Instance;
 	}
 	
 	// Update is called once per frame

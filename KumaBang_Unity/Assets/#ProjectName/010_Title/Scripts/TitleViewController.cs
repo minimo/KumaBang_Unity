@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TitleViewController : MonoBehaviour {
 
-    public GameObject soundManager;
+    SoundManagerController soundManager;
 
     public bool isTapped = false;
 
@@ -17,6 +17,8 @@ public class TitleViewController : MonoBehaviour {
         go = Instantiate((GameObject)Resources.Load("Prefabs/MaskSprite"));
         go.transform.parent = this.transform;
         go.GetComponent<MaskSpriteController>().RotateOut(1.0f);
+
+        this.soundManager = SoundManagerController.Instance;
 	}
 	
 	// Update is called once per frame
@@ -33,7 +35,7 @@ public class TitleViewController : MonoBehaviour {
         go.GetComponent<MaskSpriteController>().RotateIn(1.0f);
         go.GetComponent<MaskSpriteController>().isSendMessage = true;
 
-        this.soundManager.GetComponent<SoundManagerController>().playSE("TapScreen");
+        this.soundManager.playSE("TapScreen");
     }
 
     void OnAnimationEnd() {

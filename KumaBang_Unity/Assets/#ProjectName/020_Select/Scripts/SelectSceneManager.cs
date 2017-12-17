@@ -102,8 +102,7 @@ public class SelectSceneManager : MonoBehaviour {
         GameObject fd = Instantiate((GameObject)Resources.Load("Prefabs/Mask_first"));
 
         //サウンドマネージャー取得
-        go = GameObject.Find("SoundManager");
-        soundManager = go.GetComponent<SoundManagerController>();
+        this.soundManager = SoundManagerController.Instance;
 
         soundManager.playBGM("bgm");
     }

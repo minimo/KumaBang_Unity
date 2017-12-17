@@ -13,10 +13,6 @@ public class SplashSceneManager : MonoBehaviour {
         GameObject view = Instantiate((GameObject)Resources.Load("Prefabs/SplashView"));
         view.transform.parent = this.transform;
 
-        if (SoundManagerController.Instance == null) {
-            GameObject obj = (GameObject)Resources.Load("Prefabs/SoundManager");
-            GameObject instObj = GameObject.Instantiate(obj);
-        }
         this.soundManager = SoundManagerController.Instance;
 	}
 	

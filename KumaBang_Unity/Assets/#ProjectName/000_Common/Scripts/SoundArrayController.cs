@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundArrayController : MonoBehaviour {
-    string [] names;
-    AudioClip [] sounds;
 
     Dictionary<string, AudioClip> array = new Dictionary<string, AudioClip>();
 
@@ -26,8 +24,9 @@ public class SoundArrayController : MonoBehaviour {
     void loadSceneSound_splash() {
     }
 
-    public void addSound(string name, AudioClip source) {
-        array.Add(name, source);
+    public void addSound(string name, GameObject source) {
+        AudioClip clip = source.GetComponent<AudioSource>().clip;
+        array.Add(name, clip);
     }
 
     public AudioClip getSound(string name) {
