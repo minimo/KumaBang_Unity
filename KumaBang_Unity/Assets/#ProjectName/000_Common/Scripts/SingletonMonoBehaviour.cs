@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour {
-    private static T instance;
+    private static T _instance;
     public static T Instance {
         get {
-            if (instance == null) {
-                instance = (T)FindObjectOfType(typeof(T));
-                if (instance == null) Debug.LogError (typeof(T) + "is nothing");
+            if (_instance == null) {
+                _instance = (T)FindObjectOfType(typeof(T));
+                if (_instance == null) Debug.LogError (typeof(T) + "is nothing");
             }
-            return instance;
+            return _instance;
         }
     }
 }
