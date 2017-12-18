@@ -12,8 +12,7 @@ public class SoundManagerController : SingletonMonoBehaviour<SoundManagerControl
     GameObject soundPlayerObject;
     AudioSource audioSource;
 
-    GameObject soundArray;
-    SoundArrayController soundArrayController;
+    Dictionary<string, AudioClip> sounds = new Dictionary<string, AudioClip>();
 
     void Awake() {
         if(this != Instance) {
@@ -32,13 +31,6 @@ public class SoundManagerController : SingletonMonoBehaviour<SoundManagerControl
         this.soundPlayerObject = new GameObject("SoundPlayer");
         this.soundPlayerObject.transform.parent = this.transform;
         this.audioSource = this.soundPlayerObject.AddComponent<AudioSource>();
-
-        //音源配列
-        this.soundArray = new GameObject("SoundArray");
-        this.soundArray.transform.parent = this.transform;
-        this.soundArrayController = this.bgmPlayerObject.AddComponent<SoundArrayController>();
-
-//        this.soundArrayController = this.soundArray.GetComponent<SoundArrayController>();
     }
 
     public bool playSE(string name) {
@@ -63,11 +55,9 @@ public class SoundManagerController : SingletonMonoBehaviour<SoundManagerControl
         return true;
     }
 
-    //サウンドアレイのセット
-    public bool setSoundArray(GameObject soundArrayObject) {
-        SoundArrayController sa = soundArrayObject.GetComponent<SoundArrayController>();
-        if (sa == null) return false;
-        this.soundArray = soundArrayObject;
+    //音声追加
+    public bool addSound(string name, GameObject source) {
+        AudioClip clip = source.GetComponent<AudioSource>().clip;
         return true;
     }
 }
