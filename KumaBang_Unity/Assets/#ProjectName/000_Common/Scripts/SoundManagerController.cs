@@ -34,29 +34,28 @@ public class SoundManagerController : SingletonMonoBehaviour<SoundManagerControl
     }
 
     public bool playSE(string name) {
-/*
+        if (!this.sounds.ContainsKey(name)) return false;
+
         //Audio clipの取得
-        AudioClip clip = this.soundArrayController.getSound(name);
-        if (clip == null) return false;
+        AudioClip clip = this.sounds[name];
         audioSource.PlayOneShot(clip);
-*/
         return true;
     }
 
     public bool playBGM(string name) {
-/*
+        if (!this.sounds.ContainsKey(name)) return false;
+
         //Audio clipの取得
-        AudioClip clip = this.soundArrayController.getSound(name);
-        if (clip == null) return false;
+        AudioClip clip = this.sounds[name];
         audioSourceBGM.Stop();
         audioSourceBGM.clip = clip;
         audioSourceBGM.Play();
-*/
         return true;
     }
 
     //音声追加
-    public bool addSound(string name, GameObject source) {
+    public bool addSound(string name, string path) {
+        GameObject source = (GameObject)Resources.Load(path);
         AudioClip clip = source.GetComponent<AudioSource>().clip;
         this.sounds.Add(name, clip);
         return true;

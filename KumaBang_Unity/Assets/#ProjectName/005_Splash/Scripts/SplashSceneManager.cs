@@ -14,6 +14,7 @@ public class SplashSceneManager : MonoBehaviour {
         view.transform.parent = this.transform;
 
         this.soundManager = SoundManagerController.Instance;
+        this.soundManager.addSound("splash", "Sounds/se_maoudamashii_onepoint05");
 	}
 	
 	// Update is called once per frame

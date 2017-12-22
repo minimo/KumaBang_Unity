@@ -35,7 +35,7 @@ public class TitleViewController : MonoBehaviour {
         go.GetComponent<MaskSpriteController>().RotateIn(1.0f);
         go.GetComponent<MaskSpriteController>().isSendMessage = true;
 
-        this.soundManager.playSE("TapScreen");
+        this.soundManager.playSE("start");
     }
 
     void OnAnimationEnd() {

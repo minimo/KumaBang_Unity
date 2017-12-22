@@ -18,6 +18,7 @@ public class TitleSceneManager : MonoBehaviour {
         view.transform.parent = this.transform;
 
         this.soundManager = SoundManagerController.Instance;
+        this.soundManager.addSound("start", "Sounds/soundlogo41");
 	}
 	
 	// Update is called once per frame
