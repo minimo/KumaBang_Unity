@@ -103,8 +103,10 @@ public class SelectSceneManager : MonoBehaviour {
 
         //サウンドマネージャー取得
         this.soundManager = SoundManagerController.Instance;
-
-        soundManager.playBGM("bgm");
+        this.soundManager.addSound("bgm_select", "Sounds/DS-091m");
+        this.soundManager.addSound("change", "Sounds/yf_cursor22");
+        this.soundManager.addSound("openselect", "Sounds/se_maoudamashii_se_paper01");
+        soundManager.playBGM("bgm_select");
     }
 	
     // Update is called once per frame
@@ -327,7 +329,7 @@ public class SelectSceneManager : MonoBehaviour {
         this.mask = Instantiate(this.mask_black, pos, Quaternion.identity);
         this.mask.GetComponent<Transform>().SetSiblingIndex(0);
 
-        soundManager.playSE("select");
+        soundManager.playSE("openselect");
     }
 
     //セレクターを閉じる
@@ -340,11 +342,21 @@ public class SelectSceneManager : MonoBehaviour {
 
         this.mask.GetComponent<MaskController>().fade(0.0f, 0.2f);
         Destroy(this.mask, 0.3f);
+
+        soundManager.playSE("closeselect");
     }
     private IEnumerator closeSelecterCoroutine() {
         yield return new WaitForSeconds(0.5f);
         this.selecter = null;
         this.mask = null;
+    }
+
+    //スタートダイアログの表示
+    public void openStartDialog() {
+    }
+
+    //スタートダイアログを閉じる
+    public void closeStartDialog() {
     }
 
     Sprite [] getActorIconImage() {

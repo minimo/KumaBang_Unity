@@ -29,6 +29,7 @@ public class ArrowController : MonoBehaviour {
     }
 
     public void OnMouseDown () {
+//        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) return;
         this.sceneManager.GetComponent<SelectSceneManager>().changeActorNext(this.isRight);
     }
 

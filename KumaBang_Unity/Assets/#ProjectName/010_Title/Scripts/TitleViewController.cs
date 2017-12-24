@@ -11,8 +11,24 @@ public class TitleViewController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         //バックグラウンド作成
-        GameObject go = Instantiate((GameObject)Resources.Load("Prefabs/TitleBackGround"));
+        GameObject go;
+        go = Instantiate((GameObject)Resources.Load("Prefabs/TitleBackGround"));
         go.transform.parent = this.transform;
+
+        //木漏れ日１
+        go = Instantiate((GameObject)Resources.Load("Prefabs/TreeLight"));
+        go.transform.parent = this.transform;
+
+        //木漏れ日２
+        go = Instantiate((GameObject)Resources.Load("Prefabs/TreeLight"));
+        go.transform.parent = this.transform;
+        Vector3 pos = go.transform.position;
+        pos.x = -2.0f;
+        go.transform.position = pos;
+        go.GetComponent<TreeLightController>().progress = 0.0005f;
+        Vector3 sc = go.transform.localScale;
+        sc.y = 3.0f;
+        go.transform.localScale = sc;
 
         go = Instantiate((GameObject)Resources.Load("Prefabs/MaskSprite"));
         go.transform.parent = this.transform;

@@ -57,7 +57,12 @@ public class SoundManagerController : SingletonMonoBehaviour<SoundManagerControl
     public bool addSound(string name, string path) {
         GameObject source = (GameObject)Resources.Load(path);
         AudioClip clip = source.GetComponent<AudioSource>().clip;
-        this.sounds.Add(name, clip);
+        //キーが存在する場合は上書きする
+        if (this.sounds.ContainsKey(name)) {
+            this.sounds[name] = clip;
+        } else {
+            this.sounds.Add(name, clip);
+        }
         return true;
     }
 }
