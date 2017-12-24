@@ -106,6 +106,7 @@ public class SelectSceneManager : MonoBehaviour {
         this.soundManager.addSound("bgm_select", "Sounds/DS-091m");
         this.soundManager.addSound("change", "Sounds/yf_cursor22");
         this.soundManager.addSound("openselect", "Sounds/se_maoudamashii_se_paper01");
+        this.soundManager.addSound("cancel", "Sounds/se_maoudamashii_system36");
         soundManager.playBGM("bgm_select");
     }
 	
@@ -343,7 +344,7 @@ public class SelectSceneManager : MonoBehaviour {
         this.mask.GetComponent<MaskController>().fade(0.0f, 0.2f);
         Destroy(this.mask, 0.3f);
 
-        soundManager.playSE("closeselect");
+        soundManager.playSE("cancel");
     }
     private IEnumerator closeSelecterCoroutine() {
         yield return new WaitForSeconds(0.5f);
@@ -353,6 +354,9 @@ public class SelectSceneManager : MonoBehaviour {
 
     //スタートダイアログの表示
     public void openStartDialog() {
+        //タイトル用キャンバス
+        GameObject cvs = Instantiate((GameObject)Resources.Load("Prefabs/TitleCanvas"));
+        cvs.transform.parent = this.transform;
     }
 
     //スタートダイアログを閉じる
