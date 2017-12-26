@@ -76,6 +76,9 @@ public class SelectSceneManager : MonoBehaviour {
     [SerializeField] GameObject mask_white;
     GameObject mask = null;
 
+    //タップ時表示エフェクトパーティクル
+    TapEffect tapEffect;
+
     // Use this for initialization
     void Start () {
         this.actorBase = GameObject.Find("ActorBase");
@@ -97,6 +100,7 @@ public class SelectSceneManager : MonoBehaviour {
         //タップエフェクト
         GameObject go = Instantiate((GameObject)Resources.Load("Prefabs/TapEffect"));
         go.transform.parent = this.transform;
+        this.tapEffect = go.GetComponent<TapEffect>();
 
         //シーン開始フェード
         GameObject fd = Instantiate((GameObject)Resources.Load("Prefabs/Mask_first"));
