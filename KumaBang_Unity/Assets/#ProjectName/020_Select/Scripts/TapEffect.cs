@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TapEffect : MonoBehaviour {
 
-    bool isActive = true;
+    public bool isActive = true;
 
     ParticleSystem tapEffect;              // タップエフェクト
     Camera _camera;                        // カメラの座標

@@ -11,8 +11,9 @@ public class SplashLogoController : MonoBehaviour {
         sequence.Append(this.transform.DOScaleY(0.9f, 2.0f).SetEase(Ease.OutBounce).SetDelay(0.5f));
         sequence.Join(this.transform.DOMoveY(-2.0f, 2.0f).SetEase(Ease.OutBounce).SetDelay(0.5f)
             .OnComplete(() => {
-                this.transform.parent.gameObject.SendMessage("OnPlaySound");
+//                this.transform.parent.gameObject.SendMessage("OnPlaySound");
             }));
+        var sequence2 = DOTween.Sequence();
 
         SpriteRenderer renderer = this.gameObject.GetComponent<SpriteRenderer>();
         sequence.Append(DOTween.ToAlpha(

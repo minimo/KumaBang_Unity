@@ -335,6 +335,7 @@ public class SelectSceneManager : MonoBehaviour {
         this.mask.GetComponent<Transform>().SetSiblingIndex(0);
 
         soundManager.playSE("openselect");
+        tapEffect.isActive = false;
     }
 
     //セレクターを閉じる
@@ -349,6 +350,7 @@ public class SelectSceneManager : MonoBehaviour {
         Destroy(this.mask, 0.3f);
 
         soundManager.playSE("cancel");
+        tapEffect.isActive = true;
     }
     private IEnumerator closeSelecterCoroutine() {
         yield return new WaitForSeconds(0.5f);

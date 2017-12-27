@@ -15,7 +15,9 @@ public class SplashSceneManager : MonoBehaviour {
 
         this.soundManager = SoundManagerController.Instance;
         this.soundManager.addSound("splash", "Sounds/se_maoudamashii_onepoint05");
-	}
+
+        StartCoroutine(playSoundCoroutine(1.8f));
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -27,5 +29,9 @@ public class SplashSceneManager : MonoBehaviour {
 
     public void OnPlaySound() {
         soundManager.playSE("splash");
+    }
+    private IEnumerator playSoundCoroutine(float waitTime) {
+        yield return new WaitForSeconds(waitTime);
+        this.OnPlaySound();
     }
 }

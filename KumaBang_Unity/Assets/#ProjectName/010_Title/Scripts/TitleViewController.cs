@@ -26,10 +26,8 @@ public class TitleViewController : MonoBehaviour {
         pos.x = -2.0f;
         go.transform.position = pos;
         go.GetComponent<TreeLightController>().progress = 0.0005f;
-        Vector3 sc = go.transform.localScale;
-        sc.y = 3.0f;
-        go.transform.localScale = sc;
 
+        //マスキング用スプライト
         go = Instantiate((GameObject)Resources.Load("Prefabs/MaskSprite"));
         go.transform.parent = this.transform;
         go.GetComponent<MaskSpriteController>().RotateOut(1.0f);
