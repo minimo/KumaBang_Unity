@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
+using UnityStandardAssets.ImageEffects;
 
 public class SelectSceneManager : MonoBehaviour {
 
@@ -54,6 +55,8 @@ public class SelectSceneManager : MonoBehaviour {
 
     //セレクター
     public GameObject selecter = null;
+
+    public bool isInteractive = true;
 
     string [] actorNames = {
         "Actor 1",
@@ -324,7 +327,8 @@ public class SelectSceneManager : MonoBehaviour {
 
     //セレクターを画面に追加
     public void openSelecter() {
-        if (this.selecter) return;
+        if (this.isInteractive == false) return;
+        this.isInteractive = false;
 
 		Vector3 pos = new Vector3(0.0f, -2.0f, -3.0f);
         this.selecter = Instantiate(this.Selecter, pos, Quaternion.identity);
@@ -356,17 +360,29 @@ public class SelectSceneManager : MonoBehaviour {
         yield return new WaitForSeconds(0.5f);
         this.selecter = null;
         this.mask = null;
+        this.isInteractive = true;
     }
 
     //スタートダイアログの表示
     public void openStartDialog() {
+        if (this.isInteractive == false) return;
+        this.isInteractive = false;
+
         //タイトル用キャンバス
-        GameObject cvs = Instantiate((GameObject)Resources.Load("Prefabs/TitleCanvas"));
+        GameObject cvs = Instantiate((GameObject)Resources.Load("Prefabs/Dialog_select"));
         cvs.transform.parent = this.transform;
+        Camera.main.GetComponent<BlurOptimized>().enabled = true;
     }
 
     //スタートダイアログを閉じる
     public void closeStartDialog() {
+        StartCoroutine("closeSelecterCoroutine");
+    }
+
+    private IEnumerator closeStartDialogCoroutine() {
+        yield return new WaitForSeconds(0.5f);
+        Camera.main.GetComponent<BlurOptimized>().enabled = false;
+        this.isInteractive = true;
     }
 
     Sprite [] getActorIconImage() {

@@ -23,7 +23,7 @@ public class TitleViewController : MonoBehaviour {
         go = Instantiate((GameObject)Resources.Load("Prefabs/TreeLight"));
         go.transform.parent = this.transform;
         Vector3 pos = go.transform.position;
-        pos.x = -2.0f;
+//        pos.x = -2.0f;
         go.transform.position = pos;
         go.GetComponent<TreeLightController>().progress = 0.0005f;
 
