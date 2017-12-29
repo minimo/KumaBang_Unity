@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class SelecterCancelButton : MonoBehaviour {
 
-    GameObject sceneManager = null;
+    SelectSceneManager sceneManager = null;
 
 	// Use this for initialization
 	void Start () {
         //シーンマネージャー取得
-        this.sceneManager = GameObject.Find("SelectSceneManager");
+        this.sceneManager = GameObject.Find("SelectSceneManager").GetComponent<SelectSceneManager>();
 	}
 	
 	// Update is called once per frame
@@ -17,6 +17,6 @@ public class SelecterCancelButton : MonoBehaviour {
 	}
 
     public void click() {
-        this.sceneManager.GetComponent<SelectSceneManager>().closeSelecter();
+        this.sceneManager.closeSelecter();
     }
 }

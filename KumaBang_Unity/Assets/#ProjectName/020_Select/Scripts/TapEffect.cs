@@ -16,17 +16,22 @@ public class TapEffect : MonoBehaviour {
         //パーティクルシステム
         GameObject go = Instantiate((GameObject)Resources.Load("Prefabs/TapParticle"));
         go.transform.parent = this.transform;
-        tapEffect = go.GetComponent<ParticleSystem>();
+        this.tapEffect = go.GetComponent<ParticleSystem>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        if (!this.isActive) return;
+
+        //uGUIと重なっていたらパーティクルは出さない
         #if UNITY_EDITOR
             if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) return;
         #else 
-            if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)) return;
+//            if (UnityEngine.EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)) return;
+            if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)) return;
         #endif
-        if(this.isActive && Input.GetMouseButtonDown(0)) {
+
+        if(Input.GetMouseButtonDown(0)) {
             var pos = _camera.ScreenToWorldPoint(Input.mousePosition + _camera.transform.forward * 10);
             tapEffect.transform.position = pos;
             tapEffect.Emit(50);

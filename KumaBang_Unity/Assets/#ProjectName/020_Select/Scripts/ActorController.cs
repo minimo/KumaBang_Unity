@@ -12,7 +12,6 @@ public class ActorController : MonoBehaviour {
     public int numBackground = 0;
 
     SelectSceneManager sceneManager;
-    SelectSceneManager sc = null;
 
     // Use this for initialization
     void Start () {
@@ -24,7 +23,7 @@ public class ActorController : MonoBehaviour {
     }
 
     public void OnMouseDown () {
-        if (this.sceneManager.selecter) return;
+        if (!this.sceneManager.isInteractive) return;
         if (this.isMoving) return;
         iTween.PunchScale(this.gameObject,
             iTween.Hash(

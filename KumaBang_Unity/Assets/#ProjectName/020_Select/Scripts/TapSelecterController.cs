@@ -7,11 +7,12 @@ public class TapSelecterController : MonoBehaviour {
     //増分
     [SerializeField] int diff = 0;
 
-    GameObject sceneManager;
+    SelectSceneManager sceneManager;
 
     // Use this for initialization
     void Start () {
-        this.sceneManager = GameObject.Find("SelectSceneManager");
+        //シーンマネージャー取得
+        this.sceneManager = GameObject.Find("SelectSceneManager").GetComponent<SelectSceneManager>();
     }
 	
     // Update is called once per frame
@@ -19,9 +20,9 @@ public class TapSelecterController : MonoBehaviour {
     }
 
     void OnMouseDown() {
-        if(this.sceneManager.GetComponent<SelectSceneManager>().selecter) return;
+        if(this.sceneManager.selecter) return;
         bool isRight = true;
         if (diff < 0) isRight = false;
-        sceneManager.GetComponent<SelectSceneManager>().changeActorNext(isRight, Mathf.Abs(this.diff));
+        sceneManager.changeActorNext(isRight, Mathf.Abs(this.diff));
     }
 }

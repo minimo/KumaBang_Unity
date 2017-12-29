@@ -12,21 +12,21 @@ public class TitleTextController : MonoBehaviour {
         //出現アニメーション
         switch (this.index) {
             case 0:
-                this.transform.DOLocalMove(new Vector3(-150.0f, 300.0f, 0.0f), 3.0f)
-                    .SetEase(Ease.OutBounce)
+                this.transform.DOLocalMove(new Vector3(-100.0f, 300.0f, 0.0f), 1.0f)
+                    .SetEase(Ease.OutSine)
                     .SetDelay(0.5f);
 //                    .SetRelative();
                 break;
             case 1:
-                this.transform.DOLocalMove(new Vector3(150.0f, 200.0f, 0.0f), 3.0f)
-                    .SetEase(Ease.OutBounce)
+                this.transform.DOLocalMove(new Vector3(100.0f, 200.0f, 0.0f), 1.0f)
+                    .SetEase(Ease.OutSine)
                     .SetDelay(0.5f);
 //                    .SetRelative();
                 break;
             case 2:
-                this.transform.DOLocalMove(new Vector3(0.0f, -300.0f, 0.0f), 2.0f)
-                    .SetEase(Ease.OutBounce)
-                    .SetDelay(2.0f);
+                this.transform.DOLocalMove(new Vector3(0.0f, -300.0f, 0.0f), 0.5f)
+                    .SetEase(Ease.OutSine)
+                    .SetDelay(1.0f);
 //                    .SetRelative();
                 break;
         }

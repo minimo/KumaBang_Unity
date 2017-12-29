@@ -354,12 +354,12 @@ public class SelectSceneManager : MonoBehaviour {
         Destroy(this.mask, 0.3f);
 
         soundManager.playSE("cancel");
-        tapEffect.isActive = true;
     }
     private IEnumerator closeSelecterCoroutine() {
         yield return new WaitForSeconds(0.5f);
         this.selecter = null;
         this.mask = null;
+        this.tapEffect.isActive = true;
         this.isInteractive = true;
     }
 
@@ -369,9 +369,15 @@ public class SelectSceneManager : MonoBehaviour {
         this.isInteractive = false;
 
         //タイトル用キャンバス
-        GameObject cvs = Instantiate((GameObject)Resources.Load("Prefabs/Dialog_select"));
+        GameObject cvs = Instantiate((GameObject)Resources.Load("Prefabs/StartDialog"));
         cvs.transform.parent = this.transform;
+
         Camera.main.GetComponent<BlurOptimized>().enabled = true;
+        DOTween.To (
+            ()=> Camera.main.GetComponent<BlurOptimized>().blurSize,
+            (x)=> Camera.main.GetComponent<BlurOptimized>().blurSize = x,
+            4.0f,
+            0.2f);
     }
 
     //スタートダイアログを閉じる

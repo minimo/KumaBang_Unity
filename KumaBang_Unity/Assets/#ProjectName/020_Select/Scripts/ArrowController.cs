@@ -8,7 +8,7 @@ public class ArrowController : MonoBehaviour {
     public bool isRight = false;
 
     //シーンマネージャー
-    GameObject sceneManager = null;
+    SelectSceneManager sceneManager = null;
 
     //初期位置
     float startX;
@@ -16,7 +16,7 @@ public class ArrowController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         //シーンマネージャー取得
-        this.sceneManager = GameObject.Find("SelectSceneManager");
+        this.sceneManager = GameObject.Find("SelectSceneManager").GetComponent<SelectSceneManager>();
 
         //初期位置記録
         this.startX = this.transform.position.x;
@@ -30,7 +30,7 @@ public class ArrowController : MonoBehaviour {
 
     public void OnMouseDown () {
 //        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) return;
-        this.sceneManager.GetComponent<SelectSceneManager>().changeActorNext(this.isRight);
+        this.sceneManager.changeActorNext(this.isRight);
     }
 
     void setup () {

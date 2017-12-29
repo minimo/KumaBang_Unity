@@ -5,27 +5,27 @@ using UnityEngine.UI;
 
 public class StartButtonContorller : MonoBehaviour {
 
-    GameObject sceneManager = null;
+    SelectSceneManager sceneManager = null;
 
     Button button;    
 
 	// Use this for initialization
 	void Start () {
         //シーンマネージャー取得
-        this.sceneManager = GameObject.Find("SelectSceneManager");		
+        this.sceneManager = GameObject.Find("SelectSceneManager").GetComponent<SelectSceneManager>();
         this.button = this.GetComponent<Button>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (this.sceneManager.GetComponent<SelectSceneManager>().selecter) {
+        if (this.sceneManager.selecter) {
             this.button.interactable = false;
         } else {
             this.button.interactable = true;
         }
 	}
     public void click () {
-        if (this.sceneManager.GetComponent<SelectSceneManager>().selecter) return;
-        this.sceneManager.GetComponent<SelectSceneManager>().openStartDialog();
+        if (this.sceneManager.selecter) return;
+        this.sceneManager.openStartDialog();
     }
 }

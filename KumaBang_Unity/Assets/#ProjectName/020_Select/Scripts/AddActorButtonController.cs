@@ -5,19 +5,17 @@ using UnityEngine.UI;
 
 public class AddActorButtonController : MonoBehaviour {
 
-    GameObject sceneManager = null;
-    SelectSceneManager scm = null;
+    SelectSceneManager sceneManager = null;
 
 	// Use this for initialization
 	void Start () {
         //シーンマネージャー取得
-        this.sceneManager = GameObject.Find("SelectSceneManager");
-        this.scm = this.sceneManager.GetComponent<SelectSceneManager>();
+        this.sceneManager = GameObject.Find("SelectSceneManager").GetComponent<SelectSceneManager>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (this.scm.getNumActor() == this.scm.getMaxActor()) {
+        if (this.sceneManager.getNumActor() == this.sceneManager.getMaxActor()) {
             Button btn = this.GetComponent<Button>();
             btn.interactable = false;            
         }
