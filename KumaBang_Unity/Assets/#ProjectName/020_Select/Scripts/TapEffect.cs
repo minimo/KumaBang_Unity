@@ -25,9 +25,10 @@ public class TapEffect : MonoBehaviour {
 
         //uGUIと重なっていたらパーティクルは出さない
         #if UNITY_EDITOR
+            //エミュレータ
             if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) return;
-        #else 
-//            if (UnityEngine.EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)) return;
+        #else
+            //実機
             if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)) return;
         #endif
 

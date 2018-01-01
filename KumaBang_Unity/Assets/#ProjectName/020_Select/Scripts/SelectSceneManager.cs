@@ -330,10 +330,12 @@ public class SelectSceneManager : MonoBehaviour {
         if (this.isInteractive == false) return;
         this.isInteractive = false;
 
+        //セレクタ追加
 		Vector3 pos = new Vector3(0.0f, -2.0f, -3.0f);
         this.selecter = Instantiate(this.Selecter, pos, Quaternion.identity);
         this.selecter.GetComponent<Transform>().SetSiblingIndex(0);
 
+        //バックグラウンドマスク
 		pos = new Vector3(0.0f, 0.0f, -2.0f);
         this.mask = Instantiate(this.mask_black, pos, Quaternion.identity);
         this.mask.GetComponent<Transform>().SetSiblingIndex(0);
@@ -372,17 +374,27 @@ public class SelectSceneManager : MonoBehaviour {
         GameObject cvs = Instantiate((GameObject)Resources.Load("Prefabs/StartDialog"));
         cvs.transform.parent = this.transform;
 
+        //バックグラウンドマスク
+		Vector3 pos = new Vector3(0.0f, 0.0f, -2.0f);
+        this.mask = Instantiate(this.mask_black, pos, Quaternion.identity);
+        this.mask.GetComponent<Transform>().SetSiblingIndex(0);
+
         Camera.main.GetComponent<BlurOptimized>().enabled = true;
         DOTween.To (
             ()=> Camera.main.GetComponent<BlurOptimized>().blurSize,
             (x)=> Camera.main.GetComponent<BlurOptimized>().blurSize = x,
             4.0f,
-            0.2f);
+            1.0f);
     }
 
     //スタートダイアログを閉じる
     public void closeStartDialog() {
         StartCoroutine("closeSelecterCoroutine");
+        DOTween.To (
+            ()=> Camera.main.GetComponent<BlurOptimized>().blurSize,
+            (x)=> Camera.main.GetComponent<BlurOptimized>().blurSize = x,
+            0.0f,
+            0.5f);
     }
 
     private IEnumerator closeStartDialogCoroutine() {

@@ -10,15 +10,16 @@ public class TitleTextController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         //出現アニメーション
+        float moveX = 80.0f;
         switch (this.index) {
             case 0:
-                this.transform.DOLocalMove(new Vector3(-100.0f, 300.0f, 0.0f), 1.0f)
+                this.transform.DOLocalMove(new Vector3(-moveX, 300.0f, 0.0f), 1.0f)
                     .SetEase(Ease.OutSine)
                     .SetDelay(0.5f);
 //                    .SetRelative();
                 break;
             case 1:
-                this.transform.DOLocalMove(new Vector3(100.0f, 200.0f, 0.0f), 1.0f)
+                this.transform.DOLocalMove(new Vector3(moveX, 200.0f, 0.0f), 1.0f)
                     .SetEase(Ease.OutSine)
                     .SetDelay(0.5f);
 //                    .SetRelative();
