@@ -46,6 +46,5 @@ public class MaskController : MonoBehaviour {
     void OnMouseDown() {
         if (this.sceneManager.selecter) this.sceneManager.GetComponent<SelectSceneManager>().closeSelecter();
         this.sceneManager.GetComponent<SelectSceneManager>().closeStartDialog();
-        Debug.Log("Selecter cancel");
     }
 }

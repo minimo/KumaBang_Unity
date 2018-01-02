@@ -23,6 +23,7 @@ public class AddActorButtonController : MonoBehaviour {
 
     public void click () {
         SelectSceneManager sc = this.sceneManager.GetComponent<SelectSceneManager>();
+        if (sc.isInteractive == false) return;
         sc.addActor();
         sc.addActorFadeInOut();
     }

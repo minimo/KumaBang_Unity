@@ -15,6 +15,10 @@ public class StartDialogButtonController : MonoBehaviour {
 	}
 
     public void click() {
-		Debug.Log("dialog button clicked.");
+        if (this.isYes) {
+            this.transform.parent.gameObject.SendMessage("OnButtonYes");
+        } else {
+            this.transform.parent.gameObject.SendMessage("OnButtonNo");
+        }
     }
 }

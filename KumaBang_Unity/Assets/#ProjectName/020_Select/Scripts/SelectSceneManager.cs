@@ -12,6 +12,7 @@ public class SelectSceneManager : MonoBehaviour {
 
     //操作用GameObject
     public GameObject UserInterface;
+    public GameObject UserInterface2;
     public GameObject UpperUI;
     public GameObject LowerUI;
     public GameObject Arrow_R;
@@ -205,6 +206,7 @@ public class SelectSceneManager : MonoBehaviour {
     public void changeActor(int num, bool addActorFlag = false) {
         if (num < 0 || num > this.actors.Count - 1) return;
         if (num  == this.nowActor) return;
+        if (this.isInteractive == false) return;
 
         //立ち絵移動処理
         GameObject nextActor = this.actors[num];
@@ -236,7 +238,8 @@ public class SelectSceneManager : MonoBehaviour {
 
     //アクター切り替え
     public void changeActorNext(bool isRight, int incremental = 1) {
-        if (this.maxActor == 1
+        if (this.isInteractive == false
+            || this.maxActor == 1
             || this.actors[this.nowActor].GetComponent<ActorController>().isMoving
             || this.actors.Count == 1) return;
 
@@ -369,11 +372,11 @@ public class SelectSceneManager : MonoBehaviour {
     //スタートダイアログの表示
     public void openStartDialog() {
         if (this.isInteractive == false) return;
-        this.isInteractive = true;
+        this.isInteractive = false;
 
         //ダイアログプレハブ取得
         this.startDialog = Instantiate((GameObject)Resources.Load("Prefabs/StartDialog"));
-        this.startDialog.transform.parent = this.UserInterface.transform;
+        this.startDialog.transform.parent = this.UserInterface2.transform;
 
         Camera.main.GetComponent<BlurOptimized>().enabled = true;
         DOTween.To (
@@ -386,8 +389,9 @@ public class SelectSceneManager : MonoBehaviour {
     //スタートダイアログを閉じる
     public void closeStartDialog() {
         if (this.startDialog == null) return;
-        this.startDialog.transform.DOScale(Vector3.zero, 0.1f);//.SetEase (Ease.InBounce);
-        Destroy(this.startDialog.gameObject, 1.0f);
+
+        this.startDialog.transform.DOScale(new Vector3(0.0f, 1.0f, 1.0f), 0.3f).SetEase (Ease.OutQuad);
+        Destroy(this.startDialog.gameObject, 0.5f);
         StartCoroutine("closeStartDialogCoroutine");
 
         DOTween.To (
@@ -427,6 +431,12 @@ public class SelectSceneManager : MonoBehaviour {
         this.fadeBack.FadeIn(0.5f);
         yield return new WaitForSeconds(1.0f);
 		this.fadeBack.FadeOut(0.5f);
+    }
+
+    //メッセージ処理
+    void OnNextScene() {
+//        this.transform.parent.gameObject.SendMessage("OnNextScene");
+        SceneManager.LoadScene("GameScene");
     }
 }
 

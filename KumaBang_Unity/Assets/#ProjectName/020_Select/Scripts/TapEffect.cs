@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TapEffect : MonoBehaviour {
 
+    SelectSceneManager sceneManager = null;
     public bool isActive = true;
 
     ParticleSystem tapEffect;              // タップエフェクト
@@ -11,6 +12,10 @@ public class TapEffect : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        //シーンマネージャー取得
+        this.sceneManager = GameObject.Find("SelectSceneManager").GetComponent<SelectSceneManager>();
+
+        //エフェクト用カメラ取得
         this._camera = GameObject.Find("EffectCamera").GetComponent<Camera>();
 
         //パーティクルシステム
@@ -21,7 +26,7 @@ public class TapEffect : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!this.isActive) return;
+        if (!this.isActive || !this.sceneManager.isInteractive) return;
 
         //uGUIと重なっていたらパーティクルは出さない
         #if UNITY_EDITOR
