@@ -11,12 +11,12 @@ public class SelectSceneManager : MonoBehaviour {
     SoundManagerController soundManager;
 
     //操作用GameObject
+    public GameObject UserInterface;
     public GameObject UpperUI;
     public GameObject LowerUI;
     public GameObject Arrow_R;
     public GameObject Arrow_L;
     public GameObject BackGround;
-    public GameObject Selecter;
 
     //アクター画像
     [SerializeField] Sprite [] actorImages;
@@ -55,6 +55,7 @@ public class SelectSceneManager : MonoBehaviour {
 
     //セレクター
     public GameObject selecter = null;
+    public GameObject startDialog = null;
 
     public bool isInteractive = true;
 
@@ -332,7 +333,7 @@ public class SelectSceneManager : MonoBehaviour {
 
         //セレクタ追加
 		Vector3 pos = new Vector3(0.0f, -2.0f, -3.0f);
-        this.selecter = Instantiate(this.Selecter, pos, Quaternion.identity);
+        this.selecter = Instantiate((GameObject)Resources.Load("Prefabs/Selecter"), pos, Quaternion.identity);
         this.selecter.GetComponent<Transform>().SetSiblingIndex(0);
 
         //バックグラウンドマスク
@@ -368,16 +369,11 @@ public class SelectSceneManager : MonoBehaviour {
     //スタートダイアログの表示
     public void openStartDialog() {
         if (this.isInteractive == false) return;
-        this.isInteractive = false;
+        this.isInteractive = true;
 
-        //タイトル用キャンバス
-        GameObject cvs = Instantiate((GameObject)Resources.Load("Prefabs/StartDialog"));
-        cvs.transform.parent = this.transform;
-
-        //バックグラウンドマスク
-		Vector3 pos = new Vector3(0.0f, 0.0f, -2.0f);
-        this.mask = Instantiate(this.mask_black, pos, Quaternion.identity);
-        this.mask.GetComponent<Transform>().SetSiblingIndex(0);
+        //ダイアログプレハブ取得
+        this.startDialog = Instantiate((GameObject)Resources.Load("Prefabs/StartDialog"));
+        this.startDialog.transform.parent = this.UserInterface.transform;
 
         Camera.main.GetComponent<BlurOptimized>().enabled = true;
         DOTween.To (
@@ -389,16 +385,20 @@ public class SelectSceneManager : MonoBehaviour {
 
     //スタートダイアログを閉じる
     public void closeStartDialog() {
-        StartCoroutine("closeSelecterCoroutine");
+        if (this.startDialog == null) return;
+        this.startDialog.transform.DOScale(Vector3.zero, 0.1f);//.SetEase (Ease.InBounce);
+        Destroy(this.startDialog.gameObject, 1.0f);
+        StartCoroutine("closeStartDialogCoroutine");
+
         DOTween.To (
             ()=> Camera.main.GetComponent<BlurOptimized>().blurSize,
             (x)=> Camera.main.GetComponent<BlurOptimized>().blurSize = x,
             0.0f,
-            0.5f);
+            0.3f);
     }
 
     private IEnumerator closeStartDialogCoroutine() {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         Camera.main.GetComponent<BlurOptimized>().enabled = false;
         this.isInteractive = true;
     }
