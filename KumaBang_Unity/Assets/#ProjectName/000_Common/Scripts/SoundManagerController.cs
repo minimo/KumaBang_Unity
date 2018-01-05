@@ -18,8 +18,6 @@ public class SoundManagerController : SingletonMonoBehaviour<SoundManagerControl
     int playingNumber = 0; //0:演奏していない 1:Primary 2:Secondary
 
     public bool isPlayingBGM = false;
-    public bool isFadeInBGM = false;
-    public bool isFadeOutBGM = false;
 
     void Awake() {
         if(this != Instance) {
@@ -58,23 +56,29 @@ public class SoundManagerController : SingletonMonoBehaviour<SoundManagerControl
     public bool playBGM(string name, float fadeTime = 0.0f) {
         if (!this.sounds.ContainsKey(name)) return false;
 
-        //演奏していないのでプライマリを使用
-        if (this.playingNumber == 0) {
-            this.audioSource[1].Stop();
-            this.audioSource[1].clip = this.sounds[name];
-            this.audioSource[1].Play();
-            this.isPlayingBGM = true;
-            this.playingNumber = 1;
-            return true;
+        if (this.playingNumber != 0) {
+            this.audioSource[this.playingNumber].Stop();
         }
 
-        //プライマリを演奏中なのでセカンダリへ切り替え
-        if (this.playingNumber == 1) {
+        int next = 0;
+        switch (this.playingNumber) {
+            case 0:
+            case 2:
+                next = 1;
+                break;
+            case 1:
+                next = 2;
+                break;
         }
+
+        this.audioSource[next].clip = this.sounds[name];
+        this.audioSource[next].Play();
+        this.isPlayingBGM = true;
+        this.playingNumber = next;
         return true;
     }
 
-    public bool stopBGM(float fadeTime = 0.0f) {
+    public bool stopBGM(float fadeTime = 0.0f, int num = 0) {
         if (!this.isPlayingBGM) return false;
  
         if (fadeTime == 0.0f) {
@@ -82,38 +86,40 @@ public class SoundManagerController : SingletonMonoBehaviour<SoundManagerControl
             this.isPlayingBGM = false;
             this.playingNumber = 0;
         } else {
-            this.isFadeOutBGM = true;
             DOTween.To(
                 () => this.audioSource[this.playingNumber].volume,
-                num =>  this.audioSource[this.playingNumber].volume = num,
+                val =>  this.audioSource[this.playingNumber].volume = val,
                 0.0f,
                 fadeTime
             ).OnComplete(() => {
                 audioSource[this.playingNumber].Stop();
                 this.isPlayingBGM = false;
-                this.isFadeOutBGM = false;
                 this.playingNumber = 0;
             });
         }
         return true;
     }
 
-    public void fadeIn(float time) {
+    public void fadeIn(float time, int num) {
         if (!this.isPlayingBGM) return;
-        float endVolume = 0.0f;
+        if (num != 0) num = this.playingNumber;
+
+        float endVolume = 1.0f;
         DOTween.To(
-            () => this.audioSource[this.playingNumber].volume,          // 何を対象にするのか
-            num =>  this.audioSource[this.playingNumber].volume = num,   // 値の更新
+            () => this.audioSource[num].volume,          // 何を対象にするのか
+            val =>  this.audioSource[num].volume = val,   // 値の更新
             endVolume,                          // 最終的な値
             time                    // アニメーション時間
         );
     }
 
-    public void fadeOut(float time) {
+    public void fadeOut(float time, int num) {
         if (!this.isPlayingBGM) return;
+        if (num != 0) num = this.playingNumber;
+
         DOTween.To(
-            () => this.audioSource[this.playingNumber].volume,          // 何を対象にするのか
-            num =>  this.audioSource[this.playingNumber].volume = num,   // 値の更新
+            () => this.audioSource[num].volume,          // 何を対象にするのか
+            val =>  this.audioSource[num].volume = val,   // 値の更新
             0.0f,                          // 最終的な値
             time                    // アニメーション時間
         );
@@ -123,6 +129,12 @@ public class SoundManagerController : SingletonMonoBehaviour<SoundManagerControl
         if (vol < 0.0f) vol = 0.0f;
         if (vol > 1.0f) vol = 1.0f;
         this.masterVolumeBGM = vol;
+    }
+
+    public void setVolumeSE(float vol) {
+        if (vol < 0.0f) vol = 0.0f;
+        if (vol > 1.0f) vol = 1.0f;
+        this.masterVolumeSE = vol;
     }
 
     //音声追加
