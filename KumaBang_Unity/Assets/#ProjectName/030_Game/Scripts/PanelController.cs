@@ -70,7 +70,7 @@ public class PanelController : MonoBehaviour {
         //パネル位置量子化
         float x = this.stageX + this.offsetX;
         float y = this.stageY + this.offsetY;
-        this.transform.DOLocalMove(new Vector3(x, y), 0.5f)
+        this.transform.DOLocalMove(new Vector3(x, -y), 0.5f)
                     .SetEase(Ease.OutBounce);
     }
 }

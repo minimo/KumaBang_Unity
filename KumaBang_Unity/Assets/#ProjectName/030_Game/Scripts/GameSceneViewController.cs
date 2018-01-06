@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class GameViewController : MonoBehaviour {
+public class GameSceneViewController : MonoBehaviour {
 
     //ステージの大きさ
     int stageWidth = 5, stageHeight = 5;
@@ -21,6 +21,10 @@ public class GameViewController : MonoBehaviour {
     //選択中パネル
     public GameObject activePanel = null;
 
+    //ステージデータ
+    MapReader panelData;
+    MapReader itemData;
+
 	// Use this for initialization
 	void Start () {
 		this.initStage();
@@ -32,18 +36,23 @@ public class GameViewController : MonoBehaviour {
 
     //ステージ初期化
     void initStage() {
+        //ステージデータ読み込み
+        this.panelData = new MapReader("Map/Stage1_panel");
+        this.itemData = new MapReader("Map/Stage1_item");
+
         //パネルの準備
         for (int y = 0; y < this.stageHeight; y++) {
             for (int x = 0; x < this.stageWidth; x++) {
                 float d = Random.Range(0.0f, 1.0f);
-                this.enterPanel(Random.Range(1, 10), x, y, d);
+                int idx = this.panelData.mapData[x, y];
+                this.enterPanel(idx, x, y, d);
             }
         }
     }
 
     //パネル投入
     void enterPanel(int index, int x, int y, float delay) {
-        float px = x + this.offsetX, py = y + this.offsetY;
+        float px = x + this.offsetX, py = -(y + this.offsetY);
         GameObject p = Instantiate(this.sourcePanel);
         Vector3 pos = new Vector3(px, py + 10.0f);
         p.transform.position = pos;
