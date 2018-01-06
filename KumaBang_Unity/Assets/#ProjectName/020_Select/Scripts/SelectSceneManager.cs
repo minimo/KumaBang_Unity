@@ -7,6 +7,9 @@ using UnityStandardAssets.ImageEffects;
 
 public class SelectSceneManager : MonoBehaviour {
 
+    //アプリケーションマネージャー
+    ApplicationManagerController app;
+
     //サウンドマネージャー
     SoundManagerController soundManager;
 
@@ -109,6 +112,9 @@ public class SelectSceneManager : MonoBehaviour {
 
         //シーン開始フェード
         GameObject fd = Instantiate((GameObject)Resources.Load("Prefabs/Mask_first"));
+
+        //アプリケーションマネージャー取得
+        this.app = ApplicationManagerController.Instance;
 
         //サウンドマネージャー取得
         this.soundManager = SoundManagerController.Instance;
