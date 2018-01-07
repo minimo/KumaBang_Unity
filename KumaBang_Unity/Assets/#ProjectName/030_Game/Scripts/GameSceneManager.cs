@@ -10,34 +10,68 @@ public class GameSceneManager : MonoBehaviour {
     //サウンドマネージャー
     SoundManagerController soundManager;
 
+    //ビュー管理
+    GameObject sceneView;
+    GameSceneViewController sceneViewController;
+
+    //キャンバス管理
+    GameObject sceneCanvas;
+    GameSceneCanvasController SceneCanvasController;
+
+    //管理フラグ
+    bool isAlreadyView = false;
+    bool isAlreadyCanvas = false;
+
 	// Use this for initialization
 	void Start () {
-        //ゲーム画面用ビュー
-        GameObject view = Instantiate((GameObject)Resources.Load("Prefabs/GameSceneView"));
-        view.transform.parent = this.transform;
-
-        //ゲーム画面用キャンバス
-        GameObject canvas = Instantiate((GameObject)Resources.Load("Prefabs/GameSceneCanvas"));
-        canvas.transform.parent = this.transform;
-
-        //シーン開始フェード
-        GameObject fd = Instantiate((GameObject)Resources.Load("Prefabs/Mask_first"));
-
         //アプリケーションマネージャー取得
         this.app = ApplicationManagerController.Instance;
+
+        //ステージ情報
+        this.app.playingStageNumber = 1;        
 
         //サウンドマネージャー取得
         this.soundManager = SoundManagerController.Instance;
         //使用音声ファイル読み込み
         this.soundManager.addSound("bgm_stage1", "Sounds/DS-124m");
         soundManager.playBGM("bgm_stage1", 3.0f);
+
+        //ゲーム画面用ビュー
+        GameObject view = Instantiate((GameObject)Resources.Load("Prefabs/GameSceneView"));
+        view.transform.parent = this.transform;
+        this.sceneView = view;
+        this.sceneViewController = view.GetComponent<GameSceneViewController>();
+
+        //ゲーム画面用キャンバス
+        GameObject canvas = Instantiate((GameObject)Resources.Load("Prefabs/GameSceneCanvas"));
+        canvas.transform.parent = this.transform;
+        this.sceneCanvas = canvas;
+        this.SceneCanvasController = canvas.GetComponent<GameSceneCanvasController>();
+
+        //シーン開始フェード
+        GameObject fd = Instantiate((GameObject)Resources.Load("Prefabs/Mask_first"));
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 
-    void StageStart() {
+    //シーンビューステージ構築完了
+    void OnAlreadyStartView() {
+        this.isAlreadyView = true;
+        if (this.isAlreadyCanvas) this.OnStartStage();
+    }
+
+    //シーンキャンバスステージ構築完了
+    void OnAlreadyStartCanvas() {
+        this.isAlreadyCanvas = true;
+        if (this.isAlreadyView) this.OnStartStage();
+    }
+
+    //ステージ開始
+    void OnStartStage() {
+        this.isAlreadyView = false;
+        this.isAlreadyCanvas = false;
     }
 }

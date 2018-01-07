@@ -6,6 +6,8 @@ using DG.Tweening;
 
 public class PanelController : MonoBehaviour {
 
+    public GameSceneViewController view;
+
     //ドラッグ用
 	Vector3 screenPoint, pointOffset;
 
@@ -17,14 +19,16 @@ public class PanelController : MonoBehaviour {
     public int index = 0;
 
     //各種フラグ
-    public bool isOnPlayer = false;     //プレイヤーが乗っている
-    public bool isDrop = false;         //ドロップ中
-    public bool isPointing = false;     //ユーザーポイント中
-    public bool isOnItem = false;       //アイテムが乗っている
-    public bool isOnEnemy = false;       //敵が乗っている
+    public bool isOnPlayer = false; //プレイヤーが乗っている
+    public bool isDrop = false;     //ドロップ中
+    public bool isPointing = false; //ユーザーポイント中
+    public bool isOnItem = false;   //アイテムが乗っている
+    public bool isOnEnemy = false;  //敵が乗っている
+    public bool isDisableMove = false; //移動不可
+    public bool isDisableShaffle = false; //シャッフル不可
 
 	// Use this for initialization
-	void Start () {		
+	void Start () {
 	}
 	
 	// Update is called once per frame
@@ -39,6 +43,7 @@ public class PanelController : MonoBehaviour {
         this.stageX = x;
         this.stageY = y;
     }
+
     public void setOffsetPosition(int x, int y) {
         this.offsetX = x;
         this.offsetY = y;
@@ -52,7 +57,11 @@ public class PanelController : MonoBehaviour {
 		//パネル位置をスクリーン座標に変換
 		this.screenPoint = Camera.main.WorldToScreenPoint(this.transform.position);
 		//ワールド座標上のマウスカーソルとパネルの座標の差分
-		this.pointOffset = this.transform.position - Camera.main.ScreenToWorldPoint(new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
+		this.pointOffset = this.transform.position - Camera.main.ScreenToWorldPoint(new Vector3 (Input.mousePosition.x, Input.mousePosition.y - 20.0f, screenPoint.z));
+
+        //親に自分がアクティブパネルである事を設定
+        this.view.activePanel = this.gameObject;
+        this.view.activePanelController = this;
     }
 
     //パネルドラッグ処理
@@ -72,5 +81,9 @@ public class PanelController : MonoBehaviour {
         float y = this.stageY + this.offsetY;
         this.transform.DOLocalMove(new Vector3(x, -y), 0.5f)
                     .SetEase(Ease.OutBounce);
+
+        //親のアクティブパネル設定を解除
+        this.view.activePanel = null;
+        this.view.activePanelController = null;
     }
 }
