@@ -14,6 +14,7 @@ public class PanelController : MonoBehaviour {
     //ステージ上座標
     public int stageX = 0, stageY = 0;
     public int offsetX, offsetY;
+    int beforeStageX, beforeStageY; //移動前座標
 
     //パネルインデックス
     public int index = 0;
@@ -44,6 +45,16 @@ public class PanelController : MonoBehaviour {
         this.stageY = y;
     }
 
+    public void moveStagePosition(int x, int y) {
+        this.stageX = x;
+        this.stageY = y;
+
+        //パネル位置量子化
+        float sx = this.stageX + this.offsetX;
+        float sy = this.stageY + this.offsetY;
+        this.transform.DOLocalMove(new Vector3(sx+0.5f, -sy-0.5f), 0.1f).SetEase(Ease.OutBounce);
+    }
+
     public void setOffsetPosition(int x, int y) {
         this.offsetX = x;
         this.offsetY = y;
@@ -52,6 +63,7 @@ public class PanelController : MonoBehaviour {
     //ポイント開始処理
     void OnMouseDown() {
         if (this.isDrop || this.isOnEnemy || this.isOnItem || this.isOnPlayer || this.isPointing) return;
+        if (!this.view.isGameStart) return;
         this.isPointing = true;
 
 		//パネル位置をスクリーン座標に変換
@@ -66,9 +78,21 @@ public class PanelController : MonoBehaviour {
 
     //パネルドラッグ処理
     void OnMouseDrag() {
+        if (!this.isPointing) return;
 		Vector3 currentScreenPoint = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 		Vector3 currentPosition = Camera.main.ScreenToWorldPoint (currentScreenPoint) + this.pointOffset;
 		this.transform.position = currentPosition;
+
+        //ステージ上パネル座標計算
+        this.stageX = (int)(this.transform.position.x);
+        this.stageY = (int)(-this.transform.position.y);
+
+        if (this.stageX < 0) this.stageX = 0;
+        if (this.stageY < 0) this.stageY = 0;
+        if (this.stageX > 4) this.stageX = 4;
+        if (this.stageY > 4) this.stageY = 4;
+
+//        Debug.Log("X:"+this.stageX+" Y:"+this.stageY);
     }
 
     //ポイント離す
@@ -79,8 +103,7 @@ public class PanelController : MonoBehaviour {
         //パネル位置量子化
         float x = this.stageX + this.offsetX;
         float y = this.stageY + this.offsetY;
-        this.transform.DOLocalMove(new Vector3(x, -y), 0.5f)
-                    .SetEase(Ease.OutBounce);
+        this.transform.DOLocalMove(new Vector3(x+0.5f, -y-0.5f), 0.3f).SetEase(Ease.OutBounce);
 
         //親のアクティブパネル設定を解除
         this.view.activePanel = null;

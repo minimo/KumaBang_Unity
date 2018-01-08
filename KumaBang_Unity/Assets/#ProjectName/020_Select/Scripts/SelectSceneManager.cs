@@ -212,7 +212,7 @@ public class SelectSceneManager : MonoBehaviour {
     public void changeActor(int num, bool addActorFlag = false) {
         if (num < 0 || num > this.actors.Count - 1) return;
         if (num  == this.nowActor) return;
-        if (this.isInteractive == false) return;
+//        if (this.isInteractive == false) return;
 
         //立ち絵移動処理
         GameObject nextActor = this.actors[num];

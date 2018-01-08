@@ -10,6 +10,8 @@ public class ApplicationManagerController : SingletonMonoBehaviour<ApplicationMa
     //選択アクター番号
     public int selectedActor = 0;
 
+    public GameObject currentSceneManager;
+
 	void Awake () {
 	}
 }

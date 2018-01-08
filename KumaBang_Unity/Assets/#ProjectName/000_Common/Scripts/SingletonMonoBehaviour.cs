@@ -9,7 +9,7 @@ public class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour {
     private static volatile T instance;
 
     /// 同期オブジェクト
-    private static object syncObj = new object (); 
+    private static object syncObj = new object(); 
 
     /// インスタンスのgetter/setter
     public static T Instance {

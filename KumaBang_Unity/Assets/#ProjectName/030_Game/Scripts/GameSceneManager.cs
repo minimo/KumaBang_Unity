@@ -19,6 +19,7 @@ public class GameSceneManager : MonoBehaviour {
     GameSceneCanvasController SceneCanvasController;
 
     //管理フラグ
+    public bool isGameStart = false;
     bool isAlreadyView = false;
     bool isAlreadyCanvas = false;
 
@@ -26,6 +27,7 @@ public class GameSceneManager : MonoBehaviour {
 	void Start () {
         //アプリケーションマネージャー取得
         this.app = ApplicationManagerController.Instance;
+        this.app.currentSceneManager = this.gameObject;
 
         //ステージ情報
         this.app.playingStageNumber = 1;        
@@ -50,6 +52,7 @@ public class GameSceneManager : MonoBehaviour {
 
         //シーン開始フェード
         GameObject fd = Instantiate((GameObject)Resources.Load("Prefabs/Mask_first"));
+        fd.transform.position = new Vector3(2.5f, -2.5f);
 	}
 	
 	// Update is called once per frame
@@ -73,5 +76,9 @@ public class GameSceneManager : MonoBehaviour {
     void OnStartStage() {
         this.isAlreadyView = false;
         this.isAlreadyCanvas = false;
+        this.isGameStart = true;
+
+        this.sceneView.SendMessage("OnStartStage");
+        this.sceneCanvas.SendMessage("OnStartStage");
     }
 }

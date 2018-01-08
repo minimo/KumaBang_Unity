@@ -7,11 +7,14 @@ using DG.Tweening;
 //ゲーム中のビューとステージの管理を行う
 public class GameSceneViewController : MonoBehaviour {
 
+    //シーンマネージャー
+    GameSceneManager sceneManager;
+
     //ステージの大きさ
     int stageWidth = 5, stageHeight = 5;
 
     //スクリーン上オフセット
-    int offsetX = -2, offsetY = -2;
+    int offsetX = 0, offsetY = 0;
 
     //パネルスプライト
     [SerializeField] GameObject sourcePanel;
@@ -20,6 +23,8 @@ public class GameSceneViewController : MonoBehaviour {
     //選択中パネル
     public GameObject activePanel = null;
     public PanelController activePanelController = null;
+    int activePanelX = -1, activePanelY = -1;
+    int activePanelBeforeX, activePanelBeforeY;
 
     //ステージデータ
     MapReader panelData;
@@ -31,6 +36,9 @@ public class GameSceneViewController : MonoBehaviour {
     //プレイヤーオブジェクト
     public GameObject player;
 
+    //フラグ管理
+    public bool isGameStart = false;
+
 	// Use this for initialization
 	void Start () {
 		this.initStage();
@@ -38,14 +46,40 @@ public class GameSceneViewController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (this.activePanel) {
+            int x = activePanelController.stageX;
+            int y = activePanelController.stageY;
+            if (this.activePanelBeforeX != -1) {
+                if (x != this.activePanelBeforeX || y != this.activePanelBeforeY) {
+                    GameObject panel = this.stageMap[x, y];
+                    if (panel && panel != this.activePanel) {
+                        PanelController pc = panel.GetComponent<PanelController>();
+                        pc.moveStagePosition(this.activePanelBeforeX, this.activePanelBeforeY);
+                        this.stageMap[x, y] = this.stageMap[this.activePanelBeforeX, this.activePanelBeforeY];
+                        this.stageMap[this.activePanelBeforeX, this.activePanelBeforeY] = panel;
+                    } else {
+                        this.stageMap[x, y] = activePanel;
+                    }
+                }
+            }
+            this.activePanelBeforeX = x;
+            this.activePanelBeforeY = y;
+        } else {
+            this.activePanelBeforeX = -1;
+            this.activePanelBeforeY = -1;
+        }
 	}
 
     //ステージ開始処理
-    void StartStage() {
+    void OnStartStage() {
+        this.isGameStart = true;
     }
 
     //ステージ初期化
     void initStage() {
+        GameObject currentScene = ApplicationManagerController.Instance.currentSceneManager;
+        this.sceneManager = currentScene.GetComponent<GameSceneManager>();
+
         //ステージデータ読み込み
         this.panelData = new MapReader("Map/Stage1_panel");
         this.itemData = new MapReader("Map/Stage1_item");
@@ -78,13 +112,14 @@ public class GameSceneViewController : MonoBehaviour {
             int x2 = Random.Range(0, 5), y2 = Random.Range(0, 5);
             this.panelSwap(x1, y1, x2, y2);
         }
+        this.transform.parent.gameObject.SendMessage("OnAlreadyStartView");
     }
 
     //パネル投入
     GameObject enterPanel(int index, int x, int y, float delay) {
         float px = x + this.offsetX, py = -(y + this.offsetY);
         GameObject panel = Instantiate(this.sourcePanel);
-        Vector3 pos = new Vector3(px, py + 10.0f);
+        Vector3 pos = new Vector3(px + 0.5f, py + 10.0f - 0.5f);
         panel.transform.position = pos;
         panel.transform.parent = this.transform;
 
