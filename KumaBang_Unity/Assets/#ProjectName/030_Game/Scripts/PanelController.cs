@@ -13,6 +13,7 @@ public class PanelController : MonoBehaviour {
 
     //ステージ上座標
     public int stageX = 0, stageY = 0;
+    int clickX, clickY;
     public int offsetX, offsetY;
     int beforeStageX, beforeStageY; //移動前座標
 
@@ -20,6 +21,8 @@ public class PanelController : MonoBehaviour {
     public int index = 0;
 
     //各種フラグ
+    public bool isStart = false;
+    public bool isGoal = false;
     public bool isOnPlayer = false; //プレイヤーが乗っている
     public bool isDrop = false;     //ドロップ中
     public bool isPointing = false; //ユーザーポイント中
@@ -27,6 +30,7 @@ public class PanelController : MonoBehaviour {
     public bool isOnEnemy = false;  //敵が乗っている
     public bool isDisableMove = false; //移動不可
     public bool isDisableShaffle = false; //シャッフル不可
+    public bool isOnOtherPanel = false; //他のパネルの上にいる
 
 	// Use this for initialization
 	void Start () {
@@ -60,10 +64,21 @@ public class PanelController : MonoBehaviour {
         this.offsetY = y;
     }
 
+    //パネル移動可能かチェック
+    public bool checkEnableMove() {
+        if (this.isDrop 
+            || this.isOnEnemy 
+            || this.isOnItem 
+            || this.isOnPlayer 
+            || this.isPointing 
+            || this.isDisableMove
+            || !this.view.isGameStart) return false;
+        return true;
+    }
+
     //ポイント開始処理
     void OnMouseDown() {
-        if (this.isDrop || this.isOnEnemy || this.isOnItem || this.isOnPlayer || this.isPointing) return;
-        if (!this.view.isGameStart) return;
+        if (!this.checkEnableMove()) return;
         this.isPointing = true;
 
 		//パネル位置をスクリーン座標に変換
@@ -74,6 +89,9 @@ public class PanelController : MonoBehaviour {
         //親に自分がアクティブパネルである事を設定
         this.view.activePanel = this.gameObject;
         this.view.activePanelController = this;
+
+        //フラグリセット
+        this.isOnOtherPanel = false;
     }
 
     //パネルドラッグ処理
@@ -84,13 +102,18 @@ public class PanelController : MonoBehaviour {
 		this.transform.position = currentPosition;
 
         //ステージ上パネル座標計算
-        this.stageX = (int)(this.transform.position.x);
-        this.stageY = (int)(-this.transform.position.y);
-
-        if (this.stageX < 0) this.stageX = 0;
-        if (this.stageY < 0) this.stageY = 0;
-        if (this.stageX > 4) this.stageX = 4;
-        if (this.stageY > 4) this.stageY = 4;
+        int x = (int)(this.transform.position.x);
+        int y = (int)(-this.transform.position.y);
+        if (x < 0) x = 0; else if (x > 4) x = 4;
+        if (y < 0) y = 0; else if (y > 4) y = 4;
+        PanelController p = this.view.getPanel(x, y);
+        if (p == null) {
+            this.stageX = x;
+            this.stageY = y;
+        } else if (p.checkEnableMove()) {
+            this.stageX = x;
+            this.stageY = y;
+        }
 
 //        Debug.Log("X:"+this.stageX+" Y:"+this.stageY);
     }

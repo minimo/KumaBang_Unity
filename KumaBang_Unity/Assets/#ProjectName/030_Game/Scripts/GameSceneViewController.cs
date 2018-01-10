@@ -10,12 +10,6 @@ public class GameSceneViewController : MonoBehaviour {
     //シーンマネージャー
     GameSceneManager sceneManager;
 
-    //ステージの大きさ
-    int stageWidth = 5, stageHeight = 5;
-
-    //スクリーン上オフセット
-    int offsetX = 0, offsetY = 0;
-
     //パネルスプライト
     [SerializeField] GameObject sourcePanel;
     [SerializeField] List<Sprite> panelSprites;
@@ -33,6 +27,15 @@ public class GameSceneViewController : MonoBehaviour {
     //現在ステージパネル
     GameObject [,] stageMap;
 
+    //ステージの大きさ
+    int stageWidth = 5, stageHeight = 5;
+
+    //スクリーン上オフセット
+    int offsetX = 0, offsetY = 0;
+
+    //スタート、ゴール位置
+    int startX, startY, goalX, goalY;
+
     //プレイヤーオブジェクト
     public GameObject player;
 
@@ -46,17 +49,23 @@ public class GameSceneViewController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        //パネル移動処理
         if (this.activePanel) {
             int x = activePanelController.stageX;
             int y = activePanelController.stageY;
-            if (this.activePanelBeforeX != -1) {
-                if (x != this.activePanelBeforeX || y != this.activePanelBeforeY) {
+            int bx = this.activePanelBeforeX;
+            int by = this.activePanelBeforeY;
+            if (bx != -1) {
+                if (x != bx || y != by) {
                     GameObject panel = this.stageMap[x, y];
                     if (panel && panel != this.activePanel) {
                         PanelController pc = panel.GetComponent<PanelController>();
-                        pc.moveStagePosition(this.activePanelBeforeX, this.activePanelBeforeY);
-                        this.stageMap[x, y] = this.stageMap[this.activePanelBeforeX, this.activePanelBeforeY];
-                        this.stageMap[this.activePanelBeforeX, this.activePanelBeforeY] = panel;
+                        if (pc.checkEnableMove()) {
+                            pc.moveStagePosition(bx, by);
+                            this.stageMap[x, y] = this.stageMap[bx, by];
+                            this.stageMap[bx, by] = panel;
+                        }
                     } else {
                         this.stageMap[x, y] = activePanel;
                     }
@@ -73,6 +82,11 @@ public class GameSceneViewController : MonoBehaviour {
     //ステージ開始処理
     void OnStartStage() {
         this.isGameStart = true;
+
+        //プレイヤー投入
+        this.player = Instantiate((GameObject)Resources.Load("Prefabs/Player"));
+        this.player.transform.parent = this.transform;
+        this.player.transform.position = new Vector3(this.startX + 0.5f, this.startY + 0.5f, -10);
     }
 
     //ステージ初期化
@@ -98,7 +112,23 @@ public class GameSceneViewController : MonoBehaviour {
                 switch (this.itemData.mapData[x, y]) {
                     case 0:
                         break;
-                    default:
+                    //スタートパネル
+                    case 8:
+                        this.startX = x;
+                        this.startY = y;
+                        pc.isStart = true;
+                        pc.isDisableMove = true;
+                        pc.isDisableShaffle = true;
+                        break;
+                    //ゴールパネル
+                    case 9:
+                        this.goalX = x;
+                        this.goalY = y;
+                        pc.isStart = true;
+                        pc.isDisableMove = true;
+                        pc.isDisableShaffle = true;
+                        break;
+                    case -1:
                         pc.isDisableShaffle = true;
                         break;
                 }
@@ -110,7 +140,7 @@ public class GameSceneViewController : MonoBehaviour {
         for (int i = 0; i < 10; i++) {
             int x1 = Random.Range(0, 5), y1 = Random.Range(0, 5);
             int x2 = Random.Range(0, 5), y2 = Random.Range(0, 5);
-            this.panelSwap(x1, y1, x2, y2);
+            this.swapPanel(x1, y1, x2, y2);
         }
         this.transform.parent.gameObject.SendMessage("OnAlreadyStartView");
     }
@@ -140,11 +170,15 @@ public class GameSceneViewController : MonoBehaviour {
         return panel;
     }
 
-    void panelMove() {
-        if (this.activePanel == null) return;
+    //指定座標のパネル取得
+    public PanelController getPanel(int x, int y) {
+        if (x < 0 || y < 0) return null;
+        if (x >= this.stageWidth || y >= this.stageHeight) return null;
+        GameObject panel = this.stageMap[x, y];
+        return panel.GetComponent<PanelController>();
     }
 
-    bool panelSwap(int x1, int y1, int x2, int y2) {
+    bool swapPanel(int x1, int y1, int x2, int y2) {
         PanelController pc1 =　this.stageMap[x1, y1].GetComponent<PanelController>();
         PanelController pc2 =　this.stageMap[x2, y2].GetComponent<PanelController>();
 

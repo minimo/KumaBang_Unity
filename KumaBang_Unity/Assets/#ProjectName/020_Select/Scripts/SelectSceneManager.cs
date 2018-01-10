@@ -240,6 +240,7 @@ public class SelectSceneManager : MonoBehaviour {
         }
 
         this.nowActor = num;
+        soundManager.playSE("change");
     }
 
     //アクター切り替え
@@ -355,7 +356,7 @@ public class SelectSceneManager : MonoBehaviour {
     }
 
     //セレクターを閉じる
-    public void closeSelecter() {
+    public void closeSelecter(bool isSE = true) {
         if (this.selecter == null) return;
 
         this.selecter.transform.DOScale(Vector3.zero, 0.3f);//.SetEase (Ease.InBounce);
@@ -365,7 +366,7 @@ public class SelectSceneManager : MonoBehaviour {
         this.mask.GetComponent<MaskController>().fade(0.0f, 0.2f);
         Destroy(this.mask, 0.3f);
 
-        soundManager.playSE("cancel");
+//        if (isSE) soundManager.playSE("cancel");
     }
     private IEnumerator closeSelecterCoroutine() {
         yield return new WaitForSeconds(0.5f);
@@ -405,6 +406,7 @@ public class SelectSceneManager : MonoBehaviour {
             (x)=> Camera.main.GetComponent<BlurOptimized>().blurSize = x,
             0.0f,
             0.3f);
+        soundManager.playSE("cancel");
     }
 
     private IEnumerator closeStartDialogCoroutine() {
