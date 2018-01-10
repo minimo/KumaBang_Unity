@@ -86,7 +86,12 @@ public class GameSceneViewController : MonoBehaviour {
         //プレイヤー投入
         this.player = Instantiate((GameObject)Resources.Load("Prefabs/Player"));
         this.player.transform.parent = this.transform;
-        this.player.transform.position = new Vector3(this.startX + 0.5f, this.startY + 0.5f, -10);
+        this.player.transform.position = new Vector3(this.startX + 0.5f, this.startY + 5.0f, -10.0f);
+        //落下演出
+        this.player.transform.DOLocalMove(new Vector3(0, -5.0f, 0.0f), 2.0f)
+                    .SetEase(Ease.OutBounce)
+                    .SetDelay(2.0f)
+                    .SetRelative();
     }
 
     //ステージ初期化
@@ -137,7 +142,7 @@ public class GameSceneViewController : MonoBehaviour {
         }
 
         //パネルシャッフル
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             int x1 = Random.Range(0, 5), y1 = Random.Range(0, 5);
             int x2 = Random.Range(0, 5), y2 = Random.Range(0, 5);
             this.swapPanel(x1, y1, x2, y2);

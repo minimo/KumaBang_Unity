@@ -31,7 +31,7 @@ public class GameSceneCanvasController : MonoBehaviour {
         var seq = DOTween.Sequence();
         seq.Append(stageNumber.transform.DOMove(new Vector3(0.0f, 100.0f, 0.0f), 1.0f)
             .SetEase(Ease.InOutSine)
-            .SetDelay(1.0f)
+            .SetDelay(3.0f)
         );
         seq.Append(stageNumber.transform.DOMove(new Vector3(200.0f, 100.0f, 0.0f), 1.0f)
             .SetEase(Ease.InOutSine)
