@@ -38,6 +38,7 @@ public class GameSceneViewController : MonoBehaviour {
 
     //プレイヤーオブジェクト
     public GameObject player;
+    public PlayerController playerController;
 
     //フラグ管理
     public bool isGameStart = false;
@@ -87,11 +88,16 @@ public class GameSceneViewController : MonoBehaviour {
         this.player = Instantiate((GameObject)Resources.Load("Prefabs/Player"));
         this.player.transform.parent = this.transform;
         this.player.transform.position = new Vector3(this.startX + 0.5f, this.startY + 5.0f, -10.0f);
+        this.playerController = this.player.GetComponent<PlayerController>();
         //落下演出
-        this.player.transform.DOLocalMove(new Vector3(0, -5.0f, 0.0f), 2.0f)
-                    .SetEase(Ease.OutBounce)
-                    .SetDelay(2.0f)
-                    .SetRelative();
+        this.player.transform.DOLocalMove(new Vector3(0, -5.0f, 0.0f), 1.0f)
+            .SetEase(Ease.OutBounce)
+            .SetDelay(2.0f)
+            .SetRelative()
+            .OnComplete(() => {
+                this.player.SendMessage("OnReadyStart");
+            });
+
     }
 
     //ステージ初期化
@@ -181,6 +187,15 @@ public class GameSceneViewController : MonoBehaviour {
         if (x >= this.stageWidth || y >= this.stageHeight) return null;
         GameObject panel = this.stageMap[x, y];
         return panel.GetComponent<PanelController>();
+    }
+
+    //指定座標のパネルインデックス取得
+    public int getPanelIndex(int x, int y) {
+        if (x < 0 || y < 0) return -2;
+        if (x >= this.stageWidth || y >= this.stageHeight) return -2;
+        GameObject panel = this.stageMap[x, y];
+        if (panel == null) return -1;
+        return panel.GetComponent<PanelController>().index;
     }
 
     bool swapPanel(int x1, int y1, int x2, int y2) {

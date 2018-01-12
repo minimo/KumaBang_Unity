@@ -38,10 +38,18 @@ public class PanelController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Vector3 pos = this.transform.position;
-        pos.z = pos.y;
-        if (this.isPointing) pos.z = -5.0f;
-        this.transform.position = pos;
+        int px = this.view.playerController.stageX;
+        int py = this.view.playerController.stageY;
+        if (this.stageX == px && this.stageY == py) this.isOnPlayer = true;
+
+
+        //Z座標調整
+        if (!this.isDrop) {
+            Vector3 pos = this.transform.position;
+            pos.z = pos.y;
+            if (this.isPointing) pos.z = -5.0f;
+            this.transform.position = pos;
+        }
     }
 
     public void setStagePosition(int x, int y) {
