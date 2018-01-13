@@ -7,8 +7,6 @@ public class PlayerController : MonoBehaviour {
 
     public GameSceneViewController view;
 
-    public GameObject spriteObject = null;
-
     //ステージ上座標
     public int stageX = 0, stageY = 0;
 
@@ -36,6 +34,9 @@ public class PlayerController : MonoBehaviour {
         //ステージ上座標
         this.stageX = (int)(this.transform.position.x);
         this.stageY = (int)(-this.transform.position.y);
+
+        //足元のパネル取得
+        this.view.getPanelIndex(this.stageX, this.stageY);
 
         float moveX = 0.01f;
         float moveY = 0.00f;

@@ -115,6 +115,7 @@ public class SelectSceneManager : MonoBehaviour {
 
         //アプリケーションマネージャー取得
         this.app = ApplicationManagerController.Instance;
+        app.selectedActor = 0;
 
         //サウンドマネージャー取得
         this.soundManager = SoundManagerController.Instance;
@@ -449,6 +450,7 @@ public class SelectSceneManager : MonoBehaviour {
         go.transform.parent = this.transform;
         go.GetComponent<MaskSpriteController>().RotateIn(1.0f);
         go.GetComponent<MaskSpriteController>().isSendMessage = true;
+        this.app.selectedActor = this.nowActor;
     }
 
     void OnAnimationEnd() {

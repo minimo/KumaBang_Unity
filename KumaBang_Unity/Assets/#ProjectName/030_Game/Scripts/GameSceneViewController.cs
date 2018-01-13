@@ -7,6 +7,9 @@ using DG.Tweening;
 //ゲーム中のビューとステージの管理を行う
 public class GameSceneViewController : MonoBehaviour {
 
+    //アプリケーションマネージャー
+    ApplicationManagerController app;
+
     //シーンマネージャー
     GameSceneManager sceneManager;
 
@@ -37,14 +40,17 @@ public class GameSceneViewController : MonoBehaviour {
     int startX, startY, goalX, goalY;
 
     //プレイヤーオブジェクト
-    public GameObject player;
-    public PlayerController playerController;
+    public GameObject player = null;
+    public PlayerController playerController = null;
 
     //フラグ管理
     public bool isGameStart = false;
 
 	// Use this for initialization
 	void Start () {
+        //アプリケーションマネージャー取得
+        this.app = ApplicationManagerController.Instance;
+
 		this.initStage();
 	}
 	
@@ -79,26 +85,6 @@ public class GameSceneViewController : MonoBehaviour {
             this.activePanelBeforeY = -1;
         }
 	}
-
-    //ステージ開始処理
-    void OnStartStage() {
-        this.isGameStart = true;
-
-        //プレイヤー投入
-        this.player = Instantiate((GameObject)Resources.Load("Prefabs/Player"));
-        this.player.transform.parent = this.transform;
-        this.player.transform.position = new Vector3(this.startX + 0.5f, this.startY + 5.0f, -10.0f);
-        this.playerController = this.player.GetComponent<PlayerController>();
-        //落下演出
-        this.player.transform.DOLocalMove(new Vector3(0, -5.0f, 0.0f), 1.0f)
-            .SetEase(Ease.OutBounce)
-            .SetDelay(2.0f)
-            .SetRelative()
-            .OnComplete(() => {
-                this.player.SendMessage("OnReadyStart");
-            });
-
-    }
 
     //ステージ初期化
     void initStage() {
@@ -222,5 +208,26 @@ public class GameSceneViewController : MonoBehaviour {
         pc2.stageX = x1;
         pc2.stageY = y1;
         return true;
+    }
+
+    //ステージ開始処理
+    void OnStartStage() {
+        this.isGameStart = true;
+
+        //プレイヤー投入
+        if (this.player) Destroy(this.player.gameObject);
+        this.player = Instantiate((GameObject)Resources.Load("Prefabs/Player"));
+        this.player.transform.parent = this.transform;
+        this.player.transform.position = new Vector3(this.startX + 0.5f, this.startY + 5.0f, -10.0f);
+        this.playerController = this.player.GetComponent<PlayerController>();
+        //落下演出
+        this.player.transform.DOLocalMove(new Vector3(0, -5.0f, 0.0f), 1.0f)
+            .SetEase(Ease.OutBounce)
+            .SetDelay(2.0f)
+            .SetRelative()
+            .OnComplete(() => {
+                this.player.SendMessage("OnReadyStart");
+            });
+
     }
 }
