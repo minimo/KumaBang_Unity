@@ -7,6 +7,8 @@ public class GameSceneManager : MonoBehaviour {
     //アプリケーションマネージャー
     ApplicationManagerController app;
 
+    public int gameScore = 0;
+
     //サウンドマネージャー
     SoundManagerController soundManager;
 
@@ -80,5 +82,9 @@ public class GameSceneManager : MonoBehaviour {
 
         this.sceneView.SendMessage("OnStartStage");
         this.sceneCanvas.SendMessage("OnStartStage");
+    }
+
+    //プレーヤーミス
+    void OnPlayerMiss() {
     }
 }

@@ -1,66 +1,66 @@
 fileFormatVersion: 2
-guid: e9edd8214a1954cf9a45d0fe239c1b86
-timeCreated: 1515832307
+guid: 9b0249d4dcc0948309232dc437048479
+timeCreated: 1515837558
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: actor4_0
-    21300002: actor4_1
-    21300004: actor4_2
-    21300006: actor4_3
-    21300008: actor4_4
-    21300010: actor4_5
-    21300012: actor4_6
-    21300014: actor4_7
-    21300016: actor4_8
-    21300018: actor4_9
-    21300020: actor4_10
-    21300022: actor4_11
-    21300024: actor4_12
-    21300026: actor4_13
-    21300028: actor4_14
-    21300030: actor4_15
-    21300032: actor4_16
-    21300034: actor4_17
-    21300036: actor4_18
-    21300038: actor4_19
-    21300040: actor4_20
-    21300042: actor4_21
-    21300044: actor4_22
-    21300046: actor4_23
-    21300048: actor4_24
-    21300050: actor4_25
-    21300052: actor4_26
-    21300054: actor4_27
-    21300056: actor4_28
-    21300058: actor4_29
-    21300060: actor4_30
-    21300062: actor4_31
-    21300064: actor4_32
-    21300066: actor4_33
-    21300068: actor4_34
-    21300070: actor4_35
-    21300072: actor4_36
-    21300074: actor4_37
-    21300076: actor4_38
-    21300078: actor4_39
-    21300080: actor4_40
-    21300082: actor4_41
-    21300084: actor4_42
-    21300086: actor4_43
-    21300088: actor4_44
-    21300090: actor4_45
-    21300092: actor4_46
-    21300094: actor4_47
-    21300096: actor4_48
-    21300098: actor4_49
-    21300100: actor4_50
-    21300102: actor4_51
-    21300104: actor4_52
-    21300106: actor4_53
-    21300108: actor4_54
-    21300110: actor4_55
-    21300112: actor4_56
+    21300000: $actor64_0
+    21300002: $actor64_1
+    21300004: $actor64_2
+    21300006: $actor64_3
+    21300008: $actor64_4
+    21300010: $actor64_5
+    21300012: $actor64_6
+    21300014: $actor64_7
+    21300016: $actor64_8
+    21300018: $actor64_9
+    21300020: $actor64_10
+    21300022: $actor64_11
+    21300024: $actor64_12
+    21300026: $actor64_13
+    21300028: $actor64_14
+    21300030: $actor64_15
+    21300032: $actor64_16
+    21300034: $actor64_17
+    21300036: $actor64_18
+    21300038: $actor64_19
+    21300040: $actor64_20
+    21300042: $actor64_21
+    21300044: $actor64_22
+    21300046: $actor64_23
+    21300048: $actor64_24
+    21300050: $actor64_25
+    21300052: $actor64_26
+    21300054: $actor64_27
+    21300056: $actor64_28
+    21300058: $actor64_29
+    21300060: $actor64_30
+    21300062: $actor64_31
+    21300064: $actor64_32
+    21300066: $actor64_33
+    21300068: $actor64_34
+    21300070: $actor64_35
+    21300072: $actor64_36
+    21300074: $actor64_37
+    21300076: $actor64_38
+    21300078: $actor64_39
+    21300080: $actor64_40
+    21300082: $actor64_41
+    21300084: $actor64_42
+    21300086: $actor64_43
+    21300088: $actor64_44
+    21300090: $actor64_45
+    21300092: $actor64_46
+    21300094: $actor64_47
+    21300096: $actor64_48
+    21300098: $actor64_49
+    21300100: $actor64_50
+    21300102: $actor64_51
+    21300104: $actor64_52
+    21300106: $actor64_53
+    21300108: $actor64_54
+    21300110: $actor64_55
+    21300112: $actor64_56
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -144,7 +144,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: actor4_0
+      name: $actor64_0
       rect:
         serializedVersion: 2
         x: 0
@@ -158,7 +158,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_1
+      name: $actor64_1
       rect:
         serializedVersion: 2
         x: 32
@@ -172,7 +172,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_2
+      name: $actor64_2
       rect:
         serializedVersion: 2
         x: 64
@@ -186,7 +186,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_3
+      name: $actor64_3
       rect:
         serializedVersion: 2
         x: 0
@@ -200,7 +200,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_4
+      name: $actor64_4
       rect:
         serializedVersion: 2
         x: 32
@@ -214,7 +214,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_5
+      name: $actor64_5
       rect:
         serializedVersion: 2
         x: 64
@@ -228,7 +228,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_6
+      name: $actor64_6
       rect:
         serializedVersion: 2
         x: 0
@@ -242,7 +242,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_7
+      name: $actor64_7
       rect:
         serializedVersion: 2
         x: 32
@@ -256,7 +256,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_8
+      name: $actor64_8
       rect:
         serializedVersion: 2
         x: 64
@@ -270,7 +270,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_9
+      name: $actor64_9
       rect:
         serializedVersion: 2
         x: 0
@@ -284,7 +284,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_10
+      name: $actor64_10
       rect:
         serializedVersion: 2
         x: 32
@@ -298,7 +298,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_11
+      name: $actor64_11
       rect:
         serializedVersion: 2
         x: 64
@@ -312,7 +312,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_12
+      name: $actor64_12
       rect:
         serializedVersion: 2
         x: 0
@@ -326,7 +326,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_13
+      name: $actor64_13
       rect:
         serializedVersion: 2
         x: 32
@@ -340,7 +340,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_14
+      name: $actor64_14
       rect:
         serializedVersion: 2
         x: 64
@@ -354,7 +354,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_15
+      name: $actor64_15
       rect:
         serializedVersion: 2
         x: 0
@@ -368,7 +368,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_16
+      name: $actor64_16
       rect:
         serializedVersion: 2
         x: 32
@@ -382,7 +382,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_17
+      name: $actor64_17
       rect:
         serializedVersion: 2
         x: 64
@@ -396,7 +396,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_18
+      name: $actor64_18
       rect:
         serializedVersion: 2
         x: 0
@@ -410,7 +410,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_19
+      name: $actor64_19
       rect:
         serializedVersion: 2
         x: 32
@@ -424,7 +424,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_20
+      name: $actor64_20
       rect:
         serializedVersion: 2
         x: 64
@@ -438,7 +438,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_21
+      name: $actor64_21
       rect:
         serializedVersion: 2
         x: 0
@@ -452,7 +452,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_22
+      name: $actor64_22
       rect:
         serializedVersion: 2
         x: 32
@@ -466,7 +466,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_23
+      name: $actor64_23
       rect:
         serializedVersion: 2
         x: 64
@@ -480,7 +480,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_24
+      name: $actor64_24
       rect:
         serializedVersion: 2
         x: 0
@@ -494,7 +494,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_25
+      name: $actor64_25
       rect:
         serializedVersion: 2
         x: 32
@@ -508,7 +508,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_26
+      name: $actor64_26
       rect:
         serializedVersion: 2
         x: 64
@@ -522,7 +522,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_27
+      name: $actor64_27
       rect:
         serializedVersion: 2
         x: 0
@@ -536,7 +536,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_28
+      name: $actor64_28
       rect:
         serializedVersion: 2
         x: 32
@@ -550,7 +550,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_29
+      name: $actor64_29
       rect:
         serializedVersion: 2
         x: 64
@@ -564,7 +564,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_30
+      name: $actor64_30
       rect:
         serializedVersion: 2
         x: 0
@@ -578,7 +578,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_31
+      name: $actor64_31
       rect:
         serializedVersion: 2
         x: 32
@@ -592,7 +592,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_32
+      name: $actor64_32
       rect:
         serializedVersion: 2
         x: 64
@@ -606,7 +606,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_33
+      name: $actor64_33
       rect:
         serializedVersion: 2
         x: 0
@@ -620,7 +620,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_34
+      name: $actor64_34
       rect:
         serializedVersion: 2
         x: 32
@@ -634,7 +634,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_35
+      name: $actor64_35
       rect:
         serializedVersion: 2
         x: 64
@@ -648,7 +648,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_36
+      name: $actor64_36
       rect:
         serializedVersion: 2
         x: 0
@@ -662,7 +662,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_37
+      name: $actor64_37
       rect:
         serializedVersion: 2
         x: 32
@@ -676,7 +676,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_38
+      name: $actor64_38
       rect:
         serializedVersion: 2
         x: 64
@@ -690,7 +690,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_39
+      name: $actor64_39
       rect:
         serializedVersion: 2
         x: 0
@@ -704,7 +704,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_40
+      name: $actor64_40
       rect:
         serializedVersion: 2
         x: 32
@@ -718,7 +718,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_41
+      name: $actor64_41
       rect:
         serializedVersion: 2
         x: 64
@@ -732,7 +732,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_42
+      name: $actor64_42
       rect:
         serializedVersion: 2
         x: 0
@@ -746,7 +746,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_43
+      name: $actor64_43
       rect:
         serializedVersion: 2
         x: 32
@@ -760,7 +760,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_44
+      name: $actor64_44
       rect:
         serializedVersion: 2
         x: 64
@@ -774,7 +774,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_45
+      name: $actor64_45
       rect:
         serializedVersion: 2
         x: 0
@@ -788,7 +788,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_46
+      name: $actor64_46
       rect:
         serializedVersion: 2
         x: 32
@@ -802,7 +802,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_47
+      name: $actor64_47
       rect:
         serializedVersion: 2
         x: 64
@@ -816,7 +816,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_48
+      name: $actor64_48
       rect:
         serializedVersion: 2
         x: 0
@@ -830,7 +830,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_49
+      name: $actor64_49
       rect:
         serializedVersion: 2
         x: 32
@@ -844,7 +844,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_50
+      name: $actor64_50
       rect:
         serializedVersion: 2
         x: 64
@@ -858,7 +858,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_51
+      name: $actor64_51
       rect:
         serializedVersion: 2
         x: 0
@@ -872,7 +872,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_52
+      name: $actor64_52
       rect:
         serializedVersion: 2
         x: 32
@@ -886,7 +886,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_53
+      name: $actor64_53
       rect:
         serializedVersion: 2
         x: 64
@@ -900,7 +900,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_54
+      name: $actor64_54
       rect:
         serializedVersion: 2
         x: 0
@@ -914,7 +914,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_55
+      name: $actor64_55
       rect:
         serializedVersion: 2
         x: 32
@@ -928,7 +928,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: actor4_56
+      name: $actor64_56
       rect:
         serializedVersion: 2
         x: 64

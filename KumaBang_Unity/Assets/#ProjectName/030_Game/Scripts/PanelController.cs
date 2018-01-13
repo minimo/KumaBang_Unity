@@ -24,6 +24,7 @@ public class PanelController : MonoBehaviour {
     public bool isStart = false;
     public bool isGoal = false;
     public bool isOnPlayer = false; //プレイヤーが乗っている
+    public bool isOnPlayerBefore = false;
     public bool isDrop = false;     //ドロップ中
     public bool isPointing = false; //ユーザーポイント中
     public bool isOnItem = false;   //アイテムが乗っている
@@ -41,8 +42,14 @@ public class PanelController : MonoBehaviour {
         if (this.view.playerController) {
             int px = this.view.playerController.stageX;
             int py = this.view.playerController.stageY;
-            if (this.stageX == px && this.stageY == py) this.isOnPlayer = true;
+            if (this.stageX == px && this.stageY == py)
+                this.isOnPlayer = true;
+            else
+                this.isOnPlayer = false;
         }
+
+        //プレイヤーが降りたのでパネルドロップ
+        if (this.isOnPlayerBefore && !this.isOnPlayer) this.drop();
 
         //Z座標調整
         if (!this.isDrop) {
@@ -51,6 +58,8 @@ public class PanelController : MonoBehaviour {
             if (this.isPointing) pos.z = -15.0f;
             this.transform.position = pos;
         }
+
+        this.isOnPlayerBefore = this.isOnPlayer;
     }
 
     public void setStagePosition(int x, int y) {
@@ -73,21 +82,83 @@ public class PanelController : MonoBehaviour {
         this.offsetY = y;
     }
 
+    //パネルドロップ
+    void drop() {
+        if (this.isDrop) return;
+        this.isDrop = true;
+        this.view.stageMap[this.stageX, this.stageY] = null;
+
+        var seq = DOTween.Sequence();
+        seq.Append(this.transform.DOLocalMove(new Vector3(0.0f, -1.0f), 0.5f)
+            .SetEase(Ease.InQuad)
+            .SetRelative()
+        );
+
+        SpriteRenderer renderer = this.gameObject.GetComponent<SpriteRenderer>();
+        DOTween.ToAlpha(
+            () => renderer.color,
+            color => renderer.color = color,
+            0.0f,
+            0.5f
+        ).OnComplete(() => {
+            Destroy(this.gameObject);
+        });
+    }
+
     //パネル移動可能かチェック
     public bool checkEnableMove() {
-        if (this.isDrop 
-            || this.isOnEnemy 
-            || this.isOnItem 
-            || this.isOnPlayer 
-            || this.isPointing 
+        if (this.isDrop
+            || this.isOnEnemy
+            || this.isOnItem
+            || this.isOnPlayer
+            || this.isPointing
             || this.isDisableMove
             || !this.view.isGameStart) return false;
         return true;
     }
 
+    //パネルが進行方向に対し通過可能かチェック
+    public bool checkEnablePass(int direction) {
+        switch (this.index) {
+            case 1:
+                if (direction == 1 || direction == 3) return true;
+                break;
+            case 2:
+                if (direction == 2 || direction == 4) return true;
+                break;
+            case 3:
+                return true;
+            case 4:
+                if (direction == 2 || direction == 3) return true;
+                break;
+            case 5:
+                if (direction == 0 || direction == 1) return true;
+                break;
+            case 6:
+                if (direction == 2 || direction == 3) return true;
+                break;
+            case 7:
+                if (direction == 1 || direction == 2) return true;
+                break;
+            case 8:
+                if (direction == 3) return true;
+                break;
+            case 9:
+                if (direction == 0) return true;
+                break;
+            case 10:
+                if (direction == 1) return true;
+                break;
+            case 11:
+                if (direction == 2) return true;
+                break;
+        }
+        return false;
+    }
+
     //ポイント開始処理
     void OnMouseDown() {
-        if (!this.checkEnableMove()) return;
+        if (!this.checkEnableMove() || this.isPointing) return;
         this.isPointing = true;
 
 		//パネル位置をスクリーン座標に変換
@@ -135,7 +206,11 @@ public class PanelController : MonoBehaviour {
         //パネル位置量子化
         float x = this.stageX + this.offsetX;
         float y = this.stageY + this.offsetY;
-        this.transform.DOLocalMove(new Vector3(x+0.5f, -y-0.5f), 0.3f).SetEase(Ease.OutBounce);
+        this.transform.DOLocalMove(new Vector3(x+0.5f, -y-0.5f), 0.3f)
+            .SetEase(Ease.OutBounce)
+            .OnComplete(() => {
+                this.isPointing = false;
+            });
 
         //親のアクティブパネル設定を解除
         this.view.activePanel = null;

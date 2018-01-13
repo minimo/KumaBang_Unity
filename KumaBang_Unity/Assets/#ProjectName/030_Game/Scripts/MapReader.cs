@@ -28,6 +28,8 @@ public class MapReader : MonoBehaviour {
         this.isAlreadyRead = true;
         this.convert();
     }
+
+    //文字列から整数へ変換
     void convert() {
         this.mapData = new int[this.csvDatas.Count, this.csvDatas[0].Length - 1];
         for (int y = 0; y < this.csvDatas.Count; y++) {

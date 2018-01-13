@@ -28,7 +28,7 @@ public class GameSceneViewController : MonoBehaviour {
     MapReader itemData;
 
     //現在ステージパネル
-    GameObject [,] stageMap;
+    public GameObject [,] stageMap;
 
     //ステージの大きさ
     int stageWidth = 5, stageHeight = 5;
@@ -75,6 +75,7 @@ public class GameSceneViewController : MonoBehaviour {
                         }
                     } else {
                         this.stageMap[x, y] = activePanel;
+                        this.stageMap[bx, by] = null;
                     }
                 }
             }
@@ -172,6 +173,7 @@ public class GameSceneViewController : MonoBehaviour {
         if (x < 0 || y < 0) return null;
         if (x >= this.stageWidth || y >= this.stageHeight) return null;
         GameObject panel = this.stageMap[x, y];
+        if (panel == null) return null;
         return panel.GetComponent<PanelController>();
     }
 
@@ -220,14 +222,40 @@ public class GameSceneViewController : MonoBehaviour {
         this.player.transform.parent = this.transform;
         this.player.transform.position = new Vector3(this.startX + 0.5f, this.startY + 5.0f, -10.0f);
         this.playerController = this.player.GetComponent<PlayerController>();
+
         //落下演出
         this.player.transform.DOLocalMove(new Vector3(0, -5.0f, 0.0f), 1.0f)
             .SetEase(Ease.OutBounce)
-            .SetDelay(2.0f)
             .SetRelative()
             .OnComplete(() => {
                 this.player.SendMessage("OnReadyStart");
             });
 
+        //初回進行方向
+        float x = (float)this.startX;
+        float y = (float)this.startY;
+        PanelController pc = this.stageMap[this.startX, this.startY].GetComponent<PanelController>();
+        int idx = pc.index;
+        switch (idx) {
+            case 8:
+                this.playerController.setDirection(1);
+                this.playerController.setCheckPoint(x + 1.0f, y);
+                break;
+            case 9:
+                this.playerController.setDirection(2);
+                this.playerController.setCheckPoint(x, y - 1.0f);
+                break;
+            case 10:
+                this.playerController.setDirection(3);
+                this.playerController.setCheckPoint(x - 1.0f, y);
+                break;
+            case 11:
+                this.playerController.setDirection(0);
+                this.playerController.setCheckPoint(x, y + 1.0f);
+                break;
+        }
+    }
+
+    void OnPlayerMiss() {
     }
 }
