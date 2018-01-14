@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour {
     Vector3 checkPoint = new Vector3();
 
     //移動速度
-    float speed = 0.005f;
+    float speed = 0.01f;
 
     //各種フラグ
     bool isStart = false;
@@ -43,8 +43,9 @@ public class PlayerController : MonoBehaviour {
         if (!this.isStart || this.isMiss) return;
 
         //ステージ上座標
-        this.stageX = (int)(this.transform.position.x);
-        this.stageY = (int)(-this.transform.position.y);
+        this.stageX = Mathf.FloorToInt(this.transform.position.x);
+        this.stageY = Mathf.FloorToInt(-this.transform.position.y);
+        Debug.Log("wx: "+ this.transform.position.x+" wy:"+this.transform.position.y+" x: "+ this.stageX+" y:"+this.stageY);
 
         //次のパネル移動を検知
         if (this.beforeStageX != this.stageX && this.beforeStageY != this.stageX) {
@@ -55,6 +56,7 @@ public class PlayerController : MonoBehaviour {
             } else {
                 this.miss();
             }
+            Debug.Log("wx: "+ this.transform.position.x+" wy:"+this.transform.position.y);
         }
 
         //移動処理
@@ -106,7 +108,7 @@ public class PlayerController : MonoBehaviour {
 
     public void setCheckPoint(float x, float y) {
         this.checkPoint.x = x + 0.5f;
-        this.checkPoint.y = y + 0.5f;
+        this.checkPoint.y = y;
     }
 
     //チェックポイント通過を検知
