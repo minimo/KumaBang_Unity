@@ -219,41 +219,48 @@ public class GameSceneViewController : MonoBehaviour {
         //プレイヤー投入
         if (this.player) Destroy(this.player.gameObject);
         this.player = Instantiate((GameObject)Resources.Load("Prefabs/Player"));
-        this.player.transform.parent = this.transform;
-        this.player.transform.position = new Vector3(this.startX + 0.5f, this.startY + 5.0f, -10.0f);
+        this.player.transform.SetParent(this.transform);
+        this.player.transform.position = new Vector3(this.startX + 0.5f, this.startY + 4.5f, -10.0f);
         this.playerController = this.player.GetComponent<PlayerController>();
 
-        //落下演出
-        this.player.transform.DOLocalMove(new Vector3(0, -5.0f, 0.0f), 1.0f)
-            .SetEase(Ease.OutBounce)
-            .SetRelative()
-            .OnComplete(() => {
-                this.player.SendMessage("OnReadyStart");
-            });
+        //Tweener
+        var seq = DOTween.Sequence();
 
         //初回進行方向
-        float x = (float)this.startX;
-        float y = (float)this.startY;
         PanelController pc = this.stageMap[this.startX, this.startY].GetComponent<PanelController>();
         int idx = pc.index;
         switch (idx) {
             case 8:
                 this.playerController.setDirection(1);
-                this.playerController.setCheckPoint(x + 1.0f, y);
                 break;
             case 9:
                 this.playerController.setDirection(2);
-                this.playerController.setCheckPoint(x, y - 1.0f);
                 break;
             case 10:
                 this.playerController.setDirection(3);
-                this.playerController.setCheckPoint(x - 1.0f, y);
                 break;
             case 11:
                 this.playerController.setDirection(0);
-                this.playerController.setCheckPoint(x, y + 1.0f);
                 break;
         }
+
+        //落下演出
+        seq.Append(this.player.transform.DOLocalMove(new Vector3(0, -5.0f, 0.0f), 1.0f)
+            .SetEase(Ease.OutBounce)
+            .SetRelative()
+            .OnComplete(() => {
+                this.player.SendMessage("OnReadyStart");
+            })
+        );
+/*
+        seq.Append(this.player.transform.DOLocalMove(new Vector3(x, y), 2.0f)
+            .SetEase(Ease.Linear)
+            .SetRelative()
+            .OnComplete(()=>{
+                this.player.GetComponent<PlayerController>().moveToNextPanel();
+            })
+        );
+*/
     }
 
     void OnPlayerMiss() {

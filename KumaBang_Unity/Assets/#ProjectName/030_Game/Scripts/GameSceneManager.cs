@@ -42,13 +42,13 @@ public class GameSceneManager : MonoBehaviour {
 
         //ゲーム画面用ビュー
         GameObject view = Instantiate((GameObject)Resources.Load("Prefabs/GameSceneView"));
-        view.transform.parent = this.transform;
+        view.transform.SetParent(this.transform);
         this.sceneView = view;
         this.sceneViewController = view.GetComponent<GameSceneViewController>();
 
         //ゲーム画面用キャンバス
         GameObject canvas = Instantiate((GameObject)Resources.Load("Prefabs/GameSceneCanvas"));
-        canvas.transform.parent = this.transform;
+        canvas.transform.SetParent(this.transform);
         this.sceneCanvas = canvas;
         this.SceneCanvasController = canvas.GetComponent<GameSceneCanvasController>();
 

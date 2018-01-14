@@ -1,17 +1,18 @@
 fileFormatVersion: 2
-guid: 0b6a6fb620cf74050b2a272fcd31806d
-timeCreated: 1507645796
+guid: 94b0f4466b4db45ceaefd12f83ece05c
+timeCreated: 1515936782
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Actor27_0
-    21300002: Actor27_1
-    21300004: Actor27_2
-    21300006: Actor27_3
-    21300008: Actor27_4
-    21300010: Actor27_5
-    21300012: Actor27_6
-    21300014: Actor27_7
+    21300000: Actor10_0
+    21300002: Actor10_1
+    21300004: Actor10_2
+    21300006: Actor10_3
+    21300008: Actor10_4
+    21300010: Actor10_5
+    21300012: Actor10_6
+    21300014: Actor10_7
+  externalObjects: {}
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -20,6 +21,8 @@ TextureImporter:
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
@@ -35,10 +38,13 @@ TextureImporter:
   textureFormat: 1
   maxTextureSize: 2048
   textureSettings:
+    serializedVersion: 2
     filterMode: -1
     aniso: -1
     mipBias: -1
-    wrapMode: 1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -60,6 +66,7 @@ TextureImporter:
   platformSettings:
   - buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
@@ -68,6 +75,7 @@ TextureImporter:
     overridden: 0
   - buildTarget: Standalone
     maxTextureSize: 2048
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
@@ -76,6 +84,7 @@ TextureImporter:
     overridden: 0
   - buildTarget: iPhone
     maxTextureSize: 2048
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
@@ -86,7 +95,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Actor27_0
+      name: Actor10_0
       rect:
         serializedVersion: 2
         x: 0
@@ -97,9 +106,10 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Actor27_1
+      name: Actor10_1
       rect:
         serializedVersion: 2
         x: 96
@@ -110,9 +120,10 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Actor27_2
+      name: Actor10_2
       rect:
         serializedVersion: 2
         x: 192
@@ -123,9 +134,10 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Actor27_3
+      name: Actor10_3
       rect:
         serializedVersion: 2
         x: 288
@@ -136,9 +148,10 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Actor27_4
+      name: Actor10_4
       rect:
         serializedVersion: 2
         x: 0
@@ -149,9 +162,10 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Actor27_5
+      name: Actor10_5
       rect:
         serializedVersion: 2
         x: 96
@@ -162,9 +176,10 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Actor27_6
+      name: Actor10_6
       rect:
         serializedVersion: 2
         x: 192
@@ -175,9 +190,10 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Actor27_7
+      name: Actor10_7
       rect:
         serializedVersion: 2
         x: 288
@@ -188,8 +204,10 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: 0
     outline: []
+    physicsShape: []
   spritePackingTag: 
   userData: 
   assetBundleName: 

@@ -124,12 +124,12 @@ public class PanelController : MonoBehaviour {
                 if (direction == 1 || direction == 3) return true;
                 break;
             case 2:
-                if (direction == 2 || direction == 4) return true;
+                if (direction == 0 || direction == 2) return true;
                 break;
             case 3:
                 return true;
             case 4:
-                if (direction == 2 || direction == 3) return true;
+                if (direction == 0 || direction == 3) return true;
                 break;
             case 5:
                 if (direction == 0 || direction == 1) return true;

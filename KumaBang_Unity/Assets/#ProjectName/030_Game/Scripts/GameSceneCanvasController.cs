@@ -21,7 +21,7 @@ public class GameSceneCanvasController : MonoBehaviour {
 
         //スコア表示
         GameObject txtObj = Instantiate((GameObject)Resources.Load("Prefabs/ScoreText"));
-        txtObj.transform.parent = this.transform;
+        txtObj.transform.SetParent(this.transform);
         txtObj.transform.position = new Vector3(1.5f, 2.0f, 0);
         this.scoreText = txtObj.GetComponent<Text>();
 

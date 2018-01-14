@@ -19,11 +19,11 @@ public class PlayerController : MonoBehaviour {
     // 0:上 1:右 2:下 3:左
     int direction = 0;
 
-    //進行方向チェックポイント
-    Vector3 checkPoint = new Vector3();
+    //移動制御用Tweener
+    Tween tweener;
 
     //移動速度
-    float speed = 0.01f;
+    float speed = 2.0f;
 
     //各種フラグ
     bool isStart = false;
@@ -45,10 +45,9 @@ public class PlayerController : MonoBehaviour {
         //ステージ上座標
         this.stageX = Mathf.FloorToInt(this.transform.position.x);
         this.stageY = Mathf.FloorToInt(-this.transform.position.y);
-        Debug.Log("wx: "+ this.transform.position.x+" wy:"+this.transform.position.y+" x: "+ this.stageX+" y:"+this.stageY);
 
         //次のパネル移動を検知
-        if (this.beforeStageX != this.stageX && this.beforeStageY != this.stageX) {
+        if (this.beforeStageX != this.stageX || this.beforeStageY != this.stageY) {
             //足元のパネルを取得
             PanelController pc = this.view.getPanel(this.stageX, this.stageY);
             if (pc) {
@@ -56,32 +55,13 @@ public class PlayerController : MonoBehaviour {
             } else {
                 this.miss();
             }
-            Debug.Log("wx: "+ this.transform.position.x+" wy:"+this.transform.position.y);
+//            Debug.Log("change panel");
+//        Debug.Log("wx: "+ this.transform.position.x+" wy:"+this.transform.position.y+" x: "+ this.stageX+" y:"+this.stageY);
         }
-
-        //移動処理
-        Vector3 p = this.transform.position;
-        switch (this.direction) {
-            case 0:
-                p.y += this.speed;
-                break;
-            case 1:
-                p.x += this.speed;
-                break;
-            case 2:
-                p.y -= this.speed;
-                break;
-            case 3:
-                p.x -= this.speed;
-                break;
-        }
-        this.transform.position = p;
-
-        this.checkCheckPointPass();
 
         //前フレームからの移動量
-        float moveX = p.x - this.beforePosition.x;
-        float moveY = p.y - this.beforePosition.y;
+        float moveX = this.transform.position.x - this.beforePosition.x;
+        float moveY = this.transform.position.y - this.beforePosition.y;
 
         //アニメーションに移動量をセット
 		this.animator.SetFloat(idX, moveX);
@@ -106,60 +86,55 @@ public class PlayerController : MonoBehaviour {
         this.direction = dir;
     }
 
-    public void setCheckPoint(float x, float y) {
-        this.checkPoint.x = x + 0.5f;
-        this.checkPoint.y = y;
-    }
+    //次のパネルへ移動
+    public void moveToNextPanel() {
+        //次進行方向
+        int nextDirection = -1;
 
-    //チェックポイント通過を検知
-    public void checkCheckPointPass() {
-        if (this.direction == 0 && this.transform.position.y < this.checkPoint.y) return;
-        if (this.direction == 1 && this.transform.position.x < this.checkPoint.x) return;
-        if (this.direction == 2 && this.transform.position.y > this.checkPoint.y) return;
-        if (this.direction == 3 && this.transform.position.x > this.checkPoint.x) return;
-
-        int nextDirection = 0;
-        int idx = this.view.getPanelIndex(this.stageX, this.stageY);
-        switch (idx) {
+        //足元のパネルを取得
+        PanelController pc = this.view.getPanel(this.stageX, this.stageY);
+        switch (pc.index) {
             case 1:
             case 2:
             case 3:
                 nextDirection = this.direction;
                 break;
             case 4:
-                if (this.direction == 3) nextDirection = 2; else nextDirection = 1;
+                if (this.direction == 0) nextDirection = 1;
+                if (this.direction == 3) nextDirection = 2;
                 break;
             case 5:
-                if (this.direction == 1) nextDirection = 2; else nextDirection = 3;
+                if (this.direction == 0) nextDirection = 3;
+                if (this.direction == 1) nextDirection = 2;
                 break;
             case 6:
-                if (this.direction == 2) nextDirection = 1; else nextDirection = 0;
+                if (this.direction == 2) nextDirection = 1;
+                if (this.direction == 3) nextDirection = 0;
                 break;
             case 7:
-                if (this.direction == 1) nextDirection = 0; else nextDirection = 3;
+                if (this.direction == 1) nextDirection = 0;
+                if (this.direction == 2) nextDirection = 3;
                 break;
         }
-
-        Vector3 p = this.transform.position;
-        switch (nextDirection) {
-            case 0:
-                p.y += 1.0f;
-                break;
-            case 1:
-                p.x += 1.0f;
-                break;
-            case 2:
-                p.y -= 1.0f;
-                break;
-            case 3:
-                p.x -= 1.0f;
-                break;
-        }
-        this.checkPoint = p;
         this.direction = nextDirection;
+
+        //次のパネルへの移動量
+        float x = 0, y = 0;
+        if (this.direction == 0) y = 1.0f;
+        if (this.direction == 1) x = 1.0f;
+        if (this.direction == 2) y = -1.0f;
+        if (this.direction == 3) x = -1.0f;
+
+        this.tweener = this.transform.DOLocalMove(new Vector3(x, y), this.speed)
+            .SetEase(Ease.Linear)
+            .SetRelative()
+            .OnComplete( ()=>{
+                this.moveToNextPanel();
+            });
     }
 
     void miss() {
+        this.tweener.Kill();
         this.isMiss = true;
         var seq = DOTween.Sequence();
         seq.Append(this.transform.DOLocalMove(new Vector3(0.0f, 0.2f), 0.1f)
@@ -173,9 +148,23 @@ public class PlayerController : MonoBehaviour {
     	this.animator.SetBool(idMiss, true);
 
         this.view.SendMessage("OnPlayerMiss");
+        Debug.Log("Player miss.");
     }
 
     void OnReadyStart() {
         this.isStart = true;
+
+        float x = 0.0f, y = 0.0f;
+        if (this.direction == 0) y = 1.0f;
+        if (this.direction == 1) x = 1.0f;
+        if (this.direction == 2) y = -1.0f;
+        if (this.direction == 3) x = -1.0f;
+
+        this.tweener = this.transform.DOLocalMove(new Vector3(x, y), this.speed)
+            .SetEase(Ease.Linear)
+            .SetRelative()
+            .OnComplete(()=>{
+                this.moveToNextPanel();
+            });
     }
 }
