@@ -9,9 +9,13 @@ public class GameSceneCanvasController : MonoBehaviour {
     //シーンマネージャー
     GameSceneManager sceneManager;
 
+    //スコア表示用
     Text scoreText;
     int dispScore = 0;  //表示用スコア
     int _dispScore = 0; //表示用スコア保存
+
+    //残機表示用
+    Text zankiText;
 
 	// Use this for initialization
 	void Start () {
@@ -19,14 +23,22 @@ public class GameSceneCanvasController : MonoBehaviour {
         GameObject currentScene = ApplicationManagerController.Instance.currentSceneManager;
         this.sceneManager = currentScene.GetComponent<GameSceneManager>();
 
+        //スコア同期
+        this.dispScore = this.sceneManager.gameScore;
+        this._dispScore = this.sceneManager.gameScore;
+
         //スコア表示
         GameObject txtObj = Instantiate((GameObject)Resources.Load("Prefabs/ScoreText"));
         txtObj.transform.SetParent(this.transform);
         txtObj.transform.position = new Vector3(1.5f, 2.0f, 0);
         this.scoreText = txtObj.GetComponent<Text>();
 
-        this.dispScore = this.sceneManager.gameScore;
-        this._dispScore = this.sceneManager.gameScore;
+        //残機表示
+        txtObj = Instantiate((GameObject)Resources.Load("Prefabs/ZankiText"));
+        txtObj.transform.SetParent(this.transform);
+        txtObj.transform.position = new Vector3(4.0f, 2.0f, 0);
+        this.zankiText = txtObj.GetComponent<Text>();
+
         this.initStage();
 	}
 	

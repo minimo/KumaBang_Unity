@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour {
 	private Animator animator = null;
 	private int idX = Animator.StringToHash("x"), idY = Animator.StringToHash("y");
 	private int idMiss = Animator.StringToHash("miss");
+	private int idClear = Animator.StringToHash("clear");
 
 	void Start () {
         this.view = this.transform.parent.GetComponent<GameSceneViewController>();
@@ -144,6 +145,23 @@ public class PlayerController : MonoBehaviour {
     }
 
     void miss() {
+        this.tweener.Kill();
+        this.isMiss = true;
+        var seq = DOTween.Sequence();
+        seq.Append(this.transform.DOLocalMove(new Vector3(0.0f, 0.2f), 0.1f)
+            .SetEase(Ease.OutSine)
+            .SetRelative()
+        );
+        seq.Append(this.transform.DOLocalMove(new Vector3(0.0f, -0.2f), 0.1f)
+            .SetEase(Ease.InSine)
+            .SetRelative()
+        );
+    	this.animator.SetBool(idMiss, true);
+
+        this.view.SendMessage("OnPlayerMiss");
+        Debug.Log("Player miss.");
+    }
+    void clear() {
         this.tweener.Kill();
         this.isMiss = true;
         var seq = DOTween.Sequence();

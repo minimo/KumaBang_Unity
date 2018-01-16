@@ -9,6 +9,8 @@ public class GameSceneManager : MonoBehaviour {
     ApplicationManagerController app;
 
     public int gameScore = 0;
+    public int zanki = 3;
+
 
     //サウンドマネージャー
     SoundManagerController soundManager;
