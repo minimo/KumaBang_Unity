@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class GameSceneManager : MonoBehaviour {
 
@@ -38,7 +39,21 @@ public class GameSceneManager : MonoBehaviour {
         this.soundManager = SoundManagerController.Instance;
         //使用音声ファイル読み込み
         this.soundManager.addSound("bgm_stage1", "Sounds/DS-124m");
+        this.soundManager.addSound("paneldrop", "Sounds/se_maoudamashii_system46");
         soundManager.playBGM("bgm_stage1", 3.0f);
+
+        this.setupScene();
+	}
+	
+	// Update is called once per frame
+	void Update () {
+
+	}
+
+    void setupScene() {
+        this.isGameStart = false;
+        this.isAlreadyView = false;
+        this.isAlreadyCanvas = false;
 
         //ゲーム画面用ビュー
         GameObject view = Instantiate((GameObject)Resources.Load("Prefabs/GameSceneView"));
@@ -55,12 +70,7 @@ public class GameSceneManager : MonoBehaviour {
         //シーン開始フェード
         GameObject fd = Instantiate((GameObject)Resources.Load("Prefabs/Mask_first"));
         fd.transform.position = new Vector3(2.5f, -2.5f);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-
-	}
+    }
 
     //シーンビューステージ構築完了
     void OnAlreadyStartView() {
@@ -86,5 +96,16 @@ public class GameSceneManager : MonoBehaviour {
 
     //プレーヤーミス
     void OnPlayerMiss() {
+        this.sceneCanvas.SendMessage("OnPlayerMiss");
+        DOVirtual.DelayedCall(5.0f, () => {
+            Destroy(this.sceneView);
+            Destroy(this.sceneCanvas);
+            this.setupScene();
+        });
+    }
+
+    public void addScore(int point, Vector3 pos) {
+        this.gameScore += point;
+        this.SceneCanvasController.displayScore(point, pos);
     }
 }

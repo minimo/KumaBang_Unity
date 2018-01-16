@@ -20,7 +20,6 @@ public class GameSceneViewController : MonoBehaviour {
     //選択中パネル
     public GameObject activePanel = null;
     public PanelController activePanelController = null;
-    int activePanelX = -1, activePanelY = -1;
     int activePanelBeforeX, activePanelBeforeY;
 
     //ステージデータ
@@ -87,6 +86,10 @@ public class GameSceneViewController : MonoBehaviour {
         }
 	}
 
+    public void addScore(int point, Vector3 pos) {
+        this.sceneManager.addScore(point, pos);
+    }
+
     //ステージ初期化
     void initStage() {
         GameObject currentScene = ApplicationManagerController.Instance.currentSceneManager;
@@ -149,7 +152,7 @@ public class GameSceneViewController : MonoBehaviour {
         GameObject panel = Instantiate(this.sourcePanel);
         Vector3 pos = new Vector3(px + 0.5f, py + 10.0f - 0.5f);
         panel.transform.position = pos;
-        panel.transform.parent = this.transform;
+        panel.transform.SetParent(this.transform);
 
         PanelController pc = panel.GetComponent<PanelController>();
         pc.index = index;
@@ -243,6 +246,7 @@ public class GameSceneViewController : MonoBehaviour {
                 this.playerController.setDirection(0);
                 break;
         }
+        this.playerController.footPanel = pc;
 
         //落下演出
         seq.Append(this.player.transform.DOLocalMove(new Vector3(0, -5.0f, 0.0f), 1.0f)
@@ -252,17 +256,13 @@ public class GameSceneViewController : MonoBehaviour {
                 this.player.SendMessage("OnReadyStart");
             })
         );
-/*
-        seq.Append(this.player.transform.DOLocalMove(new Vector3(x, y), 2.0f)
-            .SetEase(Ease.Linear)
-            .SetRelative()
-            .OnComplete(()=>{
-                this.player.GetComponent<PlayerController>().moveToNextPanel();
-            })
-        );
-*/
     }
 
     void OnPlayerMiss() {
+        this.sceneManager.SendMessage("OnPlayerMiss");
+    }
+
+    void OnStageClear() {
+
     }
 }

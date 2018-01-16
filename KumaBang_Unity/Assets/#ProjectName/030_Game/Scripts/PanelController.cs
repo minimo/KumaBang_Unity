@@ -49,7 +49,7 @@ public class PanelController : MonoBehaviour {
         }
 
         //プレイヤーが降りたのでパネルドロップ
-        if (this.isOnPlayerBefore && !this.isOnPlayer) this.drop();
+//        if (this.isOnPlayerBefore && !this.isOnPlayer) this.drop();
 
         //Z座標調整
         if (!this.isDrop) {
@@ -83,13 +83,13 @@ public class PanelController : MonoBehaviour {
     }
 
     //パネルドロップ
-    void drop() {
-        if (this.isDrop) return;
+    public void drop() {
+        if (this.isDrop || this.isPointing) return;
         this.isDrop = true;
         this.view.stageMap[this.stageX, this.stageY] = null;
 
         var seq = DOTween.Sequence();
-        seq.Append(this.transform.DOLocalMove(new Vector3(0.0f, -1.0f), 0.5f)
+        seq.Append(this.transform.DOLocalMove(new Vector3(0.0f, -1.0f), 1.0f)
             .SetEase(Ease.InQuad)
             .SetRelative()
         );
@@ -99,10 +99,11 @@ public class PanelController : MonoBehaviour {
             () => renderer.color,
             color => renderer.color = color,
             0.0f,
-            0.5f
+            1.0f
         ).OnComplete(() => {
             Destroy(this.gameObject);
         });
+        SoundManagerController.Instance.playSE("paneldrop");
     }
 
     //パネル移動可能かチェック
@@ -150,6 +151,18 @@ public class PanelController : MonoBehaviour {
                 if (direction == 1) return true;
                 break;
             case 11:
+                if (direction == 2) return true;
+                break;
+            case 12:
+                if (direction == 3) return true;
+                break;
+            case 13:
+                if (direction == 0) return true;
+                break;
+            case 14:
+                if (direction == 1) return true;
+                break;
+            case 15:
                 if (direction == 2) return true;
                 break;
         }

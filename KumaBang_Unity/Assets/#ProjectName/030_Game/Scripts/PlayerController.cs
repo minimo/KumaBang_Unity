@@ -25,13 +25,17 @@ public class PlayerController : MonoBehaviour {
     //移動速度
     float speed = 2.0f;
 
+    //乗っているパネル
+    public PanelController footPanel = null;
+
     //各種フラグ
     bool isStart = false;
     bool isMiss = false;
 
+    //アニメーション制御用
+	private Animator animator = null;
 	private int idX = Animator.StringToHash("x"), idY = Animator.StringToHash("y");
 	private int idMiss = Animator.StringToHash("miss");
-	private Animator animator = null;
 
 	void Start () {
         this.view = this.transform.parent.GetComponent<GameSceneViewController>();
@@ -51,12 +55,18 @@ public class PlayerController : MonoBehaviour {
             //足元のパネルを取得
             PanelController pc = this.view.getPanel(this.stageX, this.stageY);
             if (pc) {
-                if (pc.isPointing || pc.isDrop || !pc.checkEnablePass(this.direction)) this.miss();
+                if (pc.isPointing || pc.isDrop || !pc.checkEnablePass(this.direction)) {
+                    this.miss();
+                } else {
+                    this.footPanel.drop();
+                    this.view.addScore(1000, this.footPanel.gameObject.transform.position);
+                    this.footPanel = pc;
+                }
             } else {
                 this.miss();
             }
 //            Debug.Log("change panel");
-//        Debug.Log("wx: "+ this.transform.position.x+" wy:"+this.transform.position.y+" x: "+ this.stageX+" y:"+this.stageY);
+//            Debug.Log("wx: "+ this.transform.position.x+" wy:"+this.transform.position.y+" x: "+ this.stageX+" y:"+this.stageY);
         }
 
         //前フレームからの移動量
@@ -138,11 +148,11 @@ public class PlayerController : MonoBehaviour {
         this.isMiss = true;
         var seq = DOTween.Sequence();
         seq.Append(this.transform.DOLocalMove(new Vector3(0.0f, 0.2f), 0.1f)
-            .SetEase(Ease.InOutCirc)
+            .SetEase(Ease.OutSine)
             .SetRelative()
         );
         seq.Append(this.transform.DOLocalMove(new Vector3(0.0f, -0.2f), 0.1f)
-            .SetEase(Ease.InOutCirc)
+            .SetEase(Ease.InSine)
             .SetRelative()
         );
     	this.animator.SetBool(idMiss, true);

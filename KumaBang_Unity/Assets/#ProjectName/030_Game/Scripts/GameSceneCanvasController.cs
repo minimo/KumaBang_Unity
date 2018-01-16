@@ -25,6 +25,8 @@ public class GameSceneCanvasController : MonoBehaviour {
         txtObj.transform.position = new Vector3(1.5f, 2.0f, 0);
         this.scoreText = txtObj.GetComponent<Text>();
 
+        this.dispScore = this.sceneManager.gameScore;
+        this._dispScore = this.sceneManager.gameScore;
         this.initStage();
 	}
 	
@@ -36,7 +38,7 @@ public class GameSceneCanvasController : MonoBehaviour {
                 () => this.dispScore,
                 num => this.dispScore = num,
                 this._dispScore,
-                1.0f
+                0.2f
             );
         }
         this.scoreText.text = "Score: " + this.dispScore;
@@ -45,7 +47,7 @@ public class GameSceneCanvasController : MonoBehaviour {
     void initStage() {
         //ステージ番号表示
         GameObject stageNumber = Instantiate((GameObject)Resources.Load("Prefabs/StageNumber"));
-        stageNumber.transform.parent = this.transform;
+        stageNumber.transform.SetParent(this.transform);
         stageNumber.transform.position = new Vector3(-2.5f, -2.5f, 0.0f);
         stageNumber.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
@@ -59,15 +61,62 @@ public class GameSceneCanvasController : MonoBehaviour {
             .SetDelay(1.0f)
             .OnComplete(() => {
                 this.transform.parent.gameObject.SendMessage("OnAlreadyStartCanvas");
+                Destroy(stageNumber);
             })
         );
 
         //ゴールパネル標識
     }
 
+    public void displayScore(int point, Vector3 pos) {
+        pos.y += 0.25f;
+        //ステージ番号表示
+        GameObject canvasText = Instantiate((GameObject)Resources.Load("Prefabs/CanvasTextLabel"));
+        canvasText.transform.SetParent(this.transform);
+        canvasText.transform.position = pos;
+        canvasText.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        canvasText.GetComponent<Text>().text = "" + point;
+
+        var seq = DOTween.Sequence();
+        seq.Append(canvasText.transform.DOMove(new Vector3(0.0f, 0.5f, 0.0f), 2.0f)
+            .SetEase(Ease.OutQuint)
+            .SetRelative()
+        );
+
+        Text renderer = canvasText.GetComponent<Text>();
+        DOTween.ToAlpha(
+            () => renderer.color,
+            color => renderer.color = color,
+            0.0f,
+            2.0f
+        ).OnComplete(() => {
+            Destroy(canvasText);
+        });
+    }
+
     void OnStartStage() {
     }
 
-    void OnPointGet(Vector3 pos, int score) {
+    void OnPlayerMiss() {
+        //ステージ番号表示
+        GameObject canvasText = Instantiate((GameObject)Resources.Load("Prefabs/CanvasTextLabel"));
+        canvasText.transform.SetParent(this.transform);
+        canvasText.transform.position = new Vector3(2.5f, 10.0f, 0.0f);
+        canvasText.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        canvasText.GetComponent<Text>().text = "MISS!!";
+
+        var seq = DOTween.Sequence();
+        seq.Append(canvasText.transform.DOMove(new Vector3(2.5f, -2.5f, 0.0f), 0.5f)
+            .SetEase(Ease.OutBounce)
+            .SetDelay(1.0f)
+        );
+        seq.Append(canvasText.transform.DOMove(new Vector3(2.5f, -10.0f, 0.0f), 0.5f)
+            .SetEase(Ease.InOutSine)
+            .SetDelay(1.0f)
+            .OnComplete(() => {
+                this.transform.parent.gameObject.SendMessage("OnAlreadyStartCanvas");
+                Destroy(canvasText);
+            })
+        );
     }
 }
