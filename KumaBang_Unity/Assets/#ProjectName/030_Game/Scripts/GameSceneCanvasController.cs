@@ -109,6 +109,29 @@ public class GameSceneCanvasController : MonoBehaviour {
     void OnStartStage() {
     }
 
+    void OnStageClear() {
+        //ステージ番号表示
+        GameObject canvasText = Instantiate((GameObject)Resources.Load("Prefabs/CanvasTextLabel"));
+        canvasText.transform.SetParent(this.transform);
+        canvasText.transform.position = new Vector3(2.5f, 10.0f, 0.0f);
+        canvasText.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        canvasText.GetComponent<Text>().text = "CLEAR !!";
+
+        var seq = DOTween.Sequence();
+        seq.Append(canvasText.transform.DOMove(new Vector3(2.5f, -2.5f, 0.0f), 0.5f)
+            .SetEase(Ease.OutBounce)
+            .SetDelay(1.0f)
+        );
+        seq.Append(canvasText.transform.DOMove(new Vector3(2.5f, -10.0f, 0.0f), 0.5f)
+            .SetEase(Ease.InOutSine)
+            .SetDelay(1.0f)
+            .OnComplete(() => {
+                this.transform.parent.gameObject.SendMessage("OnAlreadyStartCanvas");
+                Destroy(canvasText);
+            })
+        );
+    }
+
     void OnPlayerMiss() {
         //ステージ番号表示
         GameObject canvasText = Instantiate((GameObject)Resources.Load("Prefabs/CanvasTextLabel"));

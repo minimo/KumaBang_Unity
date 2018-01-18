@@ -86,6 +86,7 @@ public class GameSceneViewController : MonoBehaviour {
         }
 	}
 
+    //スコア加算
     public void addScore(int point, Vector3 pos) {
         this.sceneManager.addScore(point, pos);
     }
@@ -225,6 +226,7 @@ public class GameSceneViewController : MonoBehaviour {
         this.player.transform.SetParent(this.transform);
         this.player.transform.position = new Vector3(this.startX + 0.5f, this.startY + 4.5f, -10.0f);
         this.playerController = this.player.GetComponent<PlayerController>();
+        this.playerController.setActorNumber(this.app.selectedActor);
 
         //Tweener
         var seq = DOTween.Sequence();
@@ -263,6 +265,6 @@ public class GameSceneViewController : MonoBehaviour {
     }
 
     void OnStageClear() {
-
+        this.sceneManager.SendMessage("OnStageClear");
     }
 }

@@ -31,12 +31,16 @@ public class PlayerController : MonoBehaviour {
     //各種フラグ
     bool isStart = false;
     bool isMiss = false;
+    bool isClear = false;
 
     //アニメーション制御用
 	private Animator animator = null;
 	private int idX = Animator.StringToHash("x"), idY = Animator.StringToHash("y");
 	private int idMiss = Animator.StringToHash("miss");
 	private int idClear = Animator.StringToHash("clear");
+
+    //キャラクタテクスチャ差し替え用
+    [SerializeField] Texture [] actors = new Texture[7];
 
 	void Start () {
         this.view = this.transform.parent.GetComponent<GameSceneViewController>();
@@ -45,7 +49,7 @@ public class PlayerController : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (!this.isStart || this.isMiss) return;
+        if (!this.isStart || this.isMiss || this.isClear) return;
 
         //ステージ上座標
         this.stageX = Mathf.FloorToInt(this.transform.position.x);
@@ -97,10 +101,17 @@ public class PlayerController : MonoBehaviour {
         this.direction = dir;
     }
 
+    //テクスチャ差し替え
+    public void setActorNumber(int num = 0) {
+        this.gameObject.GetComponent<OverrideSpriteAnimationsTexture>().overrideTexture = this.actors[num];
+    }
+
     //次のパネルへ移動
     public void moveToNextPanel() {
         //次進行方向
         int nextDirection = -1;
+        //クリアパネルか
+        bool isClearPanel = false;
 
         //足元のパネルを取得
         PanelController pc = this.view.getPanel(this.stageX, this.stageY);
@@ -126,24 +137,37 @@ public class PlayerController : MonoBehaviour {
                 if (this.direction == 1) nextDirection = 0;
                 if (this.direction == 2) nextDirection = 3;
                 break;
+
+            //クリア判定
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+                isClearPanel = true;
+                break;
         }
         this.direction = nextDirection;
 
-        //次のパネルへの移動量
-        float x = 0, y = 0;
-        if (this.direction == 0) y = 1.0f;
-        if (this.direction == 1) x = 1.0f;
-        if (this.direction == 2) y = -1.0f;
-        if (this.direction == 3) x = -1.0f;
+        if (isClearPanel) {
+            this.clear();
+        } else {
+            //次のパネルへの移動量
+            float x = 0, y = 0;
+            if (this.direction == 0) y = 1.0f;
+            if (this.direction == 1) x = 1.0f;
+            if (this.direction == 2) y = -1.0f;
+            if (this.direction == 3) x = -1.0f;
 
-        this.tweener = this.transform.DOLocalMove(new Vector3(x, y), this.speed)
-            .SetEase(Ease.Linear)
-            .SetRelative()
-            .OnComplete( ()=>{
-                this.moveToNextPanel();
-            });
+            this.tweener = this.transform.DOLocalMove(new Vector3(x, y), this.speed)
+                .SetEase(Ease.Linear)
+                .SetRelative()
+                .OnComplete( ()=>{
+                    this.moveToNextPanel();
+                });
+        }
     }
 
+    //ミス処理
     void miss() {
         this.tweener.Kill();
         this.isMiss = true;
@@ -161,22 +185,15 @@ public class PlayerController : MonoBehaviour {
         this.view.SendMessage("OnPlayerMiss");
         Debug.Log("Player miss.");
     }
+
+    //ステージクリア処理
     void clear() {
         this.tweener.Kill();
-        this.isMiss = true;
-        var seq = DOTween.Sequence();
-        seq.Append(this.transform.DOLocalMove(new Vector3(0.0f, 0.2f), 0.1f)
-            .SetEase(Ease.OutSine)
-            .SetRelative()
-        );
-        seq.Append(this.transform.DOLocalMove(new Vector3(0.0f, -0.2f), 0.1f)
-            .SetEase(Ease.InSine)
-            .SetRelative()
-        );
-    	this.animator.SetBool(idMiss, true);
+        this.isClear = true;
 
-        this.view.SendMessage("OnPlayerMiss");
-        Debug.Log("Player miss.");
+    	this.animator.SetBool(idClear, true);
+        this.view.SendMessage("OnStageClear");
+        Debug.Log("Stage clear.");
     }
 
     void OnReadyStart() {

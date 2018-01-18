@@ -10,7 +10,7 @@ public class GameSceneManager : MonoBehaviour {
 
     public int gameScore = 0;
     public int zanki = 3;
-
+    int stageLevel = 1;
 
     //サウンドマネージャー
     SoundManagerController soundManager;
@@ -74,6 +74,12 @@ public class GameSceneManager : MonoBehaviour {
         fd.transform.position = new Vector3(2.5f, -2.5f);
     }
 
+    //スコア加算処理
+    public void addScore(int point, Vector3 pos) {
+        this.gameScore += point;
+        this.SceneCanvasController.displayScore(point, pos);
+    }
+
     //シーンビューステージ構築完了
     void OnAlreadyStartView() {
         this.isAlreadyView = true;
@@ -96,18 +102,29 @@ public class GameSceneManager : MonoBehaviour {
         this.sceneCanvas.SendMessage("OnStartStage");
     }
 
-    //プレーヤーミス
-    void OnPlayerMiss() {
-        this.sceneCanvas.SendMessage("OnPlayerMiss");
+    //ステージクリア
+    void OnStageClear() {
+        this.sceneCanvas.SendMessage("OnStageClear");
         DOVirtual.DelayedCall(5.0f, () => {
             Destroy(this.sceneView);
             Destroy(this.sceneCanvas);
             this.setupScene();
         });
     }
+    //プレーヤーミス
+    void OnPlayerMiss() {
+        this.zanki--;
+        if (zanki < 0) {
+            this.zanki = 0;
+//            this.gameOver();
+            return;
+        }
 
-    public void addScore(int point, Vector3 pos) {
-        this.gameScore += point;
-        this.SceneCanvasController.displayScore(point, pos);
+        this.sceneCanvas.SendMessage("OnPlayerMiss");
+        DOVirtual.DelayedCall(5.0f, () => {
+            Destroy(this.sceneView);
+            Destroy(this.sceneCanvas);
+            this.setupScene();
+        });
     }
 }
