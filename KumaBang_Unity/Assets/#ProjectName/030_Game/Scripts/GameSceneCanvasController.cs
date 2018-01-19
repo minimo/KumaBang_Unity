@@ -62,6 +62,7 @@ public class GameSceneCanvasController : MonoBehaviour {
         stageNumber.transform.SetParent(this.transform);
         stageNumber.transform.position = new Vector3(-2.5f, -2.5f, 0.0f);
         stageNumber.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        stageNumber.GetComponent<Text>().text = "STAGE " + ApplicationManagerController.Instance.playingStageNumber;
 
         var seq = DOTween.Sequence();
         seq.Append(stageNumber.transform.DOMove(new Vector3(2.5f, -2.5f, 0.0f), 0.5f)
@@ -109,7 +110,7 @@ public class GameSceneCanvasController : MonoBehaviour {
     void OnStartStage() {
     }
 
-    void OnStageClear() {
+    void OnStageClear(bool isPerfect) {
         //ステージ番号表示
         GameObject canvasText = Instantiate((GameObject)Resources.Load("Prefabs/CanvasTextLabel"));
         canvasText.transform.SetParent(this.transform);
@@ -153,5 +154,8 @@ public class GameSceneCanvasController : MonoBehaviour {
                 Destroy(canvasText);
             })
         );
+    }
+
+    void OnGameOver() {
     }
 }

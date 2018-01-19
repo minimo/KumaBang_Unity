@@ -35,14 +35,14 @@ public class SoundManagerController : SingletonMonoBehaviour<SoundManagerControl
         return true;
     }
 
-    public bool playBGM(string name, float fadeTime = 0.0f) {
+    public bool playBGM(string name, float fadeTime = 0.0f, bool loop = true) {
         if (!this.sounds.ContainsKey(name)) return false;
 
         //プレイヤーを生成
         GameObject player = new GameObject("BGMPlayer");
         player.transform.parent = this.transform;
         AudioSource source = player.AddComponent<AudioSource>();
-        source.loop = true;
+        source.loop = loop;
 
         source.clip = this.sounds[name];
         source.Play();

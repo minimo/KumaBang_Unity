@@ -33,8 +33,12 @@ public class PanelController : MonoBehaviour {
     public bool isDisableShaffle = false; //シャッフル不可
     public bool isOnOtherPanel = false; //他のパネルの上にいる
 
+    //投入後
+    float enterZ = 0.0f;
+
 	// Use this for initialization
 	void Start () {
+        this.enterZ = 1.0f;
 	}
 	
 	// Update is called once per frame
@@ -55,6 +59,9 @@ public class PanelController : MonoBehaviour {
         if (!this.isDrop) {
             Vector3 pos = this.transform.position;
             pos.z = pos.y;
+            pos.z += this.enterZ;
+            if (this.enterZ < 0) this.enterZ = 0.0f;
+            this.enterZ -= 0.01f;
             if (this.isPointing) pos.z = -15.0f;
             this.transform.position = pos;
         }
@@ -89,10 +96,30 @@ public class PanelController : MonoBehaviour {
         this.view.stageMap[this.stageX, this.stageY] = null;
 
         var seq = DOTween.Sequence();
-        seq.Append(this.transform.DOLocalMove(new Vector3(0.0f, -1.0f), 1.0f)
+        seq.Append(this.transform.DOLocalMove(new Vector3(0.0f, -2.0f), 2.0f)
             .SetEase(Ease.InQuad)
             .SetRelative()
         );
+
+        SpriteRenderer renderer = this.gameObject.GetComponent<SpriteRenderer>();
+        DOTween.ToAlpha(
+            () => renderer.color,
+            color => renderer.color = color,
+            0.0f,
+            1.0f
+        ).OnComplete(() => {
+            Destroy(this.gameObject);
+        });
+        SoundManagerController.Instance.playSE("paneldrop");
+    }
+
+    //自分を落として新規パネルを投入する
+    public void change(int index) {
+        if (this.isDrop || this.isPointing) return;
+        this.isDrop = true;
+
+        GameObject newPanel = this.view.enterPanel(index, this.stageX, this.stageY);
+        this.view.stageMap[this.stageX, this.stageY] = newPanel;
 
         SpriteRenderer renderer = this.gameObject.GetComponent<SpriteRenderer>();
         DOTween.ToAlpha(

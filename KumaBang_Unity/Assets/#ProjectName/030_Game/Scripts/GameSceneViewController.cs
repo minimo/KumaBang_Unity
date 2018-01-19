@@ -97,8 +97,9 @@ public class GameSceneViewController : MonoBehaviour {
         this.sceneManager = currentScene.GetComponent<GameSceneManager>();
 
         //ステージデータ読み込み
-        this.panelData = new MapReader("Map/Stage1_panel");
-        this.itemData = new MapReader("Map/Stage1_item");
+        string stageName = "Map/Stage" + this.app.playingStageNumber;
+        this.panelData = new MapReader(stageName + "_panel");
+        this.itemData = new MapReader(stageName + "_item");
 
         //ステージパネルデータ配列
         this.stageMap = new GameObject[this.stageWidth, this.stageHeight];
@@ -106,9 +107,17 @@ public class GameSceneViewController : MonoBehaviour {
         //パネルの準備
         for (int y = 0; y < this.stageHeight; y++) {
             for (int x = 0; x < this.stageWidth; x++) {
-                float d = Random.Range(0.0f, 1.0f);
+                float delay = Random.Range(0.0f, 1.0f);
                 int idx = this.panelData.mapData[x, y];
-                GameObject p = this.enterPanel(idx, x, y, d);
+                GameObject p = this.enterPanel(idx, x, y);
+                //落下演出
+                Vector3 pos = p.transform.position;
+                pos.y += 10.0f;
+                p.transform.position = pos;
+                p.transform.DOLocalMove(new Vector3(0, -10.0f, 0.0f), 1.0f)
+                    .SetEase(Ease.OutBounce)
+                    .SetDelay(delay)
+                    .SetRelative();
                 PanelController pc = p.GetComponent<PanelController>();
                 //パネル設定
                 switch (this.itemData.mapData[x, y]) {
@@ -120,7 +129,6 @@ public class GameSceneViewController : MonoBehaviour {
                         this.startY = y;
                         pc.isStart = true;
                         pc.isDisableMove = true;
-                        pc.isDisableShaffle = true;
                         break;
                     //ゴールパネル
                     case 9:
@@ -128,12 +136,9 @@ public class GameSceneViewController : MonoBehaviour {
                         this.goalY = y;
                         pc.isStart = true;
                         pc.isDisableMove = true;
-                        pc.isDisableShaffle = true;
-                        break;
-                    case -1:
-                        pc.isDisableShaffle = true;
                         break;
                 }
+                if (this.itemData.mapData[x, y] != 0) pc.isDisableShaffle = true;
                 this.stageMap[x, y] = p;
             }
         }
@@ -148,10 +153,10 @@ public class GameSceneViewController : MonoBehaviour {
     }
 
     //パネル投入
-    GameObject enterPanel(int index, int x, int y, float delay) {
+    public GameObject enterPanel(int index, int x, int y) {
         float px = x + this.offsetX, py = -(y + this.offsetY);
         GameObject panel = Instantiate(this.sourcePanel);
-        Vector3 pos = new Vector3(px + 0.5f, py + 10.0f - 0.5f);
+        Vector3 pos = new Vector3(px + 0.5f, py - 0.5f);
         panel.transform.position = pos;
         panel.transform.SetParent(this.transform);
 
@@ -164,11 +169,6 @@ public class GameSceneViewController : MonoBehaviour {
         SpriteRenderer sp = panel.GetComponent<SpriteRenderer>();
         sp.sprite = this.panelSprites[index];
 
-        //落下演出
-        panel.transform.DOLocalMove(new Vector3(0, -10.0f, 0.0f), 1.0f)
-                    .SetEase(Ease.OutBounce)
-                    .SetDelay(delay)
-                    .SetRelative();
         return panel;
     }
 
@@ -265,6 +265,15 @@ public class GameSceneViewController : MonoBehaviour {
     }
 
     void OnStageClear() {
-        this.sceneManager.SendMessage("OnStageClear");
+        //パーフェクトかチェック
+        int livePanelCount = 0;
+        for (int y = 0; y < this.stageHeight; y++) {
+            for (int x = 0; x < this.stageWidth; x++) {
+                if (this.stageMap[x, y]) livePanelCount++;
+            }
+        }
+        bool isPerfect = false;
+        if (livePanelCount == 1) isPerfect = true;
+        this.sceneManager.SendMessage("OnStageClear", isPerfect);
     }
 }

@@ -63,7 +63,12 @@ public class PlayerController : MonoBehaviour {
                 if (pc.isPointing || pc.isDrop || !pc.checkEnablePass(this.direction)) {
                     this.miss();
                 } else {
-                    this.footPanel.drop();
+                    if (this.footPanel.index != 3) {
+                        this.footPanel.drop();
+                    } else {
+                        int idx = (this.direction % 2 == 0)? 1: 2;
+                        this.footPanel.change(idx);
+                    }
                     this.view.addScore(1000, this.footPanel.gameObject.transform.position);
                     this.footPanel = pc;
                 }

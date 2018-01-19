@@ -28,6 +28,8 @@ public class GameSceneManager : MonoBehaviour {
     bool isAlreadyView = false;
     bool isAlreadyCanvas = false;
 
+    [SerializeField] int startStageNumber = 1;
+
 	// Use this for initialization
 	void Start () {
         //アプリケーションマネージャー取得
@@ -35,14 +37,14 @@ public class GameSceneManager : MonoBehaviour {
         this.app.currentSceneManager = this.gameObject;
 
         //ステージ情報
-        this.app.playingStageNumber = 1;        
+        this.app.playingStageNumber = this.startStageNumber;
 
         //サウンドマネージャー取得
         this.soundManager = SoundManagerController.Instance;
         //使用音声ファイル読み込み
-        this.soundManager.addSound("bgm_stage1", "Sounds/DS-124m");
-        this.soundManager.addSound("paneldrop", "Sounds/se_maoudamashii_system46");
-        soundManager.playBGM("bgm_stage1", 3.0f);
+        this.soundManager.addSound("bgm_clear", "Sounds/bgm_StageClear");
+        this.soundManager.addSound("playermiss", "Sounds/se_PlayerMiss");
+        this.soundManager.addSound("paneldrop", "Sounds/se_PanelThrough");
 
         this.setupScene();
 	}
@@ -52,7 +54,7 @@ public class GameSceneManager : MonoBehaviour {
 
 	}
 
-    void setupScene() {
+    void setupScene(bool isRestart = false) {
         this.isGameStart = false;
         this.isAlreadyView = false;
         this.isAlreadyCanvas = false;
@@ -72,12 +74,22 @@ public class GameSceneManager : MonoBehaviour {
         //シーン開始フェード
         GameObject fd = Instantiate((GameObject)Resources.Load("Prefabs/Mask_first"));
         fd.transform.position = new Vector3(2.5f, -2.5f);
+
+        //リスタート時は以下の処理を行わない
+        if (isRestart) return;
+
+        //ステージBGM再生
+        this.soundManager.addSound("stagebgm", "Sounds/bgm_Stage" + this.app.playingStageNumber);
+        this.soundManager.playBGM("stagebgm", 3.0f);
     }
 
     //スコア加算処理
     public void addScore(int point, Vector3 pos) {
         this.gameScore += point;
         this.SceneCanvasController.displayScore(point, pos);
+    }
+
+    void gameOver() {
     }
 
     //シーンビューステージ構築完了
@@ -103,9 +115,11 @@ public class GameSceneManager : MonoBehaviour {
     }
 
     //ステージクリア
-    void OnStageClear() {
-        this.sceneCanvas.SendMessage("OnStageClear");
-        DOVirtual.DelayedCall(5.0f, () => {
+    void OnStageClear(bool isPerfect) {
+        this.soundManager.playBGM("bgm_clear", 0.5f, false);
+        this.sceneCanvas.SendMessage("OnStageClear", isPerfect);
+        this.app.playingStageNumber++;
+        DOVirtual.DelayedCall(7.0f, () => {
             Destroy(this.sceneView);
             Destroy(this.sceneCanvas);
             this.setupScene();
@@ -116,10 +130,11 @@ public class GameSceneManager : MonoBehaviour {
         this.zanki--;
         if (zanki < 0) {
             this.zanki = 0;
-//            this.gameOver();
+            this.gameOver();
             return;
         }
 
+        this.soundManager.playSE("se_playerMiss");
         this.sceneCanvas.SendMessage("OnPlayerMiss");
         DOVirtual.DelayedCall(5.0f, () => {
             Destroy(this.sceneView);
