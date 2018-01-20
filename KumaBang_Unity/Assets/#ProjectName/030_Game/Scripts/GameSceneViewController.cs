@@ -224,9 +224,10 @@ public class GameSceneViewController : MonoBehaviour {
         if (this.player) Destroy(this.player.gameObject);
         this.player = Instantiate((GameObject)Resources.Load("Prefabs/Player"));
         this.player.transform.SetParent(this.transform);
-        this.player.transform.position = new Vector3(this.startX + 0.5f, this.startY + 4.5f, -10.0f);
+        this.player.transform.position = new Vector3(this.startX + 0.5f, -this.startY + 4.5f, -10.0f);
         this.playerController = this.player.GetComponent<PlayerController>();
         this.playerController.setActorNumber(this.app.selectedActor);
+        this.playerController.setStartPosition(this.startX, this.startY);
 
         //Tweener
         var seq = DOTween.Sequence();

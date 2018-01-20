@@ -96,8 +96,8 @@ public class PlayerController : MonoBehaviour {
     public void setStartPosition(int x, int y) {
         this.stageX = x;
         this.stageY = y;
-        this.beforeStageX = -1;
-        this.beforeStageY = -1;
+        this.beforeStageX = x;
+        this.beforeStageY = y;
     }
 
     public void setDirection(int dir) {
