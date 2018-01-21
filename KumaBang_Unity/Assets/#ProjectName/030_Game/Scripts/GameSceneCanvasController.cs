@@ -112,16 +112,14 @@ public class GameSceneCanvasController : MonoBehaviour {
 
     void OnStageClear(bool isPerfect) {
         //ステージ番号表示
-        GameObject canvasText = Instantiate((GameObject)Resources.Load("Prefabs/CanvasTextLabel"));
+        GameObject canvasText = Instantiate((GameObject)Resources.Load("Prefabs/StageClearText"));
         canvasText.transform.SetParent(this.transform);
         canvasText.transform.position = new Vector3(2.5f, 10.0f, 0.0f);
         canvasText.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-        canvasText.GetComponent<Text>().text = "CLEAR !!";
 
         var seq = DOTween.Sequence();
         seq.Append(canvasText.transform.DOMove(new Vector3(2.5f, -2.5f, 0.0f), 0.5f)
-            .SetEase(Ease.OutBounce)
-            .SetDelay(1.0f)
+            .SetEase(Ease.OutSine)
         );
         seq.Append(canvasText.transform.DOMove(new Vector3(2.5f, -10.0f, 0.0f), 0.5f)
             .SetEase(Ease.InOutSine)
@@ -135,11 +133,10 @@ public class GameSceneCanvasController : MonoBehaviour {
 
     void OnPlayerMiss() {
         //ステージ番号表示
-        GameObject canvasText = Instantiate((GameObject)Resources.Load("Prefabs/CanvasTextLabel"));
+        GameObject canvasText = Instantiate((GameObject)Resources.Load("Prefabs/PlayerMissText"));
         canvasText.transform.SetParent(this.transform);
         canvasText.transform.position = new Vector3(2.5f, 10.0f, 0.0f);
         canvasText.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-        canvasText.GetComponent<Text>().text = "MISS!!";
 
         var seq = DOTween.Sequence();
         seq.Append(canvasText.transform.DOMove(new Vector3(2.5f, -2.5f, 0.0f), 0.5f)
