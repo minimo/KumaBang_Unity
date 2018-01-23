@@ -17,7 +17,7 @@ public class TutorialSceneManagerController : MonoBehaviour {
         string name = "Prefabs/Tutorial" + numStage;
         GameObject tutorial1 = Instantiate((GameObject)Resources.Load(name + "_1"));
         tutorial1.transform.SetParent(this.transform);
-        GameObject tutorial2 = Instantiate((GameObject)Resources.Load(name + "_1"));
+        GameObject tutorial2 = Instantiate((GameObject)Resources.Load(name + "_2"));
         tutorial2.transform.SetParent(this.transform);
 	}
 }
