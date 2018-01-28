@@ -455,7 +455,8 @@ public class SelectSceneManager : MonoBehaviour {
 
     void OnAnimationEnd() {
 //        soundManager.stopBGM(1.0f);
-        SceneManager.LoadScene("GameScene");
+//        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("TutorialScene");
     }
 }
 

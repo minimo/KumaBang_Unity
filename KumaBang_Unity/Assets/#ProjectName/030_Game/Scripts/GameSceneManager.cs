@@ -80,7 +80,7 @@ public class GameSceneManager : MonoBehaviour {
 
         //ステージBGM再生
         this.soundManager.addSound("stagebgm", "Sounds/bgm_Stage" + this.app.playingStageNumber);
-        this.soundManager.playBGM("stagebgm", 3.0f);
+        this.soundManager.playBGM("stagebgm", 2.0f);
     }
 
     //スコア加算処理
