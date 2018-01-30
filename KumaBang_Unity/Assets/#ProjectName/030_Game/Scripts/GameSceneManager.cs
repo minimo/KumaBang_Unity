@@ -125,6 +125,7 @@ public class GameSceneManager : MonoBehaviour {
             this.setupScene();
         });
     }
+
     //プレーヤーミス
     void OnPlayerMiss() {
         this.zanki--;

@@ -6,6 +6,7 @@ using DG.Tweening;
 [RequireComponent(typeof(Animator))]
 public class PlayerController : MonoBehaviour {
 
+    [SerializeField] GameObject playerSprite;
     public GameSceneViewController view;
 
     //ステージ上座標
@@ -44,7 +45,7 @@ public class PlayerController : MonoBehaviour {
 
 	void Start () {
         this.view = this.transform.parent.GetComponent<GameSceneViewController>();
-		this.animator = GetComponent<Animator> ();
+		this.animator = this.playerSprite.GetComponent<Animator> ();
 	}
 
 	// Update is called once per frame
