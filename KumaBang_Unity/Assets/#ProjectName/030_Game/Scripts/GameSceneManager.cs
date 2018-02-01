@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using DG.Tweening;
 
 public class GameSceneManager : MonoBehaviour {
@@ -45,13 +46,13 @@ public class GameSceneManager : MonoBehaviour {
         this.soundManager.addSound("bgm_clear", "Sounds/bgm_StageClear");
         this.soundManager.addSound("playermiss", "Sounds/se_PlayerMiss");
         this.soundManager.addSound("paneldrop", "Sounds/se_PanelThrough");
+        this.soundManager.addSound("gameover", "Sounds/gameover");
 
         this.setupScene();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
 	}
 
     void setupScene(bool isRestart = false) {
@@ -89,7 +90,10 @@ public class GameSceneManager : MonoBehaviour {
         this.SceneCanvasController.displayScore(point, pos);
     }
 
+    //ゲームオーバー
     void gameOver() {
+        this.soundManager.playBGM("gameover", 1.0f, false);
+        this.sceneCanvas.SendMessage("OnGameOver");
     }
 
     //シーンビューステージ構築完了
@@ -128,19 +132,30 @@ public class GameSceneManager : MonoBehaviour {
 
     //プレーヤーミス
     void OnPlayerMiss() {
-        this.zanki--;
-        if (zanki < 0) {
-            this.zanki = 0;
-            this.gameOver();
-            return;
-        }
-
         this.soundManager.playSE("se_playerMiss");
         this.sceneCanvas.SendMessage("OnPlayerMiss");
         DOVirtual.DelayedCall(5.0f, () => {
+            this.zanki--;
+            if (zanki < 0) {
+                this.zanki = 0;
+                this.gameOver();
+                return;
+            }
             Destroy(this.sceneView);
             Destroy(this.sceneCanvas);
             this.setupScene();
         });
+    }
+
+    void OnExitScene() {
+        //マスキング用スプライト
+        GameObject go = Instantiate((GameObject)Resources.Load("Prefabs/MaskSprite"));
+        go.transform.SetParent(this.transform);
+        go.transform.position = new Vector3(2.5f, -3.0f);
+        go.GetComponent<MaskSpriteController>().RotateIn(1.0f);
+        go.GetComponent<MaskSpriteController>().isSendMessage = true;
+    }
+    void OnAnimationEnd() {
+        SceneManager.LoadScene("TitleScene");
     }
 }

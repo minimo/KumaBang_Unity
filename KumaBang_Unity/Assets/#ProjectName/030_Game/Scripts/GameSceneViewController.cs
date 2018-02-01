@@ -44,6 +44,10 @@ public class GameSceneViewController : MonoBehaviour {
 
     //フラグ管理
     public bool isGameStart = false;
+    public bool isEvent = false;
+
+    //経過フレーム
+    int time = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -83,6 +87,10 @@ public class GameSceneViewController : MonoBehaviour {
         } else {
             this.activePanelBeforeX = -1;
             this.activePanelBeforeY = -1;
+        }
+
+        if (this.isGameStart) {
+            this.time++;
         }
 	}
 
@@ -150,6 +158,22 @@ public class GameSceneViewController : MonoBehaviour {
             this.swapPanel(x1, y1, x2, y2);
         }
         this.transform.parent.gameObject.SendMessage("OnAlreadyStartView");
+
+        //ゴールパネル標識
+        GameObject canvasText = Instantiate((GameObject)Resources.Load("Prefabs/GoalText"));
+        canvasText.transform.SetParent(this.transform);
+        canvasText.transform.position = new Vector3(this.goalX + 0.5f, 5.0f, -5.0f);
+
+        DOVirtual.DelayedCall(2.0f, () => {
+            canvasText.transform.DOMove(new Vector3(this.goalX + 0.5f, -this.goalY + 0.5f , -5.0f), 2.0f)
+                .SetEase(Ease.OutBounce);
+            Destroy(canvasText, 7.0f);
+        });
+
+        //早送りボタン
+        GameObject ffb = Instantiate((GameObject)Resources.Load("Prefabs/FFButton"));
+        ffb.transform.SetParent(this.transform);
+        ffb.transform.position = new Vector3(2.5f, -6.5f, -5.0f);
     }
 
     //パネル投入
@@ -216,6 +240,10 @@ public class GameSceneViewController : MonoBehaviour {
         return true;
     }
 
+    //アイテム投入
+    public void enterItem(int itemID, int x, int y) {
+    }
+
     //ステージ開始処理
     void OnStartStage() {
         this.isGameStart = true;
@@ -262,10 +290,13 @@ public class GameSceneViewController : MonoBehaviour {
     }
 
     void OnPlayerMiss() {
+        this.isEvent = true;
         this.sceneManager.SendMessage("OnPlayerMiss");
     }
 
     void OnStageClear() {
+        this.isEvent = true;
+
         //パーフェクトかチェック
         int livePanelCount = 0;
         for (int y = 0; y < this.stageHeight; y++) {

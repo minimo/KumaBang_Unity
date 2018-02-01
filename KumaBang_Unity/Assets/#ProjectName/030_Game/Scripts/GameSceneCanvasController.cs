@@ -54,6 +54,7 @@ public class GameSceneCanvasController : MonoBehaviour {
             );
         }
         this.scoreText.text = "Score: " + this.dispScore;
+        this.zankiText.text = "Zanki: "+ this.sceneManager.zanki;
 	}
 
     void initStage() {
@@ -77,8 +78,6 @@ public class GameSceneCanvasController : MonoBehaviour {
                 Destroy(stageNumber);
             })
         );
-
-        //ゴールパネル標識
     }
 
     public void displayScore(int point, Vector3 pos) {
@@ -114,9 +113,11 @@ public class GameSceneCanvasController : MonoBehaviour {
         //ステージ番号表示
         GameObject canvasText = Instantiate((GameObject)Resources.Load("Prefabs/StageClearText"));
         canvasText.transform.SetParent(this.transform);
-        canvasText.transform.position = new Vector3(2.5f, 10.0f, 0.0f);
+        canvasText.transform.position = new Vector3(2.5f, -10.0f, 0.0f);
         canvasText.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
+        canvasText.transform.DOMove(new Vector3(2.5f, 10.0f, 0.0f), 6.0f);
+/*
         var seq = DOTween.Sequence();
         seq.Append(canvasText.transform.DOMove(new Vector3(2.5f, -2.5f, 0.0f), 0.5f)
             .SetEase(Ease.OutSine)
@@ -129,6 +130,7 @@ public class GameSceneCanvasController : MonoBehaviour {
                 Destroy(canvasText);
             })
         );
+*/
     }
 
     void OnPlayerMiss() {
@@ -154,5 +156,23 @@ public class GameSceneCanvasController : MonoBehaviour {
     }
 
     void OnGameOver() {
+        GameObject canvasText = Instantiate((GameObject)Resources.Load("Prefabs/GameOverText"));
+        canvasText.transform.SetParent(this.transform);
+        canvasText.transform.position = new Vector3(2.5f, 10.0f, 0.0f);
+        canvasText.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
+        var seq = DOTween.Sequence();
+        seq.Append(canvasText.transform.DOMove(new Vector3(2.5f, -2.5f, 0.0f), 3.0f)
+            .SetEase(Ease.OutBounce)
+        );
+        seq.Append(canvasText.transform.DOMove(new Vector3(2.5f, -10.0f, 0.0f), 2.0f)
+            .SetEase(Ease.InOutSine)
+            .SetDelay(2.0f)
+            .OnComplete(() => {
+                this.transform.parent.gameObject.SendMessage("OnExitScene");
+                Destroy(canvasText);
+            })
+        );
+        seq.Join(canvasText.transform.DOLocalRotate(new Vector3(0, 0, 60.0f), 3.0f));
     }
 }

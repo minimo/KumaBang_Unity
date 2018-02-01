@@ -16,5 +16,5 @@ public class MaskController2 : MonoBehaviour {
         ).OnComplete(() => {
             Destroy(this.gameObject);
         });
-	}
+    }
 }
