@@ -44,6 +44,7 @@ public class GameSceneManager : MonoBehaviour {
         this.soundManager = SoundManagerController.Instance;
         //使用音声ファイル読み込み
         this.soundManager.addSound("bgm_clear", "Sounds/bgm_StageClear");
+        this.soundManager.addSound("bgm_allclear", "Sounds/bgm_StageAllClear");
         this.soundManager.addSound("playermiss", "Sounds/se_PlayerMiss");
         this.soundManager.addSound("paneldrop", "Sounds/se_PanelThrough");
         this.soundManager.addSound("gameover", "Sounds/gameover");
@@ -90,12 +91,6 @@ public class GameSceneManager : MonoBehaviour {
         this.SceneCanvasController.displayScore(point, pos);
     }
 
-    //ゲームオーバー
-    void gameOver() {
-        this.soundManager.playBGM("gameover", 1.0f, false);
-        this.sceneCanvas.SendMessage("OnGameOver");
-    }
-
     //シーンビューステージ構築完了
     void OnAlreadyStartView() {
         this.isAlreadyView = true;
@@ -123,22 +118,34 @@ public class GameSceneManager : MonoBehaviour {
         this.soundManager.playBGM("bgm_clear", 0.5f, false);
         this.sceneCanvas.SendMessage("OnStageClear", isPerfect);
         this.app.playingStageNumber++;
-        DOVirtual.DelayedCall(7.0f, () => {
-            Destroy(this.sceneView);
-            Destroy(this.sceneCanvas);
-            this.setupScene();
-        });
+
+        //全ステージクリア判定
+        if (this.app.playingStageNumber > this.app.maxStageNumber) {
+            DOVirtual.DelayedCall(7.0f, () => {
+                this.soundManager.playBGM("bgm_allclear", 1.0f, false);
+                this.sceneCanvas.SendMessage("OnAllClear");
+            });
+        } else {
+            //次のステージ構築
+            DOVirtual.DelayedCall(7.0f, () => {
+                Destroy(this.sceneView);
+                Destroy(this.sceneCanvas);
+                this.setupScene();
+            });
+        }
     }
 
     //プレーヤーミス
     void OnPlayerMiss() {
-        this.soundManager.playSE("se_playerMiss");
+        this.soundManager.playSE("playermiss");
         this.sceneCanvas.SendMessage("OnPlayerMiss");
         DOVirtual.DelayedCall(5.0f, () => {
             this.zanki--;
+            //ゲームオーバー判定
             if (zanki < 0) {
                 this.zanki = 0;
-                this.gameOver();
+                this.soundManager.playBGM("gameover", 1.0f, false);
+                this.sceneCanvas.SendMessage("OnGameOver");
                 return;
             }
             Destroy(this.sceneView);

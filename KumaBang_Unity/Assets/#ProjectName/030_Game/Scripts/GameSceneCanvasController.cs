@@ -133,6 +133,26 @@ public class GameSceneCanvasController : MonoBehaviour {
 */
     }
 
+    void OnAllClear() {
+        GameObject canvasText = Instantiate((GameObject)Resources.Load("Prefabs/AllClearText"));
+        canvasText.transform.SetParent(this.transform);
+        canvasText.transform.position = new Vector3(2.5f, 10.0f, 0.0f);
+        canvasText.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
+        var seq = DOTween.Sequence();
+        seq.Append(canvasText.transform.DOMove(new Vector3(2.5f, -2.5f, 0.0f), 3.0f)
+            .SetEase(Ease.OutBounce)
+        );
+        seq.Append(canvasText.transform.DOMove(new Vector3(2.5f, -10.0f, 0.0f), 2.0f)
+            .SetEase(Ease.InOutSine)
+            .SetDelay(2.0f)
+            .OnComplete(() => {
+                this.transform.parent.gameObject.SendMessage("OnExitScene");
+                Destroy(canvasText);
+            })
+        );
+    }
+
     void OnPlayerMiss() {
         //ステージ番号表示
         GameObject canvasText = Instantiate((GameObject)Resources.Load("Prefabs/PlayerMissText"));

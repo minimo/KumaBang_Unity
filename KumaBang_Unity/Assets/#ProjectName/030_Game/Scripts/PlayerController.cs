@@ -36,7 +36,8 @@ public class PlayerController : MonoBehaviour {
 
     //アニメーション制御用
 	private Animator animator = null;
-	private int idX = Animator.StringToHash("x"), idY = Animator.StringToHash("y");
+	private int idX = Animator.StringToHash("x");
+    private int idY = Animator.StringToHash("y");
 	private int idMiss = Animator.StringToHash("miss");
 	private int idClear = Animator.StringToHash("clear");
 
@@ -109,7 +110,7 @@ public class PlayerController : MonoBehaviour {
 
     //テクスチャ差し替え
     public void setActorNumber(int num = 0) {
-        this.gameObject.GetComponent<OverrideSpriteAnimationsTexture>().overrideTexture = this.actors[num];
+        this.playerSprite.GetComponent<OverrideSpriteAnimationsTexture>().overrideTexture = this.actors[num];
     }
 
     //次のパネルへ移動
