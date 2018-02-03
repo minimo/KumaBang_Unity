@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour {
     Tween tweener;
 
     //移動速度
-    float speed = 2.0f;
+    float speed = 2.5f;
 
     //乗っているパネル
     public PanelController footPanel = null;
