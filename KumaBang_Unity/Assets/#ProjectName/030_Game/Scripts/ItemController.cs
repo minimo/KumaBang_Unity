@@ -66,7 +66,7 @@ public class ItemController : MonoBehaviour {
         shadow.transform.SetParent(this.transform);
     }
 
-    void OnTriggerEnter(Collider collider){
+    void OnTriggerEnter2D(){
         Destroy(this.gameObject);
     }
 }
