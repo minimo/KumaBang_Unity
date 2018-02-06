@@ -91,6 +91,12 @@ public class PlayerController : MonoBehaviour {
 		this.animator.SetFloat(idX, moveX);
     	this.animator.SetFloat(idY, moveY);
 
+        //Z座標調整
+        Vector3 pos = this.transform.position;
+        pos.z = pos.y - 1.0f;
+        this.transform.position = pos;
+
+
         //現座標保存
         this.beforeStageX = this.stageX;
         this.beforeStageY = this.stageY;

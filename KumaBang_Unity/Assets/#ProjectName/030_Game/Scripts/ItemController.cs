@@ -17,7 +17,7 @@ public class ItemController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Vector3 pos = this.transform.position;
-        pos.z = pos.y - 1.0f;
+        pos.z = pos.y - 2.0f;
         this.transform.position = pos;
 	}
 
