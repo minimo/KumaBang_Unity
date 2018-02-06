@@ -44,9 +44,11 @@ public class PlayerController : MonoBehaviour {
     //キャラクタテクスチャ差し替え用
     [SerializeField] Texture [] actors = new Texture[7];
 
+    GameObject shadow = null;
+
 	void Start () {
         this.view = this.transform.parent.GetComponent<GameSceneViewController>();
-		this.animator = this.playerSprite.GetComponent<Animator> ();
+		this.animator = this.playerSprite.GetComponent<Animator>();
 	}
 
 	// Update is called once per frame
@@ -218,5 +220,13 @@ public class PlayerController : MonoBehaviour {
             .OnComplete(()=>{
                 this.moveToNextPanel();
             });
+
+        //影追加
+        this.shadow = Instantiate((GameObject)Resources.Load("Prefabs/Shadow"));
+        Vector3 pos = this.transform.position;
+        pos.y += 0.2f;
+        this.shadow.transform.position = pos;
+        this.shadow.transform.localScale = new Vector3(2, 2, 1);
+        this.shadow.transform.SetParent(this.transform);
     }
 }

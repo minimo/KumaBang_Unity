@@ -127,9 +127,15 @@ public class GameSceneViewController : MonoBehaviour {
                     .SetDelay(delay)
                     .SetRelative();
                 PanelController pc = p.GetComponent<PanelController>();
-                //パネル設定
-                switch (this.itemData.mapData[x, y]) {
+                //初期アイテムセットとパネル設定
+                int id = this.itemData.mapData[x, y];
+                switch (id) {
                     case 0:
+                        break;
+                    case 1:
+                    case 2:
+                        this.enterItem(id, x, y, 3.0f);
+                        pc.isOnItem = true;
                         break;
                     //スタートパネル
                     case 8:
@@ -241,7 +247,10 @@ public class GameSceneViewController : MonoBehaviour {
     }
 
     //アイテム投入
-    public void enterItem(int itemID, int x, int y) {
+    public void enterItem(int itemID, int x, int y, float delay = 0.0f) {
+        GameObject item = Instantiate((GameObject)Resources.Load("Prefabs/Item"));
+        item.transform.SetParent(this.transform);
+        item.GetComponent<ItemController>().setParameter(itemID, x, y, delay);
     }
 
     //ステージ開始処理
