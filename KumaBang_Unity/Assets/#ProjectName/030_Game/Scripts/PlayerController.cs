@@ -93,9 +93,8 @@ public class PlayerController : MonoBehaviour {
 
         //Z座標調整
         Vector3 pos = this.transform.position;
-        pos.z = pos.y - 1.0f;
+        pos.z = pos.y - 2.0f;
         this.transform.position = pos;
-
 
         //現座標保存
         this.beforeStageX = this.stageX;
