@@ -8,10 +8,11 @@ public class ItemController : MonoBehaviour {
     MasterItemData data;
 
     [SerializeField]GameObject itemSprite;
+    public GameSceneViewController view;
 
 	// Use this for initialization
 	void Start () {
-
+        this.view = this.transform.parent.GetComponent<GameSceneViewController>();
 	}
 	
 	// Update is called once per frame
@@ -67,6 +68,8 @@ public class ItemController : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(){
+        this.view.addScore(this.data.score, this.gameObject.transform.position);
+        SoundManagerController.Instance.playSE("getitem");
         Destroy(this.gameObject);
     }
 }
