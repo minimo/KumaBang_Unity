@@ -47,7 +47,7 @@ public class GameSceneManager : MonoBehaviour {
         this.soundManager.addSound("bgm_allclear", "Sounds/bgm_StageAllClear");
         this.soundManager.addSound("playermiss", "Sounds/se_PlayerMiss");
         this.soundManager.addSound("paneldrop", "Sounds/se_PanelThrough");
-        this.soundManager.addSound("getitem,", "Sounds/se_GetItem");
+        this.soundManager.addSound("getitem", "Sounds/se_GetItem");
         this.soundManager.addSound("gameover", "Sounds/gameover");
 
         this.setupScene();

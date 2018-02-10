@@ -27,7 +27,10 @@ public class SoundManagerController : SingletonMonoBehaviour<SoundManagerControl
     }
 
     public bool playSE(string name) {
-        if (!this.sounds.ContainsKey(name)) return false;
+        if (!this.sounds.ContainsKey(name)) {
+            Debug.Log("Sound not found: " + name);
+            return false;
+        }
 
         //Audio clipの取得
         AudioClip clip = this.sounds[name];
