@@ -298,6 +298,7 @@ public class SelectSceneManager : MonoBehaviour {
 		Vector3 pos = new Vector3(10.0f, 0, 0);
         GameObject ac = Instantiate(this.actor, pos, Quaternion.identity, this.actorBase.transform);
         if (ac == null) return false;
+        ac.transform.position = pos;
         ac.GetComponent<SpriteRenderer>().sprite = this.actorImages[this.actors.Count];
         this.actors.Add(ac);
 
@@ -309,6 +310,7 @@ public class SelectSceneManager : MonoBehaviour {
         }
         GameObject icon = Instantiate(this.actorIcon, pos, Quaternion.identity, this.iconBase.transform);
         if (icon == null) return false;
+        icon.transform.position = pos;
         icon.GetComponent<SpriteRenderer>().sprite = this.actorIconImages[this.actorIcons.Count];
         this.actorIcons.Add(icon);
         return true;
