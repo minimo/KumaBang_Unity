@@ -72,4 +72,8 @@ public class ItemController : MonoBehaviour {
         SoundManagerController.Instance.playSE("getitem");
         Destroy(this.gameObject);
     }
+
+    void OnGameStart() {
+        this.GetComponent<BoxCollider2D>().enabled = true;
+    }
 }

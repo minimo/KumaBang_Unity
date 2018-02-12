@@ -294,6 +294,10 @@ public class GameSceneViewController : MonoBehaviour {
             .SetRelative()
             .OnComplete(() => {
                 this.player.SendMessage("OnReadyStart");
+                //アイテムに開始を通知
+                foreach (Transform child in this.transform) {
+                    if (child.name == "Item(Clone)") child.SendMessage("OnGameStart");
+                }
             })
         );
     }
